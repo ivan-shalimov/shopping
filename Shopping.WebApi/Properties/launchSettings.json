@@ -3,18 +3,18 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:37197",
-      "sslPort": 44355
+      "applicationUrl": "http://localhost:30985",
+      "sslPort": 44345
     }
   },
   "profiles": {
-    "Shopping": {
+    "Shopping.WebApi": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:7168;http://localhost:5168",
+      "applicationUrl": "https://localhost:7139;http://localhost:5139",
       "dotnetRunMessages": true
     },
     "IIS Express": {
