@@ -1,11 +1,23 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using MediatR;
+using Shopping.Models;
+using Shopping.Requests;
+using Shopping.Services.Handlers;
+using Shopping.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddHttpClient();
+
+var settings = builder.Configuration.Get<AppSettigns>();
+builder.Services.AddSingleton(settings);
+
+builder.Services.AddScoped<IRequestHandler<GetPurchaseStatistic, PurchaseStatistic>, GetPurchaseStatisticHandler>();
+
+builder.Services.AddTransient<ServiceFactory>(p => p.GetService);
+builder.Services.AddTransient<IMediator, Mediator>();
 
 var app = builder.Build();
 
@@ -13,11 +25,8 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
 }
 
-app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 
@@ -25,5 +34,6 @@ app.UseRouting();
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
+app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

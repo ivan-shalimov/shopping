@@ -1,4 +1,33 @@
 ﻿@page "/"
 
-Welcome to your new app.
+@using System.Net.Http.Json
+@using Shopping.Models
 
+
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+@inject AppSettigns Settigns
+
+@if (_statistic == null)
+{
+    <p>Loading ...</p>
+}
+else
+{
+    @foreach (var item in _statistic.Statistics)
+    {
+        <div>
+            <h6>@item.Key</h6>
+            <div>@item.Value</div>
+        </div>
+    }
+}
+
+@code{
+    private PurchaseStatistic? _statistic;
+
+    protected async override Task OnInitializedAsync()
+    {
+        _statistic = await HttpClient.GetFromJsonAsync<PurchaseStatistic>(Settigns.ApiUrl + "/purchases/statistic");
+    }
+}
