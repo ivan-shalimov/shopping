@@ -1,4 +1,5 @@
 using MediatR;
+using Shopping.DataAccess;
 using Shopping.Models;
 using Shopping.Requests;
 using Shopping.Services.Handlers;
@@ -14,6 +15,9 @@ builder.Services.AddHttpClient();
 var settings = builder.Configuration.Get<AppSettigns>();
 builder.Services.AddSingleton(settings);
 
+var connectionStr = builder.Configuration.GetConnectionString("Shopping");
+builder.Services.AddSqlServer<ShoppingDbContext>(connectionStr);
+
 builder.Services.AddScoped<IRequestHandler<GetPurchaseStatistic, PurchaseStatistic>, GetPurchaseStatisticHandler>();
 
 builder.Services.AddTransient<ServiceFactory>(p => p.GetService);
@@ -26,7 +30,6 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
 }
-
 
 app.UseStaticFiles();
 
