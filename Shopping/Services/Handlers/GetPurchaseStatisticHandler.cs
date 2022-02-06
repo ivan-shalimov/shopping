@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Shopping.DataAccess;
-using Shopping.Models;
+using Shopping.Models.Results;
 using Shopping.Requests;
 
 namespace Shopping.Services.Handlers
@@ -20,7 +20,7 @@ namespace Shopping.Services.Handlers
             var data = await _context.Purchases.ToArrayAsync(cancellationToken).ConfigureAwait(false);
             return new PurchaseStatistic
             {
-                Statistics = data.ToDictionary(x => x.Name, v => v.Cost)
+                Statistics = data.GroupBy(d => d.Name).ToDictionary(x => x.Key, v => v.Sum(d => d.Price * d.Amount))
             };
         }
     }

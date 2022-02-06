@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Shopping.Models;
+using Shopping.Models.Results;
 using Shopping.Requests;
 
 namespace Shopping.WebApi.Controllers
@@ -14,6 +14,27 @@ namespace Shopping.WebApi.Controllers
         public Purchases(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<PurchaseItem[]>> GetPurchases()
+        {
+            var result = await _mediator.Send(new GetPurchases());
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddPurchases(AddPurchase request)
+        {
+            await _mediator.Send(request);
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePurchases(Guid id)
+        {
+            await _mediator.Send(new DeletePurchase { Id = id });
+            return Ok();
         }
 
         [HttpGet("statistic")]

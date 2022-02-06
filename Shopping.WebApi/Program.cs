@@ -1,6 +1,6 @@
 using MediatR;
 using Shopping.DataAccess;
-using Shopping.Models;
+using Shopping.Models.Results;
 using Shopping.Requests;
 using Shopping.Services.Handlers;
 using Shopping.WebApi;
@@ -19,6 +19,9 @@ var connectionStr = builder.Configuration.GetConnectionString("Shopping");
 builder.Services.AddSqlServer<ShoppingDbContext>(connectionStr);
 
 builder.Services.AddScoped<IRequestHandler<GetPurchaseStatistic, PurchaseStatistic>, GetPurchaseStatisticHandler>();
+builder.Services.AddScoped<IRequestHandler<GetPurchases, PurchaseItem[]>, GetPurchasesHandler>();
+builder.Services.AddScoped<IRequestHandler<AddPurchase, Unit>, AddPurchaseHandler>();
+builder.Services.AddScoped<IRequestHandler<DeletePurchase, Unit>, DeletePurchaseHandler>();
 
 builder.Services.AddTransient<ServiceFactory>(p => p.GetService);
 builder.Services.AddTransient<IMediator, Mediator>();

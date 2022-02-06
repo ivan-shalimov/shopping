@@ -12,6 +12,8 @@ namespace Shopping.DataAccess.Configurations
             builder.Property(c => c.Id).ValueGeneratedOnAdd();
 
             builder.Property(c => c.Name).IsRequired();
+            builder.Property(c => c.Price).IsRequired().HasPrecision(18, 2);
+            builder.Property(c => c.Amount).IsRequired().HasPrecision(18, 3);
         }
     }
 }
