@@ -6,7 +6,13 @@ namespace Shopping.DataAccess
 {
     public class ShoppingDbContext : DbContext
     {
-        public DbSet<Purchase> Purchases { get; set; }
+        public DbSet<Receipt> Receipts { get; set; }
+
+        public DbSet<ReceiptItem> ReceiptItems { get; set; }
+
+        public DbSet<Product> Products { get; set; }
+
+        public DbSet<ProductKind> ProductKinds { get; set; }
 
         public ShoppingDbContext(DbContextOptions options) : base(options)
         {
@@ -16,7 +22,10 @@ namespace Shopping.DataAccess
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.ApplyConfiguration(new PurchaseConfiguration());
+            modelBuilder.ApplyConfiguration(new ReceiptConfiguration());
+            modelBuilder.ApplyConfiguration(new ReceiptItemConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductKindConfiguration());
         }
     }
 }

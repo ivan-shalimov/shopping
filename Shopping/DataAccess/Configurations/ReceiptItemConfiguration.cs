@@ -4,14 +4,16 @@ using Shopping.Models.Domain;
 
 namespace Shopping.DataAccess.Configurations
 {
-    internal class PurchaseConfiguration : IEntityTypeConfiguration<Purchase>
+    internal class ReceiptItemConfiguration : IEntityTypeConfiguration<ReceiptItem>
     {
-        public void Configure(EntityTypeBuilder<Purchase> builder)
+        public void Configure(EntityTypeBuilder<ReceiptItem> builder)
         {
+            builder.ToTable("ReceiptItems");
             builder.HasKey(e => e.Id);
             builder.Property(c => c.Id).ValueGeneratedOnAdd();
 
-            builder.Property(c => c.Name).IsRequired();
+            builder.HasIndex(e => e.ProductId);
+            builder.HasIndex(e => e.ReceiptId);
             builder.Property(c => c.Price).IsRequired().HasPrecision(18, 2);
             builder.Property(c => c.Amount).IsRequired().HasPrecision(18, 3);
         }

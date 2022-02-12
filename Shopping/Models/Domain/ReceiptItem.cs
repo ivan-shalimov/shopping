@@ -1,15 +1,15 @@
 ﻿namespace Shopping.Models.Domain
 {
-    public class Purchase
+    public class ReceiptItem
     {
         public Guid Id { get; set; }
 
-        public string Name { get; set; }
+        public Guid ProductId { get; set; }
+
+        public Guid ReceiptId { get; set; }
 
         public decimal Price { get; set; }
 
         public decimal Amount { get; set; }
-
-        public DateTime Created { get; set; }
     }
 }

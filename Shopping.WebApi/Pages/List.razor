@@ -16,8 +16,6 @@
     }
     else
     {
-        <div class="col-6">
-
             <table class="table ">
             <thead>
                 <tr>
@@ -48,8 +46,6 @@
                 }
             </tbody>
             </table>
-
-        </div>
     }
 </div>
 
@@ -86,7 +82,7 @@
     {
         var request = new Shopping.Requests.AddPurchase
         {
-            Name = _newItem.Name,
+            ProductName = _newItem.Name,
             Price = _newItem.Price,
             Amount = _newItem.Amount,
         };

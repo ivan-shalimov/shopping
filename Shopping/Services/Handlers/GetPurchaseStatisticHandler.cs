@@ -17,10 +17,21 @@ namespace Shopping.Services.Handlers
 
         public async Task<PurchaseStatistic> Handle(GetPurchaseStatistic request, CancellationToken cancellationToken)
         {
-            var data = await _context.Purchases.ToArrayAsync(cancellationToken).ConfigureAwait(false);
+            var date = DateTime.UtcNow;
+            var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
+            var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
+
+            var query = from receiptItem in _context.ReceiptItems
+                        join receipt in _context.Receipts on receiptItem.ReceiptId equals receipt.Id
+                        join product in _context.Products on receiptItem.ProductId equals product.Id
+                        join productKind in _context.ProductKinds on product.ProductKindId equals productKind.Id
+                        where receipt.CreatedOn > firstDayOfMonth && receipt.CreatedOn <= lastDayOfMonth
+                        select new { ProductKindName = productKind.Name, Price = receiptItem.Price, Amount = receiptItem.Amount };
+
+            var data = await query.ToArrayAsync(cancellationToken).ConfigureAwait(false);
             return new PurchaseStatistic
             {
-                Statistics = data.GroupBy(d => d.Name).ToDictionary(x => x.Key, v => v.Sum(d => d.Price * d.Amount))
+                Statistics = data.GroupBy(d => d.ProductKindName).ToDictionary(x => x.Key, v => v.Sum(d => d.Price * d.Amount))
             };
         }
     }
