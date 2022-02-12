@@ -15,21 +15,14 @@
 }
 else
 {
-    <div class="row my-5">
-        <div class="col-lg-6 col-xl-4 offset-lg-3 offset-xl-4">
-            @foreach (var item in _statistic.Statistics)
-            {
-                <RadzenCard class="m-3">
-                    <h3 class="h5">@item.Key</h3>
-                    <div class="row">
-                        <div class="col-md-4">
-                        <b>@item.Value</b>
-                    </div>
-                    </div>
-                </RadzenCard>
-            }
+    <div class="row">
+            <div class="col-sm-12 my-5">
+                <RadzenChart>
+                    <RadzenColumnSeries Data="@_statistic.Statistics" CategoryProperty="Key" Title="Statistics"  ValueProperty="Value" />
+                    <RadzenColumnOptions Radius="5" />
+                </RadzenChart>
+            </div>
         </div>
-    </div>
 }
 
 @code{

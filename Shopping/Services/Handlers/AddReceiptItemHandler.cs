@@ -6,29 +6,24 @@ using Shopping.Requests;
 
 namespace Shopping.Services.Handlers
 {
-    public sealed class AddPurchaseHandler : IRequestHandler<AddPurchase>
+    public sealed class AddReceiptItemHandler : IRequestHandler<AddReceiptItem>
     {
         private readonly ShoppingDbContext _context;
 
-        public AddPurchaseHandler(ShoppingDbContext context)
+        public AddReceiptItemHandler(ShoppingDbContext context)
         {
             _context = context;
         }
 
-        public async Task<Unit> Handle(AddPurchase request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(AddReceiptItem request, CancellationToken cancellationToken)
         {
-            var receipt = new Receipt
-            {
-                Id = Guid.NewGuid(),
-                CreatedOn = DateTime.UtcNow,
-            };
 
             var item = new ReceiptItem
             {
                 Id = Guid.NewGuid(),
                 Amount = request.Amount,
                 Price = request.Price,
-                ReceiptId = receipt.Id,
+                ReceiptId = request.ReceiptId,
             };
 
             if (request.ProductId.HasValue)
@@ -54,7 +49,6 @@ namespace Shopping.Services.Handlers
                 item.ProductId = product.Id;
             }
 
-            await _context.Receipts.AddAsync(receipt);
             await _context.ReceiptItems.AddAsync(item);
             await _context.SaveChangesAsync();
 

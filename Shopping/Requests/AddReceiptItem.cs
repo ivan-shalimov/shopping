@@ -1,10 +1,13 @@
 ﻿using MediatR;
-using Shopping.Models.Results;
 
 namespace Shopping.Requests
 {
-    public sealed class AddPurchase : IRequest
+    public sealed class AddReceiptItem : IRequest
     {
+        public Guid Id { get; set; }
+
+        public Guid ReceiptId { get; set; }
+
         public Guid? ProductId { get; set; }
 
         public string? ProductName { get; set; }

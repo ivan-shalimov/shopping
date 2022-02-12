@@ -1,0 +1,148 @@
+﻿@page "/products"
+
+@using System.Net.Http.Json
+@using Radzen
+@using Radzen.Blazor
+@using Shopping.Models.Results
+@using Shopping.Requests
+
+
+@inject HttpClient HttpClient
+@inject AppSettigns Settigns
+
+<div class="row">
+    @if (_pending)
+    {
+        <p>Loading ...</p>
+    }
+    else
+    {
+            <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Kind</th>
+                    <th class="action-block-col" scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><RadzenTextBox @bind-Value=@_newItem.Name Class="w-100" /></td>
+                            <td>
+                                <RadzenDropDown @bind-Value=@_newItem.ProductKindId TValue="Guid" Class="w-100"Data=@_productKinds TextProperty="Name" ValueProperty="Id"/>
+                            </td>
+                    <td>
+                        <div class="action-block">
+                            <button class="btn btn-primary" type="button" @onclick="@(async () => await Add())">Add</button>
+                        </div>
+                    </td>
+                </tr>
+                @foreach (var item in _list)
+                {
+                    <tr>
+                        @if (_editedItem?.Id == item.Id)
+                        {
+                            <td><RadzenTextBox @bind-Value=@_editedItem.Name Class="w-100" /></td>
+                            <td>
+                                <RadzenDropDown @bind-Value=@_editedItem.ProductKindId TValue="Guid" Class="w-100"Data=@_productKinds TextProperty="Name" ValueProperty="Id"/>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>@item.Name</td>
+                            <td>@item.ProductKindName</td>
+                        }
+                        
+                        @if (_editedItem != null)
+                        {
+                            @if (_editedItem.Id == item.Id)
+                            {
+                                <td>
+                                    <div class="action-block">
+                                        <button class="btn btn-primary" type="button" @onclick="@(async () => await Save())">Save</button>
+                                        <button class="btn btn-primary ms-2" type="button" @onclick="@(async () => Cancel())">Cancel</button>
+                                    </div>
+                                </td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                        }
+                        else
+                        {
+                            <td>
+                                <div class="action-block">
+                                    <button class="btn btn-primary" type="button" @onclick="@(async () => StartEdit(item))">Edit</button>
+                                </div>
+                            </td>
+                        }    
+                    </tr>
+                }
+            </tbody>
+            </table>
+    }
+</div>
+
+@code{
+    private bool _pending = true;
+    private ProductModel[]? _list;
+
+
+    private ProductKindModel[]? _productKinds;
+    private ProductModel _newItem = new ProductModel();
+    private ProductModel _editedItem = null;
+
+    protected async override Task OnInitializedAsync()
+    {
+        _productKinds = await HttpClient.GetFromJsonAsync<ProductKindModel[]>(Settigns.ApiUrl + "/products/kinds");
+        await Reload();
+    }
+
+    private async Task Reload()
+    {
+        _pending = true;
+        _list = await HttpClient.GetFromJsonAsync<ProductModel[]>(Settigns.ApiUrl + "/products");
+        _pending = false;
+        if (_list == null)
+        {
+            return;
+        }
+    }
+
+    private async Task Add()
+    {
+        var request = new AddProduct
+        {
+            Id = Guid.NewGuid(),
+            Name = _newItem.Name,
+            ProductKindId = _newItem.ProductKindId,
+        };
+
+        await HttpClient.PostAsJsonAsync(Settigns.ApiUrl + "/products", request);
+
+        _newItem = new ProductModel();
+
+        await Reload().ConfigureAwait(false);
+    }
+
+    private void StartEdit(ProductModel product)
+    {
+        _editedItem = product;
+    }
+
+    private void Cancel()
+    {
+        _editedItem = null;
+    }
+
+    private async Task Save()
+    {
+        var request = new UpdateProduct { Name = _editedItem.Name, ProductKindId = _editedItem.ProductKindId, };
+        await HttpClient.PutAsJsonAsync(Settigns.ApiUrl + $"/products/{_editedItem.Id}", request);
+        _editedItem = null;
+        await Reload().ConfigureAwait(false);
+    }
+
+
+}

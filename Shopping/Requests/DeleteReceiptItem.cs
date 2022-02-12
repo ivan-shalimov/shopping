@@ -2,7 +2,7 @@
 
 namespace Shopping.Requests
 {
-    public sealed class DeletePurchase : IRequest
+    public sealed class DeleteReceiptItem : IRequest
     {
         public Guid Id { get; set; }
     }

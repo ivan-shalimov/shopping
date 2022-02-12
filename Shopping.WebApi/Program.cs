@@ -19,9 +19,23 @@ var connectionStr = builder.Configuration.GetConnectionString("Shopping");
 builder.Services.AddSqlServer<ShoppingDbContext>(connectionStr);
 
 builder.Services.AddScoped<IRequestHandler<GetPurchaseStatistic, PurchaseStatistic>, GetPurchaseStatisticHandler>();
-builder.Services.AddScoped<IRequestHandler<GetPurchases, PurchaseItem[]>, GetPurchasesHandler>();
-builder.Services.AddScoped<IRequestHandler<AddPurchase, Unit>, AddPurchaseHandler>();
-builder.Services.AddScoped<IRequestHandler<DeletePurchase, Unit>, DeletePurchaseHandler>();
+
+builder.Services.AddScoped<IRequestHandler<GetProducts, ProductModel[]>, GetProductsHandler>();
+builder.Services.AddScoped<IRequestHandler<AddProduct, Unit>, AddProductHandler>();
+builder.Services.AddScoped<IRequestHandler<UpdateProduct, Unit>, UpdateProductHandler>();
+
+builder.Services.AddScoped<IRequestHandler<GetProductKinds, ProductKindModel[]>, GetProductKindsHandler>();
+builder.Services.AddScoped<IRequestHandler<AddProductKind, Unit>, AddProductKindHandler>();
+builder.Services.AddScoped<IRequestHandler<UpdateProductKind, Unit>, UpdateProductKindHandler>();
+
+builder.Services.AddScoped<IRequestHandler<GetReceipts, ReceiptModel[]>, GetReceiptsHandler>();
+builder.Services.AddScoped<IRequestHandler<AddReceipt, Unit>, AddReceiptHandler>();
+builder.Services.AddScoped<IRequestHandler<UpdateReceipt, Unit>, UpdateReceiptHandler>();
+
+builder.Services.AddScoped<IRequestHandler<GetReceiptItems, ReceiptItemModel[]>, GetReceiptItemsHandler>();
+builder.Services.AddScoped<IRequestHandler<AddReceiptItem, Unit>, AddReceiptItemHandler>();
+builder.Services.AddScoped<IRequestHandler<UpdateReceiptItem, Unit>, UpdateReceiptItemHandler>();
+builder.Services.AddScoped<IRequestHandler<DeleteReceiptItem, Unit>, DeleteReceiptItemHandler>();
 
 builder.Services.AddTransient<ServiceFactory>(p => p.GetService);
 builder.Services.AddTransient<IMediator, Mediator>();
