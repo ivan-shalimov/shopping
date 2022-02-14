@@ -24,7 +24,7 @@ namespace Shopping.Services.Handlers
             var query = from receipt in _context.Receipts
                         orderby receipt.CreatedOn descending
                         where receipt.CreatedOn > firstDayOfMonth && receipt.CreatedOn <= lastDayOfMonth
-                        select new ReceiptModel { Id = receipt.Id, Description = receipt.Description, CreatedOn = receipt.CreatedOn, };
+                        select new ReceiptModel { Id = receipt.Id, Description = receipt.Description, Total = receipt.Total, CreatedOn = receipt.CreatedOn, };
 
             var purchases = await query.ToArrayAsync(cancellationToken).ConfigureAwait(false);
 

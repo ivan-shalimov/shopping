@@ -18,18 +18,40 @@ else
     <div class="row">
             <div class="col-sm-12 my-5">
                 <RadzenChart>
-                    <RadzenColumnSeries Data="@_statistic.Statistics" CategoryProperty="Key" Title="Statistics"  ValueProperty="Value" />
-                    <RadzenColumnOptions Radius="5" />
+                    <RadzenDonutSeries Fills="_collors" Data="@_statistic" CategoryProperty="Key" ValueProperty="Value">
+                        <TitleTemplate>
+                            <div class="rz-donut-content">
+                                @_total.ToString("C");
+                            </div>
+                        </TitleTemplate>
+                    </RadzenDonutSeries>
                 </RadzenChart>
             </div>
         </div>
 }
 
 @code{
-    private PurchaseStatistic? _statistic;
+    private KeyValuePair<string, decimal>[]? _statistic;
+    private IEnumerable<string> _collors;
+    private decimal _total;
 
     protected async override Task OnInitializedAsync()
     {
-        _statistic = await HttpClient.GetFromJsonAsync<PurchaseStatistic>(Settigns.ApiUrl + "/purchases/statistic");
+        var statistic = await HttpClient.GetFromJsonAsync<PurchaseStatistic>(Settigns.ApiUrl + "/purchases/statistic");
+        if (statistic != null)
+        {
+            _statistic = statistic.Statistics.OrderByDescending(e => e.Value).ToArray();
+            _collors = GetCollors(_statistic.Length);
+            _total = statistic.Total;
+        }
+    }
+
+    private IEnumerable<string> GetCollors(int count)
+    {
+        return Enumerable.Range(1, count).Select(i =>
+        {
+            var random = new Random(i);
+            return $"rgb({random.Next(128) + 127},{random.Next(128) + 127},{random.Next(128) + 127})";
+        }).ToArray();
     }
 }

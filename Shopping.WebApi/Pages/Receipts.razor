@@ -20,7 +20,8 @@
             <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Total</th>
                     <th scope="col">Date</th>
                     <th class="action-block-col" scope="col"></th>
                 </tr>
@@ -29,10 +30,14 @@
                 <tr>
                     <td><RadzenTextBox @bind-Value=@_newItem.Description Class="w-100" /></td>
                     <td></td>
+                    <td></td>
                     <td>
-                        <div class="action-block">
-                            <button class="btn btn-primary" type="button" @onclick="@(async () => await Add())">Add</button>
-                        </div>
+                        @if (_editedItem == null)
+                        {
+                            <div class="action-block">
+                                <button class="btn btn-primary" type="button" @onclick="@(async () => await Add())">Add</button>
+                            </div>
+                        }
                     </td>
                 </tr>
                 @foreach (var item in _list)
@@ -42,11 +47,16 @@
                         {
                             <td><RadzenTextBox @bind-Value=@_editedItem.Description Class="w-100" /></td>
                         }
+                        else if (@item.Description.Length > 10)
+                        {
+                            <td> <a class="link" role="button" href="receipts/@item.Id">@item.Description</a></td>
+                        }
                         else
                         {
-                            <td>@item.Description</td>
+                            <td> <a class="link" role="button" href="receipts/@item.Id">@item.Description (link)</a></td>
                         }
                         
+                        <td>@item.Total</td>
                         <td>@item.CreatedOn</td>
                         
                         @if (_editedItem != null)
@@ -70,7 +80,7 @@
                             <td>
                                 <div class="action-block">
                                     <button class="btn btn-primary" type="button" @onclick="@(() => StartEdit(item))">Edit</button>
-                                    <a class="btn btn-secondary ms-2" role="button" href="receipts/@item.Id">Link</a>
+                                    
                                 </div>
                             </td>
                         }    

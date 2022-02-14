@@ -28,9 +28,12 @@
                 <tr>
                     <td><RadzenTextBox @bind-Value=@_newItem.Name Class="w-100" /></td>
                     <td>
-                        <div class="action-block">
-                            <button class="btn btn-primary" type="button" @onclick="@(async () => await Add())">Add</button>
-                        </div>
+                        @if (_editedItem == null)
+                        {
+                            <div class="action-block">
+                                <button class="btn btn-primary" type="button" @onclick="@(async () => await Add())">Add</button>
+                            </div>
+                        }
                     </td>
                 </tr>
                 @foreach (var item in _list)

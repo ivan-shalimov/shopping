@@ -6,6 +6,8 @@
 
         public string Description { get; set; } = string.Empty;
 
+        public decimal Total { get; set; }
+
         public DateTime CreatedOn { get; set; }
     }
 }

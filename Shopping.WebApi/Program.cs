@@ -31,6 +31,7 @@ builder.Services.AddScoped<IRequestHandler<UpdateProductKind, Unit>, UpdateProdu
 builder.Services.AddScoped<IRequestHandler<GetReceipts, ReceiptModel[]>, GetReceiptsHandler>();
 builder.Services.AddScoped<IRequestHandler<AddReceipt, Unit>, AddReceiptHandler>();
 builder.Services.AddScoped<IRequestHandler<UpdateReceipt, Unit>, UpdateReceiptHandler>();
+builder.Services.AddScoped<IRequestHandler<UpdateReceiptTotal, Unit>, UpdateReceiptTotalHandler>();
 
 builder.Services.AddScoped<IRequestHandler<GetReceiptItems, ReceiptItemModel[]>, GetReceiptItemsHandler>();
 builder.Services.AddScoped<IRequestHandler<AddReceiptItem, Unit>, AddReceiptItemHandler>();

@@ -19,7 +19,7 @@ namespace Shopping.Services.Handlers
             var item = new Receipt
             {
                 Id = Guid.NewGuid(),
-                Description = request.Description,
+                Description = string.IsNullOrEmpty(request.Description) ? " - " : request.Description,
                 CreatedOn = DateTime.UtcNow,
             };
 

@@ -22,10 +22,9 @@ namespace Shopping.Services.Handlers
             var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
 
             var query = from receiptItem in _context.ReceiptItems
-                        join receipt in _context.Receipts on receiptItem.ReceiptId equals receipt.Id
                         join product in _context.Products on receiptItem.ProductId equals product.Id
                         orderby product.Name
-                        where receipt.CreatedOn > firstDayOfMonth && receipt.CreatedOn <= lastDayOfMonth
+                        where receiptItem.ReceiptId == request.ReceiptId
                         select new ReceiptItemModel { Id = receiptItem.Id, ProductName = product.Name, Price = receiptItem.Price, Amount = receiptItem.Amount };
 
             var purchases = await query.ToArrayAsync(cancellationToken).ConfigureAwait(false);

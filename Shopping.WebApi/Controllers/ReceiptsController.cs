@@ -19,14 +19,14 @@ namespace Shopping.WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<ReceiptModel[]>> GetReceipts()
         {
-            var result = await _mediator.Send(new GetReceipts());
+            var result = await _mediator.Send(new GetReceipts()).ConfigureAwait(false);
             return Ok(result);
         }
 
         [HttpPost]
         public async Task<IActionResult> AddReceipt(AddReceipt request)
         {
-            await _mediator.Send(request);
+            await _mediator.Send(request).ConfigureAwait(false);
             return Ok();
         }
 
@@ -34,14 +34,14 @@ namespace Shopping.WebApi.Controllers
         public async Task<IActionResult> UpdateProduct(Guid id, UpdateReceipt request)
         {
             request.Id = id;
-            await _mediator.Send(request);
+            await _mediator.Send(request).ConfigureAwait(false);
             return Ok();
         }
 
         [HttpGet("{receiptId}/items")]
         public async Task<ActionResult<ReceiptItemModel[]>> GetReceiptItems(Guid receiptId)
         {
-            var result = await _mediator.Send(new GetReceiptItems { ReceiptId = receiptId });
+            var result = await _mediator.Send(new GetReceiptItems { ReceiptId = receiptId }).ConfigureAwait(false);
             return Ok(result);
         }
 
@@ -49,7 +49,8 @@ namespace Shopping.WebApi.Controllers
         public async Task<IActionResult> AddReceiptItem(Guid receiptId, AddReceiptItem request)
         {
             request.ReceiptId = receiptId;
-            await _mediator.Send(request);
+            await _mediator.Send(request).ConfigureAwait(false);
+            await _mediator.Send(new UpdateReceiptTotal { Id = receiptId }).ConfigureAwait(false);
             return Ok();
         }
 
@@ -59,6 +60,7 @@ namespace Shopping.WebApi.Controllers
             request.Id = id;
             request.ReceiptId = receiptId;
             await _mediator.Send(request);
+            await _mediator.Send(new UpdateReceiptTotal { Id = receiptId }).ConfigureAwait(false);
             return Ok();
         }
 
@@ -66,6 +68,7 @@ namespace Shopping.WebApi.Controllers
         public async Task<IActionResult> DeleteReceiptItem(Guid receiptId, Guid id)
         {
             await _mediator.Send(new DeleteReceiptItem { Id = id });
+            await _mediator.Send(new UpdateReceiptTotal { Id = receiptId }).ConfigureAwait(false);
             return Ok();
         }
     }
