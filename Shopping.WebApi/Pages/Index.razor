@@ -3,6 +3,8 @@
 @using System.Net.Http.Json
 @using Radzen.Blazor
 @using Shopping.Models.Results
+@using System.Globalization
+@using System.Linq
 
 
 @inject HttpClient HttpClient
@@ -40,14 +42,18 @@ else
     </div>
     <div class="row">
         <div class="col-sm-12 my-5">
-            <RadzenChart>
-                <RadzenDonutSeries Fills="_collors" Data="@_statistic" CategoryProperty="Key" ValueProperty="Value">
-                    <TitleTemplate>
-                        <div class="rz-donut-content">
-                            @_total.ToString("C");
-                        </div>
-                    </TitleTemplate>
-                </RadzenDonutSeries>
+            <RadzenChart Style="height:600px">
+                @foreach (var item in _statistic)
+                {
+                    <RadzenColumnSeries Fill="@item.Value.collor" Data="@item.Value.items" CategoryProperty="Month" Title="@item.Key" LineType="LineType.Dashed" ValueProperty="Expense">
+                    </RadzenColumnSeries>
+                }
+
+                <RadzenValueAxis Formatter="@FormatAsUan">
+                    <RadzenGridLines Visible="true" />
+                    <RadzenAxisTitle Text="Revenue in UAN" />
+                </RadzenValueAxis>
+                <RadzenBarOptions Radius="5" />
             </RadzenChart>
         </div>
     </div>
@@ -58,8 +64,14 @@ else
     [SupplyParameterFromQuery]
     public int? month { get; set; }
 
+    public class DataItem
+    {
+        public string Month { get; set; }
+        public decimal Expense { get; set; }
+    }
+
     private int statisticMonth;
-    private KeyValuePair<string, decimal>[]? _statistic;
+    private Dictionary<string, (DataItem[]items,string collor)>? _statistic;
     private IEnumerable<string> _collors;
     private decimal _total;
 
@@ -81,18 +93,35 @@ else
         await base.OnParametersSetAsync();
     }
 
+    string FormatAsUan(object value)
+    {
+        return ((double)value).ToString("C0", CultureInfo.CreateSpecificCulture("ua-UA"));
+    }
+
+    static string getMonthName(int month)
+    {
+        DateTime date = new DateTime(2020, month, 1);
+
+        return date.ToString("MMMM");
+    }
+
     private async Task LoadAsync()
     {
+        _statistic = null;
         var statistic = await HttpClient.GetFromJsonAsync<PurchaseStatistic>(Settigns.ApiUrl + $"/purchases/statistic?month={statisticMonth}");
         if (statistic != null)
         {
-            _statistic = statistic.Statistics.OrderByDescending(e => e.Value).ToArray();
-            _collors = GetCollors(_statistic.Length);
+            var collors = GetCollors(statistic.Statistics.Count);
+            var collorsIndex = 0;
+            _statistic = statistic.Statistics
+            .ToDictionary(e => e.Key, e => (items:new[] { new DataItem { Month = getMonthName(statisticMonth), Expense = e.Value } },collor:collors[collorsIndex++]));
+
+            _collors = GetCollors(_statistic.Count);
             _total = statistic.Total;
         }
     }
 
-    private IEnumerable<string> GetCollors(int count)
+    private string[] GetCollors(int count)
     {
         return Enumerable.Range(1, count).Select(i =>
         {
