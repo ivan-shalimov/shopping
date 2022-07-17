@@ -18,13 +18,13 @@ namespace Shopping.Services.Handlers
         public async Task<ReceiptModel[]> Handle(GetReceipts request, CancellationToken cancellationToken)
         {
             var date = DateTime.UtcNow;
-            var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
+            var firstDayOfMonth = new DateTime(date.Year, request.Month, 1);
             var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
 
             var query = from receipt in _context.Receipts
-                        orderby receipt.CreatedOn descending
-                        where receipt.CreatedOn > firstDayOfMonth && receipt.CreatedOn <= lastDayOfMonth
-                        select new ReceiptModel { Id = receipt.Id, Description = receipt.Description, Total = receipt.Total, CreatedOn = receipt.CreatedOn, };
+                        orderby receipt.Date descending
+                        where receipt.Date > firstDayOfMonth && receipt.Date <= lastDayOfMonth
+                        select new ReceiptModel { Id = receipt.Id, Description = receipt.Description, Total = receipt.Total, Date = receipt.Date, };
 
             var purchases = await query.ToArrayAsync(cancellationToken).ConfigureAwait(false);
 

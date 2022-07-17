@@ -12,6 +12,7 @@ namespace Shopping.DataAccess.Configurations
             builder.HasKey(e => e.Id);
             builder.Property(c => c.Id).ValueGeneratedOnAdd();
             builder.Property(c => c.Total).IsRequired().HasPrecision(18, 3);
+            builder.Property(e=>e.Date).HasColumnName("CreatedOn"); // todo rename and add migration
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Shopping.Services.Handlers
             {
                 Id = Guid.NewGuid(),
                 Description = string.IsNullOrEmpty(request.Description) ? " - " : request.Description,
-                CreatedOn = DateTime.UtcNow,
+                Date = request.Date,
             };
 
             await _context.Receipts.AddAsync(item);

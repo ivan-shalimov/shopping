@@ -19,6 +19,7 @@ namespace Shopping.Services.Handlers
             if (item != null)
             {
                 item.Description = request.Description;
+                item.Date = request.Date;
                 await _context.SaveChangesAsync();
             }
 

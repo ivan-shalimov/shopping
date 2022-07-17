@@ -17,9 +17,9 @@ namespace Shopping.WebApi.Controllers
         }
 
         [HttpGet("statistic")]
-        public async Task<ActionResult<PurchaseStatistic>> GetPurchaseStatistic()
+        public async Task<ActionResult<PurchaseStatistic>> GetPurchaseStatistic([FromQuery]int month)
         {
-            var result = await _mediator.Send(new GetPurchaseStatistic());
+            var result = await _mediator.Send(new GetPurchaseStatistic { Month = month });
             return Ok(result);
         }
     }

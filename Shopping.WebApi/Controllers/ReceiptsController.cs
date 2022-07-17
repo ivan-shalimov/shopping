@@ -17,9 +17,9 @@ namespace Shopping.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ReceiptModel[]>> GetReceipts()
+        public async Task<ActionResult<ReceiptModel[]>> GetReceipts([FromQuery] int month)
         {
-            var result = await _mediator.Send(new GetReceipts()).ConfigureAwait(false);
+            var result = await _mediator.Send(new GetReceipts { Month = month }).ConfigureAwait(false);
             return Ok(result);
         }
 
