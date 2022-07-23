@@ -1,0 +1,199 @@
+﻿@page "/receipts"
+
+@using System.Net.Http.Json
+@using Radzen
+@using Radzen.Blazor
+@using Shopping.Shared.Models.Results
+@using Shopping.Shared.Requests
+
+
+@inject HttpClient HttpClient
+
+<ul class="nav nav-pills">
+    @for (var i = 1; i <= 12; i++)
+    {
+        <li class="nav-item">
+            @if (month is null && DateTime.Now.Month == i)
+            {
+                <a class="nav-link active" aria-current="page" href="/receipts">@i</a>
+            }
+            else if (month == i)
+            {
+                <a class="nav-link active" aria-current="page" href="/receipts?month=@i">@i</a>
+            }
+            else
+            {
+                <a class="nav-link" href="/receipts?month=@i">@i</a>
+            }
+        </li>
+    }
+</ul>
+
+<div class="row">
+    @if (_pending)
+    {
+        <p>Loading ...</p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Description</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Date</th>
+                    <th class="action-block-col" scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><RadzenTextBox @bind-Value=@_newItem.Description Class="w-100" /></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        @if (_editedItem == null)
+                        {
+                            <div class="action-block">
+                                <button class="btn btn-primary" type="button" @onclick="@(async () => await Add())">Add</button>
+                            </div>
+                        }
+                    </td>
+                </tr>
+                @foreach (var item in _list)
+                {
+                    <tr>
+                        @if (_editedItem?.Id == item.Id)
+                        {
+                            <td><RadzenTextBox @bind-Value=@_editedItem.Description Class="w-100" /></td>
+                        }
+                        else if (@item.Description.Length > 10)
+                        {
+                            <td> <a class="link" role="button" href="receipts/@item.Id">@item.Description</a></td>
+                        }
+                        else
+                        {
+                            <td> <a class="link" role="button" href="receipts/@item.Id">@item.Description (link)</a></td>
+                        }
+
+                        <td>@item.Total</td>
+
+                        @if (_editedItem?.Id == item.Id)
+                        {
+                            <td><RadzenDatePicker @bind-Value=@_editedItem.Date DateFormat="d" Class="w-100"/></td>
+                        }
+                        else
+                        {
+                            <td>@item.Date</td>
+                        }
+
+
+                        @if (_editedItem != null)
+                        {
+                            @if (_editedItem.Id == item.Id)
+                            {
+                                <td>
+                                    <div class="action-block">
+                                        <button class="btn btn-primary" type="button" @onclick="@(async () => await Save())">Save</button>
+                                        <button class="btn btn-primary ms-2" type="button" @onclick="@(async () => Cancel())">Cancel</button>
+                                    </div>
+                                </td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                        }
+                        else
+                        {
+                            <td>
+                                <div class="action-block">
+                                    <button class="btn btn-primary" type="button" @onclick="@(() => StartEdit(item))">Edit</button>
+
+                                </div>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public int? month { get; set; }
+
+    private bool _pending = true;
+    private int _listMonth;
+    private ReceiptModel[]? _list;
+
+    private ReceiptModel _newItem = new ReceiptModel();
+    private ReceiptModel _editedItem = null;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (month.HasValue && month != _listMonth)
+        {
+            _listMonth = month.Value;
+        }
+        else if (_listMonth == 0)
+        {
+            _listMonth = DateTime.Now.Month;
+        }
+        else
+        {
+            return;
+        }
+        await Reload().ConfigureAwait(false);
+        await base.OnParametersSetAsync();
+    }
+
+    private async Task Reload()
+    {
+        _pending = true;
+        _list = await HttpClient.GetFromJsonAsync<ReceiptModel[]>($"/api/receipts?month={_listMonth}");
+        _pending = false;
+        if (_list == null)
+        {
+            return;
+        }
+    }
+
+    private async Task Add()
+    {
+        var request = new AddReceipt
+            {
+                Id = Guid.NewGuid(),
+                Description = _newItem.Description,
+                Date = _newItem.Date,
+            };
+
+        await HttpClient.PostAsJsonAsync("/api/receipts", request);
+
+        _newItem = new ReceiptModel();
+
+        await Reload().ConfigureAwait(false);
+    }
+
+    private void StartEdit(ReceiptModel product)
+    {
+        _editedItem = product;
+    }
+
+    private void Cancel()
+    {
+        _editedItem = null;
+    }
+
+    private async Task Save()
+    {
+        await HttpClient.PutAsJsonAsync($"/api/receipts/{_editedItem.Id}", new UpdateReceipt { 
+            Description = _editedItem.Description,
+            Date = _editedItem.Date,
+        });
+        _editedItem = null;
+        await Reload().ConfigureAwait(false);
+    }
+
+}
