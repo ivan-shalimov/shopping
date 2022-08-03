@@ -49,7 +49,7 @@
                 <tr>
                     <td><RadzenTextBox @bind-Value=@_newItem.Description Class="w-100" /></td>
                     <td></td>
-                    <td></td>
+                    <td><RadzenDatePicker @bind-Value=@_newItem.Date DateFormat="d" Class="w-100"/></td>
                     <td>
                         @if (_editedItem == null)
                         {

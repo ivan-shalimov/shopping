@@ -1,3 +1,3 @@
-docker stop shoppingwebapi
-docker rm shoppingwebapi
-docker run --name=shoppingwebapi -p 9091:80 -d shoppingwebapi:latest --restart=always
+docker stop shoppingserver
+docker rm shoppingserver
+docker run --name=shoppingserver -p 9091:80 -d shoppingserver:latest --restart=always

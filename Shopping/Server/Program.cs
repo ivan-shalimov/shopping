@@ -1,10 +1,9 @@
-using Microsoft.AspNetCore.ResponseCompression;
 using MediatR;
 using Shopping.DataAccess;
+using Shopping.Server;
+using Shopping.Services.Handlers;
 using Shopping.Shared.Models.Results;
 using Shopping.Shared.Requests;
-using Shopping.Services.Handlers;
-using Shopping.Server;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,9 +58,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-
 app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
 
 app.Run();
+
+public partial class Program
+{ }
