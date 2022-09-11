@@ -1,10 +1,11 @@
 ﻿using MediatR;
 using Shopping.DataAccess;
+using Shopping.Shared.Models.Common;
 using Shopping.Shared.Requests;
 
 namespace Shopping.Services.Handlers
 {
-    public sealed class UpdateProductKindHandler : IRequestHandler<UpdateProductKind>
+    public sealed class UpdateProductKindHandler : IRequestHandler<UpdateProductKind, Either<Fail, Success>>
     {
         private readonly ShoppingDbContext _context;
 
@@ -13,7 +14,7 @@ namespace Shopping.Services.Handlers
             _context = context;
         }
 
-        public async Task<Unit> Handle(UpdateProductKind request, CancellationToken cancellationToken)
+        public async Task<Either<Fail, Success>> Handle(UpdateProductKind request, CancellationToken cancellationToken)
         {
             var item = await _context.ProductKinds.FindAsync(new object[] { request.Id }, cancellationToken).ConfigureAwait(false);
             if (item != null)
@@ -22,7 +23,7 @@ namespace Shopping.Services.Handlers
                 await _context.SaveChangesAsync();
             }
 
-            return default;
+            return new Success();
         }
     }
 }

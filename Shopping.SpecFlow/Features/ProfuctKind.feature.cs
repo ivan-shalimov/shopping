@@ -320,7 +320,7 @@ this.FeatureBackground();
  testRunner.And("I want to delete product kind \'Toys\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 46
- testRunner.When("I make a Delete request to \'api/products/{id}\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I make a Delete request to \'api/products/kinds/{id}\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 47
  testRunner.Then("The response should have status code \'200\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -363,7 +363,7 @@ this.FeatureBackground();
  testRunner.And("I want to delete product kind \'Medicine\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 54
- testRunner.When("I make a Delete request to \'api/products/{id}\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I make a Delete request to \'api/products/kinds/{id}\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 55
  testRunner.Then("The response should have status code \'400\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");

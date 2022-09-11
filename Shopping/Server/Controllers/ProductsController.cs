@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Shopping.Server.Common;
 using Shopping.Shared.Models.Results;
 using Shopping.Shared.Requests;
 
@@ -26,7 +27,7 @@ namespace Shopping.Server.Controllers
         [HttpPost]
         public async Task<IActionResult> AddProduct(AddProduct request)
         {
-            await _mediator.Send(request);
+            var result = await _mediator.Send(request);
             return Ok();
         }
 
@@ -34,7 +35,14 @@ namespace Shopping.Server.Controllers
         public async Task<IActionResult> UpdateProduct(Guid id, UpdateProduct request)
         {
             request.Id = id;
-            await _mediator.Send(request);
+            var result = await _mediator.Send(request);
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(Guid id)
+        {
+            var result = await _mediator.Send(new DeleteProduct { Id = id });
             return Ok();
         }
 
@@ -48,16 +56,23 @@ namespace Shopping.Server.Controllers
         [HttpPost("kinds")]
         public async Task<IActionResult> AddProductKind(AddProductKind request)
         {
-            await _mediator.Send(request);
-            return Ok();
+            var result = await _mediator.Send(request);
+            return result.Reduce();
         }
 
         [HttpPut("kinds/{id}")]
         public async Task<IActionResult> UpdateProductKind(Guid id, UpdateProductKind request)
         {
             request.Id = id;
-            await _mediator.Send(request);
-            return Ok();
+            var result = await _mediator.Send(request);
+            return result.Reduce();
+        }
+
+        [HttpDelete("kinds/{id}")]
+        public async Task<IActionResult> DeleteProductKind(Guid id)
+        {
+            var result = await _mediator.Send(new DeleteProductKind { Id = id });
+            return result.Reduce();
         }
     }
 }

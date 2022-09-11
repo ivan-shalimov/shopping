@@ -43,7 +43,7 @@ Scenario: Update product kind with duplicated name
 Scenario: Delete the product kind
 	Given The DB has a product kind 'Toys'
 	And I want to delete product kind 'Toys'
-	When I make a Delete request to 'api/products/{id}'
+	When I make a Delete request to 'api/products/kinds/{id}'
 	Then The response should have status code '200'
 	And DB should not have the product kind 'Toys'
 
@@ -51,6 +51,6 @@ Scenario: Delete the product kind with product
 	Given The DB has a product kind 'Medicine'
 	And The DB has a product 'Pill' for the product kind 'Medicine'
 	And I want to delete product kind 'Medicine'
-	When I make a Delete request to 'api/products/{id}'
+	When I make a Delete request to 'api/products/kinds/{id}'
 	Then The response should have status code '400'
 	And The response should contains the error 'The product kind Medicine has products.'
