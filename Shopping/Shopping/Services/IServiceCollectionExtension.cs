@@ -31,6 +31,21 @@ namespace Shopping.Services
             services.AddScoped<IValidator<DeleteProduct>, DeleteProductValidator>();
             services.AddScoped<IPipelineBehavior<DeleteProduct, Either<Fail, Success>>, ValidationPipelineBehavior<DeleteProduct, Success, DeleteProductValidator>>();
 
+            RegisterProductKindsServices(services);
+
+            services.AddScoped<IRequestHandler<GetReceipts, ReceiptModel[]>, GetReceiptsHandler>();
+            services.AddScoped<IRequestHandler<AddReceipt, Unit>, AddReceiptHandler>();
+            services.AddScoped<IRequestHandler<UpdateReceipt, Unit>, UpdateReceiptHandler>();
+            services.AddScoped<IRequestHandler<UpdateReceiptTotal, Unit>, UpdateReceiptTotalHandler>();
+
+            services.AddScoped<IRequestHandler<GetReceiptItems, ReceiptItemModel[]>, GetReceiptItemsHandler>();
+            services.AddScoped<IRequestHandler<AddReceiptItem, Unit>, AddReceiptItemHandler>();
+            services.AddScoped<IRequestHandler<UpdateReceiptItem, Unit>, UpdateReceiptItemHandler>();
+            services.AddScoped<IRequestHandler<DeleteReceiptItem, Unit>, DeleteReceiptItemHandler>();
+        }
+
+        private static void RegisterProductKindsServices(IServiceCollection services)
+        {
             services.AddScoped<IRequestHandler<GetProductKinds, ProductKindModel[]>, GetProductKindsHandler>();
 
             services.AddScoped<IRequestHandler<AddProductKind, Either<Fail, Success>>, AddProductKindHandler>();
@@ -45,15 +60,9 @@ namespace Shopping.Services
             services.AddScoped<IValidator<DeleteProductKind>, DeleteProductKindValidator>();
             services.AddScoped<IPipelineBehavior<DeleteProductKind, Either<Fail, Success>>, ValidationPipelineBehavior<DeleteProductKind, Success, DeleteProductKindValidator>>();
 
-            services.AddScoped<IRequestHandler<GetReceipts, ReceiptModel[]>, GetReceiptsHandler>();
-            services.AddScoped<IRequestHandler<AddReceipt, Unit>, AddReceiptHandler>();
-            services.AddScoped<IRequestHandler<UpdateReceipt, Unit>, UpdateReceiptHandler>();
-            services.AddScoped<IRequestHandler<UpdateReceiptTotal, Unit>, UpdateReceiptTotalHandler>();
-
-            services.AddScoped<IRequestHandler<GetReceiptItems, ReceiptItemModel[]>, GetReceiptItemsHandler>();
-            services.AddScoped<IRequestHandler<AddReceiptItem, Unit>, AddReceiptItemHandler>();
-            services.AddScoped<IRequestHandler<UpdateReceiptItem, Unit>, UpdateReceiptItemHandler>();
-            services.AddScoped<IRequestHandler<DeleteReceiptItem, Unit>, DeleteReceiptItemHandler>();
+            services.AddScoped<IRequestHandler<MergeProductKind, Either<Fail, Success>>, MergeProductKindHandler>();
+            services.AddScoped<IValidator<MergeProductKind>, MergeProductKindValidator>();
+            services.AddScoped<IPipelineBehavior<MergeProductKind, Either<Fail, Success>>, ValidationPipelineBehavior<MergeProductKind, Success, MergeProductKindValidator>>();
         }
     }
 }

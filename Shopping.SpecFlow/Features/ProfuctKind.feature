@@ -30,7 +30,7 @@ Scenario: Update product kind
 	When I make a PUT request to 'api/products/kinds/{id}'
 	Then The response should have status code '200'
 	And The DB should have the product kind 'Cleaning'
-	And DB should not have the product kind 'Cleaning Supplies'
+	And The DB should not have the product kind 'Cleaning Supplies'
 
 Scenario: Update product kind with duplicated name
 	Given The DB has a product kind 'Medicine'
@@ -45,7 +45,7 @@ Scenario: Delete the product kind
 	And I want to delete product kind 'Toys'
 	When I make a Delete request to 'api/products/kinds/{id}'
 	Then The response should have status code '200'
-	And DB should not have the product kind 'Toys'
+	And The DB should not have the product kind 'Toys'
 
 Scenario: Delete the product kind with product
 	Given The DB has a product kind 'Medicine'
@@ -54,3 +54,17 @@ Scenario: Delete the product kind with product
 	When I make a Delete request to 'api/products/kinds/{id}'
 	Then The response should have status code '400'
 	And The response should contains the error 'The product kind Medicine has products.'
+
+Scenario: Merge product Kinds
+	Given The DB has a product kind 'Medicine1'
+	And The DB has a product 'Pill' for the product kind 'Medicine1'
+	And The DB has a product kind 'Medicine2'
+	And The DB has a product 'Vitamin' for the product kind 'Medicine1'
+	And I want to merge 'Medicine1' with 'Medicine2' to have only 'Medicine'
+	When I make a POST request to 'api/products/kinds/merged'
+	Then The response should have status code '200'
+	And The DB should have the product kind 'Medicine'
+	And The DB should have the product 'Pill' for the product kind 'Medicine'
+	And The DB should have the product 'Vitamin' for the product kind 'Medicine'
+	But The DB should not have the product kind 'Medicine1'
+	And The DB should not have the product kind 'Medicine2'

@@ -40,6 +40,22 @@ namespace Shopping.SpecFlow.StepDefinitions
             Factory.RequestParameters["id"] = productKind.Id.ToString();
         }
 
+        [Given(@"I want to merge '([^']*)' with '([^']*)' to have only '([^']*)'")]
+        public void GivenIWantToMergeWithToHaveOnly(string firstProductKindName, string secondProductKindName, string newProductKindName)
+        {
+
+            var firstProductKind = Factory.Context.ProductKinds.Single(x => x.Name == firstProductKindName);
+            var secondProductKind = Factory.Context.ProductKinds.Single(x => x.Name == secondProductKindName);
+
+            var request = new MergeProductKind {
+                FirstProductKindId = firstProductKind.Id,
+                SecondProductKindId = secondProductKind.Id,
+                NewProductKindName = newProductKindName,
+            };
+            Factory.RequestContent = request.ToHttpContent();
+        }
+
+
         [Then(@"The response should contains the product kind '([^']*)'")]
         public async Task ThenTheResponseShouldContainsTheProductKindAsync(string productKindName)
         {
@@ -55,7 +71,7 @@ namespace Shopping.SpecFlow.StepDefinitions
                 .Should().ContainSingle(pk => pk.Name == productKindName);
         }
 
-        [Then(@"DB should not have the product kind '([^']*)'")]
+        [Then(@"The DB should not have the product kind '([^']*)'")]
         public void ThenDBShouldNotHaveTheProductKind(string productKindName)
         {
             Factory.Context.ProductKinds.AsNoTracking().ToArray()
