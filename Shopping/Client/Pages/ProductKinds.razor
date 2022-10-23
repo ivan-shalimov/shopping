@@ -68,6 +68,10 @@
                             <td>
                                 <div class="action-block">
                                     <button class="btn btn-primary" type="button" @onclick="@(async () => StartEdit(item))">Edit</button>
+                                    @if (!item.HasProducts)
+                                    {
+                                        <button class="btn btn-primary" type="button" @onclick="@(async () =>await Delete(item))">Delete</button>
+                                    }
                                 </div>
                             </td>
                         }    
@@ -129,5 +133,10 @@
         await Reload().ConfigureAwait(false);
     }
 
+    private async Task Delete(ProductKindModel product)
+    {
+        await HttpClient.DeleteAsync($"/api/products/kinds/{product.Id}");
+        await Reload().ConfigureAwait(false);
+    }
 
 }
