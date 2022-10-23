@@ -133,9 +133,9 @@
         await Reload().ConfigureAwait(false);
     }
 
-    private async Task Delete(ProductKindModel product)
+    private async Task Delete(ProductKindModel productKind)
     {
-        await HttpClient.DeleteAsync($"/api/products/kinds/{product.Id}");
+        await HttpClient.DeleteAsync($"/api/products/kinds/{productKind.Id}");
         await Reload().ConfigureAwait(false);
     }
 

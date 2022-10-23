@@ -43,7 +43,7 @@ namespace Shopping.Server.Controllers
         public async Task<IActionResult> DeleteProduct(Guid id)
         {
             var result = await _mediator.Send(new DeleteProduct { Id = id });
-            return Ok();
+            return result.Reduce();
         }
 
         [HttpGet("kinds")]

@@ -59,6 +59,16 @@ namespace Shopping.SpecFlow.StepDefinitions
             _context.SaveChanges();
         }
 
+        [Given(@"The product is used")]
+        public void GivenTheProductIsUsed()
+        {
+            var theProdcut = _scenarioContext.GetValueOrDefault<Product>(TheProduct);
+            var receipt = new Receipt { Date = DateTime.Now, Id = Guid.NewGuid(), Description = "test" };
+            _context.Receipts.Add(receipt);
+            _context.ReceiptItems.Add(new ReceiptItem { Id = Guid.NewGuid(), ReceiptId = receipt.Id, ProductId = theProdcut.Id });
+            _context.SaveChanges();
+        }
+
         [Then(@"The DB should contain the product")]
         public void ThenTheDBShouldContainTheProduct()
         {

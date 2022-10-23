@@ -21,10 +21,20 @@ namespace Shopping.Services.Handlers
                         join productKind in _context.ProductKinds on product.ProductKindId equals productKind.Id
                         orderby product.Name 
                         select new ProductModel { Id = product.Id, Name = product.Name, ProductKindId = productKind.Id, ProductKindName = productKind.Name };
+            
+            var products = await query.ToArrayAsync(cancellationToken).ConfigureAwait(false);
 
-            var purchases = await query.ToArrayAsync(cancellationToken).ConfigureAwait(false);
+            var hasreceitByKind = (await _context.ReceiptItems
+                .Select(p => new { p.Id, p.ProductId })
+                .ToArrayAsync(cancellationToken)
+                ).GroupBy(p => p.ProductId, p => p.Id)
+                .ToDictionary(p => p.Key, p => p.Any());
+            foreach (var product in products)
+            {
+                product.Used = hasreceitByKind.TryGetValue(product.Id, out var used) ? used : false;
+            }
 
-            return purchases;
+            return products;
         }
     }
 }

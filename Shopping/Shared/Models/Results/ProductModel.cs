@@ -9,5 +9,7 @@
         public Guid ProductKindId { get; set; } // todo check inside = ProductKind.DefaultProductKindId;
 
         public string ProductKindName { get; set; } = string.Empty;
+
+        public bool Used { get; set; }
     }
 }

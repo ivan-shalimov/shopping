@@ -69,16 +69,20 @@ namespace Shopping.SpecFlow.StepDefinitions
             products.Should().ContainEquivalentOf(expected, config => config.ExcludingMissingMembers());
         }
 
-        [Then(@"The response should contains the product for the product kind")]
+        [Then(@"The response should contains both products")]
         public void ThenTheResponseShouldContainsTheProduct()
         {
             var product = GetTheProduct();
             var productKind = GetTheProductKind();
-            var expected = new { Name = product.Name, ProductKindName = productKind.Name };
+            var expected = new { Name = product.Name, ProductKindName = productKind.Name, Used = true };
+
+            var anotherProductKind = _scenarioContext.GetValueOrDefault<ProductKind>(AnotherProductKind);
+            var anotherProduct = _scenarioContext.GetValueOrDefault<Product>(AnotherProduct);
+            var expectedAnother = new { Name = anotherProduct.Name, ProductKindName = anotherProductKind.Name, Used = false };
 
             var products = _scenarioContext.GetDeserializedCollectionOrEmpty<ProductModel>(ResponseContent);
             products.Should().ContainEquivalentOf(expected, config => config.ExcludingMissingMembers());
+            products.Should().ContainEquivalentOf(expectedAnother, config => config.ExcludingMissingMembers());
         }
-
     }
 }

@@ -4,12 +4,15 @@ Products are good that is used to define receipt's items
 
 Background: 
 Given The DB has the product kind
+And The DB has another product kind
 
 Scenario: Get products
 	Given The DB has a product for the product kind
+	And The product is used
+	And The DB has another product for another product kind
 	When I make a GET request to 'api/products/'
 	Then The response status should be success
-	And The response should contains the product for the product kind
+	And The response should contains both products
 
 Scenario: Add new product
 	Given I want to add a product for the product kind
@@ -31,3 +34,11 @@ Scenario: Delete the product
 	When I make a DELETE request to 'api/products/{ProductId}'
 	Then The response status should be success
 	And The DB should not contain the product
+
+Scenario: Delete the product that is used
+	Given The DB has a product for the product kind
+	And The product is used
+	And I want to delete the product
+	When I make a DELETE request to 'api/products/{ProductId}'
+	Then The response status should be bad request
+	And The response should contains the error 'Product is used'

@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Shopping.DataAccess;
 using Shopping.Shared.Requests;
 
@@ -15,6 +16,12 @@ namespace Shopping.Services.Validators
                     if (product == null)
                     {
                         ctx.AddFailure("Product is not found!");
+                    }
+
+                    var used = await context.ReceiptItems.AnyAsync(r=>r.ProductId == productId, cnt);
+                    if (used)
+                    {
+                        ctx.AddFailure("Product is used!");
                     }
                 });
         }
