@@ -1,72 +1,84 @@
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
+using Bogus;
+using Shopping.Models.Domain;
 using Shopping.Shared.Models.Results;
 using Shopping.Shared.Requests;
 using Shopping.SpecFlow.Extensions;
-using Shopping.SpecFlow.Infrastructure;
+using static Shopping.SpecFlow.StepDefinitions.ScenarioContextKeys;
 
 namespace Shopping.SpecFlow.StepDefinitions
 {
     [Binding]
     public class ProductStepDefinitions
     {
-        public ShoppingWebApplicationFactory Factory { get; }
+        private readonly ScenarioContext _scenarioContext;
 
-        public ProductStepDefinitions(ShoppingWebApplicationFactory factory)
+        private ProductKind GetTheProductKind() => _scenarioContext.GetValueOrDefault<ProductKind>(TheProductKind);
+
+        private Product GetTheProduct() => _scenarioContext.GetValueOrDefault<Product>(TheProduct);
+
+        public ProductStepDefinitions(ScenarioContext scenarioContext)
         {
-            Factory = factory;
+            _scenarioContext = scenarioContext;
         }
 
-        [Given(@"I want to add new product '([^']*)' for the product kind '([^']*)'")]
-        public void GivenIWantToAddNewProductForTheProductKind(string productName, string productKindName)
+        [Given(@"I want to add a product for the product kind")]
+        public void GivenIWantToAddNewProductForTheProductKind()
         {
-            var productKind = Factory.Context.ProductKinds.Single(x => x.Name == productKindName);
-            var request = new AddProduct
+            var productKind = GetTheProductKind();
+            var product = new Product { Id = Guid.NewGuid(), Name = new Faker().Name.Random.Word(), ProductKindId = productKind.Id };
+            _scenarioContext[TheProduct] = product;
+
+            var request = (new AddProduct
             {
-                Name = productName,
-                ProductKindId = productKind.Id,
-            };
-            Factory.RequestContent = request.ToHttpContent();
+                Id = product.Id,
+                Name = product.Name,
+                ProductKindId = product.Id,
+            });
+            _scenarioContext[RequestContentModel] = request;
         }
 
-        [Given(@"I want to rename product '([^']*)' to '([^']*)' and change product kind to '([^']*)'")]
-        public void GivenIWantToRenameProductToAndChangeProductKindTo(string oldProductName, string newProductName, string newProductKindName)
+        [Given(@"I want to rename the product and change product kind to another product kind")]
+        public void GivenIWantToRenameTheProductAndChangeProductKindToAnotherProductKind()
         {
-            var productKind = Factory.Context.ProductKinds.Single(x => x.Name == newProductKindName);
-            var product = Factory.Context.Products.Single(x => x.Name == oldProductName);
-            var request = new UpdateProduct { Name = newProductName, ProductKindId = productKind.Id, };
-            Factory.RequestParameters["id"] = product.Id.ToString();
-            Factory.RequestContent = request.ToHttpContent();
+            var anotherProductKind = _scenarioContext.GetValueOrDefault<ProductKind>(AnotherProductKind);
+            var product = GetTheProduct();
+            var theNewName = new Faker().Name.Random.Word();
+
+            _scenarioContext[TheNewName] = theNewName;
+
+            var request = new UpdateProduct { Id = product.Id, Name = theNewName, ProductKindId = anotherProductKind.Id, };
+            _scenarioContext[ProductId] = product.Id.ToString();
+            _scenarioContext[RequestContentModel] = request;
         }
 
-        [Given(@"I want to delete product '([^']*)'")]
-        public void GivenIWantToDeleteProduct(string productName)
+        [Given(@"I want to delete the product")]
+        public void GivenIWantToDeleteProduct()
         {
-            var product = Factory.Context.Products.Single(x => x.Name == productName);
-            Factory.RequestParameters["id"] = product.Id.ToString();
+            var product = GetTheProduct();
+            _scenarioContext[ProductId] = product.Id.ToString();
         }
 
-        [Then(@"The result contains the product '([^']*)' with the product kind '([^']*)'")]
-        public async Task ThenTheResultContainsTheProductWithTheProductKindAsync(string productName, string productKindName)
+        [When(@"The result contains the product with the product kind")]
+        public void WhenTheResultContainsTheProductWithTheProductKind()
         {
-            var responseContentAsString = await Factory.Response.Content.ReadAsStringAsync();
-            var products = JsonConvert.DeserializeObject<ProductModel[]>(responseContentAsString);
-            products.Should().ContainEquivalentOf(new { Name = productName, ProductKindName = productKindName }, config => config.ExcludingMissingMembers());
+            var productKind = GetTheProductKind();
+            var product = GetTheProduct();
+            var expected = new { Name = product.Name, ProductKindName = productKind.Name };
+
+            var products = _scenarioContext.GetDeserializedCollectionOrEmpty<ProductModel>(ResponseContent);
+            products.Should().ContainEquivalentOf(expected, config => config.ExcludingMissingMembers());
         }
 
-        [Then(@"The DB should have the product '([^']*)' for the product kind '([^']*)'")]
-        public void ThenTheDBShouldHaveTheProductForTheProductKind(string productName, string productKindName)
+        [Then(@"The response should contains the product for the product kind")]
+        public void ThenTheResponseShouldContainsTheProduct()
         {
-            var productKind = Factory.Context.ProductKinds.Single(x => x.Name == productKindName);
-            Factory.Context.Products.AsNoTracking()
-                .Should().ContainSingle(p => p.Name == productName && p.ProductKindId == productKind.Id);
+            var product = GetTheProduct();
+            var productKind = GetTheProductKind();
+            var expected = new { Name = product.Name, ProductKindName = productKind.Name };
+
+            var products = _scenarioContext.GetDeserializedCollectionOrEmpty<ProductModel>(ResponseContent);
+            products.Should().ContainEquivalentOf(expected, config => config.ExcludingMissingMembers());
         }
 
-        [Then(@"The DB should not have the product '([^']*)'")]
-        public void ThenTheDBShouldNotHaveTheProduct(string productName)
-        {
-            Factory.Context.Products.AsNoTracking()
-                .Should().NotContain(p => p.Name == productName);
-        }
     }
 }

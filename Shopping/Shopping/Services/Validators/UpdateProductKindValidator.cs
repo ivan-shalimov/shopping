@@ -15,7 +15,7 @@ namespace Shopping.Services.Validators
                     var isNameUsed = await context.ProductKinds.AnyAsync(p => p.Name == model.Name && p.Id != model.Id, cnt);
                     if (isNameUsed)
                     {
-                        ctx.AddFailure($"The product kind {model.Name} already exists.");
+                        ctx.AddFailure($"The product kind name is already used.");
                     }
                 });
         }

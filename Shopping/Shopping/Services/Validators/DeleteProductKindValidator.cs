@@ -22,7 +22,7 @@ namespace Shopping.Services.Validators
                     var hasAnyProducts = await context.Products.AnyAsync(p => p.ProductKindId == productKindId, cnt);
                     if (hasAnyProducts)
                     {
-                        ctx.AddFailure($"The product kind {productKind.Name} has products.");
+                        ctx.AddFailure($"The product kind has products.");
                     }
                 });
         }

@@ -18,27 +18,17 @@ namespace Shopping.SpecFlow.Infrastructure
 
         private bool _disposed = false;
 
-        public ShoppingDbContext Context { get; }
-
-        public HttpClient Client { get; set; } = null!;
-
         public Dictionary<string, string> RequestParameters { get; set; } = new Dictionary<string, string>();
-
-        public HttpContent RequestContent { get; set; } = null!;
-
-        public HttpResponseMessage Response { get; set; } = null!;
 
         public ShoppingWebApplicationFactory()
         {
             _builder = new DbContextOptionsBuilder<ShoppingDbContext>();
             _builder.UseInMemoryDatabase(Global.DataBaseName);
-            Context = new ShoppingDbContext(_builder.Options);
         }
 
-        public void InitClient()
-        {
-            Client = CreateDefaultClient(new Uri(BaseAddress));
-        }
+        public HttpClient GetClient() => CreateDefaultClient(new Uri(BaseAddress));
+
+        public ShoppingDbContext GetContext() => new ShoppingDbContext(_builder.Options);
 
         protected override IHost CreateHost(IHostBuilder builder)
         {
@@ -71,7 +61,6 @@ namespace Shopping.SpecFlow.Infrastructure
             base.Dispose(disposing);
             if (disposing && !_disposed)
             {
-                Context.Dispose();
                 _disposed = true;
             }
         }

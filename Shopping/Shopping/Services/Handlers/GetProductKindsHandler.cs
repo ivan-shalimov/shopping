@@ -17,12 +17,22 @@ namespace Shopping.Services.Handlers
 
         public async Task<ProductKindModel[]> Handle(GetProductKinds request, CancellationToken cancellationToken)
         {
-            var purchases = await _context.ProductKinds
+            var productKinds = await _context.ProductKinds
                 .OrderBy(x => x.Name)
-                .Select(p => new ProductKindModel { Id = p.Id, Name = p.Name })
+                .Select(p => new ProductKindModel { Id = p.Id, Name = p.Name, HasProducts = false })
                 .ToArrayAsync(cancellationToken).ConfigureAwait(false);
 
-            return purchases;
+            var hasProductByKind = (await _context.Products
+                .Select(p => new { p.Id, p.ProductKindId })
+                .ToArrayAsync(cancellationToken)
+                ).GroupBy(p => p.ProductKindId, p => p.Id)
+                .ToDictionary(p => p.Key, p => p.Any());
+            foreach (var productKind in productKinds)
+            {
+                productKind.HasProducts = hasProductByKind.TryGetValue(productKind.Id, out var hasProduct) ? hasProduct : false;
+            }
+
+            return productKinds;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Shopping.Services.Handlers
         {
             var item = new ProductKind
             {
-                Id = Guid.NewGuid(),
+                Id = request.Id,
                 Name = request.Name,
             };
 

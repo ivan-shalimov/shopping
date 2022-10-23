@@ -7,11 +7,13 @@ namespace Shopping.SpecFlow.Extensions
 {
     public static class ObjectExtensions
     {
+        private static readonly JsonSerializerSettings SerializeSettings = new JsonSerializerSettings
+        {
+            ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() }
+        };
         public static HttpContent ToHttpContent(this object obj)
         {
-            var contractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() };
-            var serializeSettings = new JsonSerializerSettings { ContractResolver = contractResolver };
-            var serializedContent = JsonConvert.SerializeObject(obj, serializeSettings);
+            var serializedContent = JsonConvert.SerializeObject(obj, SerializeSettings);
             return new StringContent(serializedContent, Encoding.UTF8, MediaTypeNames.Application.Json);
         }
     }

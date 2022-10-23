@@ -23,11 +23,10 @@ namespace Shopping.Services.Handlers
 
             var newProductKind = new ProductKind
             {
-                Id = Guid.NewGuid(),
+                Id = request.Id,
                 Name = request.NewProductKindName,
             };
 
-            await _context.ProductKinds.AddAsync(newProductKind);
 
             var productsForFirstProductKind = await _context.Products.Where(p => p.ProductKindId == request.FirstProductKindId).ToArrayAsync(cancellationToken);
             foreach (var product in productsForFirstProductKind)
@@ -42,6 +41,7 @@ namespace Shopping.Services.Handlers
 
             _context.ProductKinds.Remove(firstProductKind);
             _context.ProductKinds.Remove(secondProductKind);
+            await _context.ProductKinds.AddAsync(newProductKind);
 
             await _context.SaveChangesAsync();
 

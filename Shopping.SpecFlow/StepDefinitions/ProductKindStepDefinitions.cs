@@ -1,81 +1,100 @@
-using Newtonsoft.Json;
+using Bogus;
+using Shopping.Models.Domain;
 using Shopping.Shared.Models.Results;
 using Shopping.Shared.Requests;
 using Shopping.SpecFlow.Extensions;
-using Shopping.SpecFlow.Infrastructure;
-using Microsoft.EntityFrameworkCore;
+using static Shopping.SpecFlow.StepDefinitions.ScenarioContextKeys;
 
 namespace Shopping.SpecFlow.StepDefinitions
 {
     [Binding]
     public class ProductKindStepDefinitions
     {
-        public ShoppingWebApplicationFactory Factory { get; }
+        private readonly ScenarioContext _scenarioContext;
 
-        public ProductKindStepDefinitions(ShoppingWebApplicationFactory factory)
+        private ProductKind GetTheProductKind() => _scenarioContext.GetValueOrDefault<ProductKind>(TheProductKind);
+
+        public ProductKindStepDefinitions(ScenarioContext scenarioContext)
         {
-            Factory = factory;
+            _scenarioContext = scenarioContext;
         }
 
-        [Given(@"I want to add new product kind '([^']*)'")]
-        public void GivenTheNameForNewProductKindIs(string productKindName)
+        [Given(@"I want to add a new product kind")]
+        public void GivenTheNameForNewProductKindIs()
         {
-            var request = new AddProductKind { Name = productKindName, };
-            Factory.RequestContent = request.ToHttpContent();
+            var request = new AddProductKind { Id = Guid.NewGuid(), Name = new Faker().Name.Random.Word() };
+
+            _scenarioContext[TheProductKind] = new ProductKind { Id = request.Id, Name = request.Name };
+            _scenarioContext[RequestContentModel] = request;
         }
 
-        [Given(@"I want to change the name for product kind from '([^']*)' to '([^']*)'")]
-        public void GivenIChangeTheNameForProductKindFromTo(string oldProductKindName, string newProductKindName)
+        [Given(@"I want to add a new product kind with the same name as another product kind")]
+        public void GivenIWantToAddANewProductKindWithTheSameNameAsAnotherProductKind()
         {
-            var productKind = Factory.Context.ProductKinds.Single(x => x.Name == oldProductKindName);
-            var request = new UpdateProductKind { Name = newProductKindName, };
-            Factory.RequestParameters["id"] = productKind.Id.ToString();
-            Factory.RequestContent = request.ToHttpContent();
+            var anotherProductKind = _scenarioContext.GetValueOrDefault<ProductKind>(AnotherProductKind);
+            var request = new AddProductKind { Name = anotherProductKind.Name };
+            _scenarioContext[RequestContentModel] = request;
         }
 
-        [Given(@"I want to delete product kind '([^']*)'")]
-        public void GivenIWantToDeleteProduct(string productKindName)
+        [Given(@"I want to change the name for the product kind")]
+        public void GivenIChangeTheNameForProductKindFromTo()
         {
-            var productKind = Factory.Context.ProductKinds.Single(x => x.Name == productKindName);
-            Factory.RequestParameters["id"] = productKind.Id.ToString();
+            var productKind = GetTheProductKind();
+            var theNewName = new Faker().Name.Random.Word();
+
+            _scenarioContext[TheNewName] = theNewName;
+
+            var request = new UpdateProductKind { Name = theNewName };
+            _scenarioContext[ProductKindId] = productKind.Id.ToString();
+            _scenarioContext[RequestContentModel] = request;
         }
 
-        [Given(@"I want to merge '([^']*)' with '([^']*)' to have only '([^']*)'")]
-        public void GivenIWantToMergeWithToHaveOnly(string firstProductKindName, string secondProductKindName, string newProductKindName)
+        [Given(@"I want to change the name for product to use the same name as another product kind")]
+        public void GivenIWantToChangeTheNameForProductToUseTheSameNameAsAnotherProductKind()
         {
+            var productKind = GetTheProductKind();
+            var anotherProductKind = _scenarioContext.GetValueOrDefault<ProductKind>(AnotherProductKind);
 
-            var firstProductKind = Factory.Context.ProductKinds.Single(x => x.Name == firstProductKindName);
-            var secondProductKind = Factory.Context.ProductKinds.Single(x => x.Name == secondProductKindName);
+            var request = new UpdateProductKind { Name = anotherProductKind.Name };
+            _scenarioContext[ProductKindId] = productKind.Id.ToString();
+            _scenarioContext[RequestContentModel] = request;
+        }
 
-            var request = new MergeProductKind {
-                FirstProductKindId = firstProductKind.Id,
-                SecondProductKindId = secondProductKind.Id,
-                NewProductKindName = newProductKindName,
+        [Given(@"I want to delete the product kind")]
+        public void GivenIWantToDeleteProduct()
+        {
+            var productKind = GetTheProductKind();
+            _scenarioContext[ProductKindId] = productKind.Id.ToString();
+        }
+
+        [Given(@"I want to merge the product kind with another product kind")]
+        public void GivenIWantToMergeTheProductKindWithAnotherProductKind()
+        {
+            var productKind = GetTheProductKind();
+            var anotherProductKind = _scenarioContext.GetValueOrDefault<ProductKind>(AnotherProductKind);
+
+            var request = new MergeProductKind
+            {
+                Id = productKind.Id,
+                FirstProductKindId = productKind.Id,
+                SecondProductKindId = anotherProductKind.Id,
+                NewProductKindName = productKind.Name
             };
-            Factory.RequestContent = request.ToHttpContent();
+            _scenarioContext[RequestContentModel] = request;
         }
 
-
-        [Then(@"The response should contains the product kind '([^']*)'")]
-        public async Task ThenTheResponseShouldContainsTheProductKindAsync(string productKindName)
+        [Then(@"The response should contains both product kind")]
+        public void ThenTheResponseShouldContainsTheProductKindAsync()
         {
-            var responseContentAsString = await Factory.Response.Content.ReadAsStringAsync();
-            var productKindCollection = JsonConvert.DeserializeObject<ProductKindModel[]>(responseContentAsString);
-            productKindCollection.Should().ContainEquivalentOf(new { Name = productKindName }, config => config.ExcludingMissingMembers());
-        }
+            var productKind = GetTheProductKind();
+            var anotherProductKind = _scenarioContext.GetValueOrDefault<ProductKind>(AnotherProductKind);
 
-        [Then(@"The DB should have the product kind '([^']*)'")]
-        public void ThenTheDBShouldHaveTheProductKind(string productKindName)
-        {
-            Factory.Context.ProductKinds.AsNoTracking()
-                .Should().ContainSingle(pk => pk.Name == productKindName);
-        }
+            var expectedProductKind = new { Id = productKind.Id, Name = productKind.Name, HasProducts = true };
+            var expectedAnotherProductKind = new { Id = anotherProductKind.Id, Name = anotherProductKind.Name, HasProducts = false };
 
-        [Then(@"The DB should not have the product kind '([^']*)'")]
-        public void ThenDBShouldNotHaveTheProductKind(string productKindName)
-        {
-            Factory.Context.ProductKinds.AsNoTracking().ToArray()
-                .Should().NotContain(pk => pk.Name == productKindName);
+            var productKindCollection = _scenarioContext.GetDeserializedCollectionOrEmpty<ProductKindModel>(ResponseContent);
+            productKindCollection.Should().ContainEquivalentOf(expectedProductKind, config => config.ExcludingMissingMembers());
+            productKindCollection.Should().ContainEquivalentOf(expectedAnotherProductKind, config => config.ExcludingMissingMembers());
         }
     }
 }
