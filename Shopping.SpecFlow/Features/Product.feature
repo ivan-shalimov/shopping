@@ -14,6 +14,15 @@ Scenario: Get products
 	Then The response status should be success
 	And The response should contains both products
 
+Scenario: Get filtered list of products
+	Given The DB has a product for the product kind
+	And The DB has another product for another product kind
+	When I make a GET request to 'api/products/' with query parameters
+	| productKindId      |
+	| {TheProductKindId} |
+	Then The response status should be success
+	And The response should contains products only for the product kind
+
 Scenario: Add new product
 	Given I want to add a product for the product kind
 	When I make a POST request to 'api/products/'

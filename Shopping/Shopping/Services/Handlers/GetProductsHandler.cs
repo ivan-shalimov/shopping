@@ -19,6 +19,7 @@ namespace Shopping.Services.Handlers
         {
             var query = from product in _context.Products
                         join productKind in _context.ProductKinds on product.ProductKindId equals productKind.Id
+                        where product.ProductKindId == request.ProductKindId || !request.ProductKindId.HasValue
                         orderby product.Name 
                         select new ProductModel { Id = product.Id, Name = product.Name, ProductKindId = productKind.Id, ProductKindName = productKind.Name };
             

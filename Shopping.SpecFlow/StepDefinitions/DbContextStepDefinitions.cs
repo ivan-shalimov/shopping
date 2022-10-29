@@ -26,6 +26,7 @@ namespace Shopping.SpecFlow.StepDefinitions
         {
             var productKind = new ProductKind { Id = Guid.NewGuid(), Name = new Faker().Name.Random.Word() };
             _scenarioContext[TheProductKind] = productKind;
+            _scenarioContext[TheProductKindId] = productKind.Id;
             _context.ProductKinds.Add(productKind);
             _context.SaveChanges();
         }

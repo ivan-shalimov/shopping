@@ -18,9 +18,9 @@ namespace Shopping.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ProductModel[]>> GetProducts()
+        public async Task<ActionResult<ProductModel[]>> GetProducts(Guid? productKindId)
         {
-            var result = await _mediator.Send(new GetProducts());
+            var result = await _mediator.Send(new GetProducts { ProductKindId = productKindId });
             return Ok(result);
         }
 

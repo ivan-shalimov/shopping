@@ -13,6 +13,7 @@
         public const string AnotherProduct = "AnotherProduct";
         public const string ProductKindId = "ProductKindId";
         public const string TheProductKind = "TheProductKind";
+        public const string TheProductKindId = "TheProductKindId";
         public const string AnotherProductKind = "AnotherProductKind";
     }
 }

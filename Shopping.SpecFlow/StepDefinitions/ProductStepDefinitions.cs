@@ -84,5 +84,14 @@ namespace Shopping.SpecFlow.StepDefinitions
             products.Should().ContainEquivalentOf(expected, config => config.ExcludingMissingMembers());
             products.Should().ContainEquivalentOf(expectedAnother, config => config.ExcludingMissingMembers());
         }
+
+        [Then(@"The response should contains products only for the product kind")]
+        public void ThenTheResponseShouldContainsProductsOnlyForTheProductKind()
+        {
+            var productKind = _scenarioContext.GetValueOrDefault<ProductKind>(TheProductKind);
+
+            var products = _scenarioContext.GetDeserializedCollectionOrEmpty<ProductModel>(ResponseContent);
+            products.Should().OnlyContain(item => item.ProductKindId == productKind.Id);
+        }
     }
 }

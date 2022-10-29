@@ -20,7 +20,11 @@
             <thead>
                 <tr>
                     <th scope="col">Name</th>
-                    <th scope="col">Kind</th>
+                    <th scope="col">
+                        <span> Kind</span>
+                        <RadzenDropDown @bind-Value=@_filterProductKindId TValue="Guid" Class="w-100" Data=@_productKindsForFilter TextProperty="Name" ValueProperty="Id" 
+                        Change="(async ()=> await Reload())" />
+                    </th>
                     <th class="action-block-col" scope="col"></th>
                 </tr>
             </thead>
@@ -96,19 +100,30 @@
 
 
     private ProductKindModel[]? _productKinds;
+
+    private Guid _allProductKindsId = Guid.Empty;
+    private Guid _filterProductKindId = Guid.Empty;
+    private ProductKindModel[]? _productKindsForFilter;
+
     private ProductModel _newItem = new ProductModel();
     private ProductModel _editedItem = null;
 
     protected async override Task OnInitializedAsync()
     {
         _productKinds = await HttpClient.GetFromJsonAsync<ProductKindModel[]>("/api/products/kinds");
+
+        var filterCollection = new List<ProductKindModel>();
+        filterCollection.Add(new ProductKindModel { Id = _allProductKindsId, Name = "All" });
+        filterCollection.AddRange(_productKinds);
+        _productKindsForFilter = filterCollection.ToArray();
         await Reload();
     }
 
     private async Task Reload()
     {
         _pending = true;
-        _list = await HttpClient.GetFromJsonAsync<ProductModel[]>("/api/products");
+        var query = _filterProductKindId == Guid.Empty ? string.Empty : $"?productKindId={_filterProductKindId}";
+        _list = await HttpClient.GetFromJsonAsync<ProductModel[]>($"/api/products{query}");
         _pending = false;
         if (_list == null)
         {
