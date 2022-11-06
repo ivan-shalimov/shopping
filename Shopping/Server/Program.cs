@@ -2,7 +2,10 @@ using Shopping.DataAccess;
 using Shopping.Server;
 using Shopping.Services;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication
+    .CreateBuilder(args);
+
+builder.Configuration.AddEnvironmentVariables();
 
 // Add services to the container.
 

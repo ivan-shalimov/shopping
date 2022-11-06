@@ -1,0 +1,13 @@
+version: '3.4'
+networks:
+  shopping-network:
+    external:
+      name: shopping-network
+services:
+  shopping.server:
+    image: ${DOCKER_REGISTRY-}shoppingserver
+    build:
+      context: .
+      dockerfile: Shopping/Server/Dockerfile
+    networks:
+      - shopping-network

@@ -1,3 +1,3 @@
-docker stop shoppingserver
-docker rm shoppingserver
-docker run --name=shoppingserver -p 9091:80 -d shoppingserver:latest --restart=always
+docker compose down
+docker compose build shopping.server
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d

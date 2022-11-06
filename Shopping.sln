@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shopping", "Shopping\Shoppi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shopping.SpecFlow", "Shopping.SpecFlow\Shopping.SpecFlow.csproj", "{2F3BF34F-F36E-477B-8908-1FA8153F2EDD}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{FCF0B05F-CEFD-436E-B950-6935337589AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{2F3BF34F-F36E-477B-8908-1FA8153F2EDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F3BF34F-F36E-477B-8908-1FA8153F2EDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F3BF34F-F36E-477B-8908-1FA8153F2EDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCF0B05F-CEFD-436E-B950-6935337589AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCF0B05F-CEFD-436E-B950-6935337589AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCF0B05F-CEFD-436E-B950-6935337589AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCF0B05F-CEFD-436E-B950-6935337589AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

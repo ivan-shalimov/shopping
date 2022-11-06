@@ -1,0 +1,10 @@
+version: '3.4'
+name: shopping
+
+services:
+  shopping.server:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__Shopping=Server=shopping-ms-sql;Database=sh-shopping;User=sa;Password=T3rr$$b!e;Connection Timeout=30;
+    ports:
+      - "9091:80"
