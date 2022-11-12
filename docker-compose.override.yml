@@ -5,6 +5,6 @@ services:
   shopping.server:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__Shopping=Server=shopping-ms-sql;Database=sh-shopping-dev;User=sa;Password=T3rr$$b!e;Connection Timeout=30;
+      - ConnectionStrings__Shopping=Server=shopping-ms-sql;Database=sh-shopping-dev;User=sa;Password=T3rr$$b!e;Connection Timeout=30;Encrypt=False;
     ports:
       - "9092:80"

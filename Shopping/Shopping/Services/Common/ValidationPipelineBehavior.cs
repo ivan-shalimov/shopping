@@ -15,7 +15,7 @@ namespace Shopping.Services.Common
             _validator = validator;
         }
 
-        public async Task<Either<Fail, TSuccessResponse>> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<Either<Fail, TSuccessResponse>> next)
+        public async Task<Either<Fail, TSuccessResponse>> Handle(TRequest request, RequestHandlerDelegate<Either<Fail, TSuccessResponse>> next, CancellationToken cancellationToken)
         {
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
 
