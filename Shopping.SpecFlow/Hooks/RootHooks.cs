@@ -1,5 +1,6 @@
 ﻿using BoDi;
 using Shopping.SpecFlow.Infrastructure;
+using Shopping.SpecFlow.StepDefinitions;
 
 namespace Shopping.SpecFlow.Hooks
 {
@@ -19,6 +20,14 @@ namespace Shopping.SpecFlow.Hooks
         {
             objectContainer.RegisterInstanceAs(ShoppingWebApplicationFactory.GetClient());
             objectContainer.RegisterFactoryAs(_ => ShoppingWebApplicationFactory.GetContext());
+        }
+
+        [BeforeScenario]
+        public void BeforeScenario(ScenarioContext scenarioContext)
+        {
+            scenarioContext[ScenarioContextKeys.EmptyId] = Guid.Empty;
+            scenarioContext[ScenarioContextKeys.EmptyString] = string.Empty;
+            scenarioContext[ScenarioContextKeys.UtcNow] = DateTime.UtcNow;
         }
     }
 }

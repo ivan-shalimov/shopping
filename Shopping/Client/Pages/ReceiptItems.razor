@@ -16,7 +16,7 @@
     }
     else
     {
-            <table class="table ">
+        <table class="table ">
             <thead>
                 <tr>
                     <th scope="col">Item</th>
@@ -28,9 +28,37 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><RadzenAutoComplete Data=@_products FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" TextProperty="Name" @bind-Value=@_newItem.ProductName Style="width: 100%;" /></td>
-                    <td><RadzenNumeric ShowUpDown="false" TValue="decimal" @bind-Value=@_newItem.Price  Class="w-100" /></td>
-                    <td><RadzenNumeric ShowUpDown="false" TValue="decimal" @bind-Value=@_newItem.Amount Class="w-100" /></td>
+                    <td>
+                        <div style="display:flex; flex-direction:column">
+                            <RadzenAutoComplete Data=@_products FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                            TextProperty="Name"
+                                            @bind-Value=@_newItem.ProductName
+                                            Style="width: 100%;"
+                                            Change="@ProductNameChanged" />
+                            <span hidden="@(!_newItem.IsProductRequired)"
+                              style="font-size:small; color:red">
+                                Product is required
+                            </span>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="display:flex; flex-direction:column">
+                            <RadzenNumeric ShowUpDown="false" TValue="decimal" @bind-Value=@_newItem.Price Class="w-100" />
+                            <span hidden="@(!_newItem.IsPriceInvalid)"
+                              style="font-size:small; color:red">
+                                Price is invalid.
+                            </span>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="display:flex; flex-direction:column">
+                            <RadzenNumeric ShowUpDown="false" TValue="decimal" @bind-Value=@_newItem.Amount Class="w-100" />
+                            <span hidden="@(!_newItem.IsAmountInvalid)"
+                              style="font-size:small; color:red">
+                                Amount is invalid.
+                            </span>
+                        </div>
+                    </td>
                     <td>@_newItem.Cost</td>
                     @if (_editedItem != null)
                     {
@@ -46,15 +74,31 @@
                     @if (_editedItem?.Id == item.Id)
                     {
                         <tr>
-                            <td><RadzenAutoComplete Data=@_products FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" TextProperty="Name" @bind-Value=@_editedItem.ProductName Style="width: 100%;" /></td>
-                            <td><RadzenNumeric ShowUpDown="false" TValue="decimal" @bind-Value=@_editedItem.Price  Class="w-100" /></td>
-                            <td><RadzenNumeric ShowUpDown="false" TValue="decimal" @bind-Value=@_editedItem.Amount Class="w-100" /></td>
+                            <td>@item.ProductName</td>
+                            <td>
+                                <div style="display:flex; flex-direction:column">
+                                    <RadzenNumeric ShowUpDown="false" TValue="decimal" @bind-Value=@_editedItem.Price Class="w-100" />
+                                    <span hidden="@(!_editedItem.IsPriceInvalid)"
+                              style="font-size:small; color:red">
+                                        Price is invalid.
+                                    </span>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display:flex; flex-direction:column">
+                                    <RadzenNumeric ShowUpDown="false" TValue="decimal" @bind-Value=@_editedItem.Amount Class="w-100" />
+                                    <span hidden="@(!_editedItem.IsAmountInvalid)"
+                              style="font-size:small; color:red">
+                                        Amount is invalid.
+                                    </span>
+                                </div>
+                            </td>
                             <td>@_editedItem.Cost</td>
                             <td>
-                                 <div class="action-block">
+                                <div class="action-block">
                                     <button class="btn btn-primary" type="button" @onclick="@(async () => await Save())">Save</button>
                                     <button class="btn btn-primary ms-2" type="button" @onclick="@(async () => Cancel())">Cancel</button>
-                                 </div>
+                                </div>
                             </td>
                         </tr>
                     }
@@ -80,22 +124,24 @@
                             }
                         </tr>
                     }
-                    
+
                 }
             </tbody>
-            </table>
+        </table>
     }
 </div>
 
-@code{
+@code {
     [Parameter]
     public string ReceiptId { get; set; }
 
     private ReceiptItemModel[]? _list;
-    
+
     private IEnumerable<ProductModel> _products = Array.Empty<ProductModel>();
-    private ReceiptItemModel _newItem = new ReceiptItemModel();
-    private ReceiptItemModel _editedItem = null;
+    private AddReceiptItemModel _newItem = new AddReceiptItemModel();
+    private EditReceiptItemModel _editedItem = null;
+
+    private string _errorMessage = string.Empty;
 
     protected override Task OnInitializedAsync()
     {
@@ -121,28 +167,43 @@
         }
     }
 
-    private async Task Add()
+    private void ProductNameChanged(object value)
     {
         var product = _products.FirstOrDefault(p => p.Name == _newItem.ProductName);
-        var request = new AddReceiptItem
+        _newItem.ProductId = product?.Id;
+    }
+
+    private async Task Add()
+    {
+        _newItem.IsSubmitted = true;
+        if (!_newItem.IsValid)
         {
-            Id = Guid.NewGuid(),
-            ProductName = product == null ? _newItem.ProductName : null,
-            ProductId = product?.Id,
-            Price = _newItem.Price,
-            Amount = _newItem.Amount,
-        };
+            return;
+        }
+
+        var request = new AddReceiptItem
+            {
+                Id = Guid.NewGuid(),
+                ProductId = _newItem.ProductId.Value,
+                Price = _newItem.Price,
+                Amount = _newItem.Amount,
+            };
 
         await HttpClient.PostAsJsonAsync($"/api/receipts/{ReceiptId}/items", request);
 
-        _newItem = new ReceiptItemModel();
+        _newItem = new AddReceiptItemModel();
 
         await Reload().ConfigureAwait(false);
     }
 
-    private void StartEdit(ReceiptItemModel product)
+    private void StartEdit(ReceiptItemModel item)
     {
-        _editedItem = product;
+        _editedItem = new EditReceiptItemModel
+            {
+                Id = item.Id,
+                Amount = item.Amount,
+                Price = item.Price,
+            };
     }
 
     private void Cancel()
@@ -152,16 +213,19 @@
 
     private async Task Save()
     {
-        var product = _products.FirstOrDefault(p => p.Name == _editedItem.ProductName);
-        var request = new UpdateReceiptItem
+        _editedItem.IsSubmitted = true;
+        if (!_editedItem.IsValid)
         {
-            Id = _editedItem.Id,
-            Amount = _editedItem.Amount,
-            Price = _editedItem.Price,
-            ProductName = product == null ? _editedItem.ProductName : null,
-            ProductId = product?.Id,
-        };
-        await HttpClient.PutAsJsonAsync($"/api/receipts/{ReceiptId}/items/{_editedItem.Id}", request );
+            return;
+        }
+
+        var request = new UpdateReceiptItem
+            {
+                Id = _editedItem.Id,
+                Amount = _editedItem.Amount,
+                Price = _editedItem.Price,
+            };
+        await HttpClient.PutAsJsonAsync($"/api/receipts/{ReceiptId}/items/{_editedItem.Id}", request);
         _editedItem = null;
         await Reload().ConfigureAwait(false);
     }
@@ -171,6 +235,4 @@
         await HttpClient.DeleteAsync($"/api/receipts/{ReceiptId}/items/{id}");
         await Reload().ConfigureAwait(false);
     }
-
-
 }

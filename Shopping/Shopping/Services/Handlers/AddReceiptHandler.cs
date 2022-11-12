@@ -1,11 +1,12 @@
 ﻿using MediatR;
 using Shopping.DataAccess;
 using Shopping.Models.Domain;
+using Shopping.Shared.Models.Common;
 using Shopping.Shared.Requests;
 
 namespace Shopping.Services.Handlers
 {
-    public sealed class AddReceiptHandler : IRequestHandler<AddReceipt>
+    public sealed class AddReceiptHandler : IRequestHandler<AddReceipt, Either<Fail, Success>>
     {
         private readonly ShoppingDbContext _context;
 
@@ -14,11 +15,11 @@ namespace Shopping.Services.Handlers
             _context = context;
         }
 
-        public async Task<Unit> Handle(AddReceipt request, CancellationToken cancellationToken)
+        public async Task<Either<Fail, Success>> Handle(AddReceipt request, CancellationToken cancellationToken)
         {
             var item = new Receipt
             {
-                Id = Guid.NewGuid(),
+                Id = request.Id,
                 Description = string.IsNullOrEmpty(request.Description) ? " - " : request.Description,
                 Date = request.Date,
             };
@@ -26,7 +27,7 @@ namespace Shopping.Services.Handlers
             await _context.Receipts.AddAsync(item);
             await _context.SaveChangesAsync();
 
-            return default;
+            return new Success();
         }
     }
 }

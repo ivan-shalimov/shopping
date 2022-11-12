@@ -1,12 +1,12 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Shopping.DataAccess;
 using Shopping.Models.Domain;
+using Shopping.Shared.Models.Common;
 using Shopping.Shared.Requests;
 
 namespace Shopping.Services.Handlers
 {
-    public sealed class AddReceiptItemHandler : IRequestHandler<AddReceiptItem>
+    public sealed class AddReceiptItemHandler : IRequestHandler<AddReceiptItem, Either<Fail, Success>>
     {
         private readonly ShoppingDbContext _context;
 
@@ -15,44 +15,21 @@ namespace Shopping.Services.Handlers
             _context = context;
         }
 
-        public async Task<Unit> Handle(AddReceiptItem request, CancellationToken cancellationToken)
+        public async Task<Either<Fail, Success>> Handle(AddReceiptItem request, CancellationToken cancellationToken)
         {
-
             var item = new ReceiptItem
             {
-                Id = Guid.NewGuid(),
+                Id = request.Id,
+                ProductId = request.ProductId,
                 Amount = request.Amount,
                 Price = request.Price,
                 ReceiptId = request.ReceiptId,
             };
 
-            if (request.ProductId.HasValue)
-            {
-                item.ProductId = request.ProductId.Value;
-            }
-            else
-            {
-                var product = request.ProductName?.Length > 0
-                    ? await _context.Products.FirstOrDefaultAsync(p => p.Name.ToLower() == request.ProductName.ToLower())
-                    : null;
-                if (product == null)
-                {
-                    var entity = await _context.Products.AddAsync(new Product
-                    {
-                        Id = Guid.NewGuid(),
-                        ProductKindId = ProductKind.DefaultProductKindId,
-                        Name = request.ProductName ?? Product.UndefinedName
-                    });
-                    product = entity.Entity;
-                }
-
-                item.ProductId = product.Id;
-            }
-
             await _context.ReceiptItems.AddAsync(item);
             await _context.SaveChangesAsync();
 
-            return default;
+            return new Success();
         }
     }
 }

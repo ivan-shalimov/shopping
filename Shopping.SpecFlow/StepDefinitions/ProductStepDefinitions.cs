@@ -47,7 +47,7 @@ namespace Shopping.SpecFlow.StepDefinitions
             _scenarioContext[TheNewName] = theNewName;
 
             var request = new UpdateProduct { Id = product.Id, Name = theNewName, ProductKindId = anotherProductKind.Id, };
-            _scenarioContext[ProductId] = product.Id.ToString();
+            _scenarioContext[ProductId] = product.Id;
             _scenarioContext[RequestContentModel] = request;
         }
 
@@ -55,7 +55,7 @@ namespace Shopping.SpecFlow.StepDefinitions
         public void GivenIWantToDeleteProduct()
         {
             var product = GetTheProduct();
-            _scenarioContext[ProductId] = product.Id.ToString();
+            _scenarioContext[ProductId] = product.Id;
         }
 
         [When(@"The result contains the product with the product kind")]

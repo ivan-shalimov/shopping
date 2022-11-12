@@ -19,7 +19,7 @@ namespace Shopping.Services.Handlers
         {
             var date = DateTime.UtcNow;
             var firstDayOfMonth = new DateTime(date.Year, request.Month, 1);
-            var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
+            var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddMinutes(-1);
 
             var query = from receipt in _context.Receipts
                         orderby receipt.Date descending

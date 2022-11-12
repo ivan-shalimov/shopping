@@ -8,3 +8,4 @@ services:
       - ConnectionStrings__Shopping=Server=shopping-ms-sql;Database=sh-shopping;User=sa;Password=T3rr$$b!e;Connection Timeout=30;
     ports:
       - "9091:80"
+    restart: always

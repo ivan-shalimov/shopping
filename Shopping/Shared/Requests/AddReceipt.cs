@@ -1,8 +1,9 @@
 ﻿using MediatR;
+using Shopping.Shared.Models.Common;
 
 namespace Shopping.Shared.Requests
 {
-    public sealed class AddReceipt : IRequest
+    public sealed class AddReceipt : IRequest<Either<Fail, Success>>
     {
         public Guid Id { get; set; } = Guid.NewGuid();
 

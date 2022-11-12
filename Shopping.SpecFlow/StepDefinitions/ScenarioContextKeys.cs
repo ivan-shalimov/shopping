@@ -6,14 +6,28 @@
         public const string ResponseStatusCode = "ResponseStatusCode";
         public const string ResponseContent = "ResponseContent";
 
+        public const string EmptyId = "EmptyId";
+        public const string EmptyString = "EmptyString";
+        public const string UtcNow = "UtcNow";
+
         public const string TheNewName = "TheNewName";
+        public const string CurrentMonth = "CurrentMonth";
 
         public const string ProductId = "ProductId";
         public const string TheProduct = "TheProduct";
+        public const string AnotherProductId = "AnotherProductId";
         public const string AnotherProduct = "AnotherProduct";
+
         public const string ProductKindId = "ProductKindId";
         public const string TheProductKind = "TheProductKind";
         public const string TheProductKindId = "TheProductKindId";
         public const string AnotherProductKind = "AnotherProductKind";
+
+        public const string TheReceiptId = "TheReceiptId";
+        public const string TheReceipt = "TheReceipt";
+        public const string AnotherReceipt = "AnotherReceipt";
+
+        public const string TheReceiptItemId = "TheReceiptItemId";
+        public const string TheReceiptItem = "TheReceiptItem";
     }
 }

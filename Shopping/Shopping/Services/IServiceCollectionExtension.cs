@@ -34,13 +34,21 @@ namespace Shopping.Services
             RegisterProductKindsServices(services);
 
             services.AddScoped<IRequestHandler<GetReceipts, ReceiptModel[]>, GetReceiptsHandler>();
-            services.AddScoped<IRequestHandler<AddReceipt, Unit>, AddReceiptHandler>();
-            services.AddScoped<IRequestHandler<UpdateReceipt, Unit>, UpdateReceiptHandler>();
+            services.AddScoped<IRequestHandler<AddReceipt, Either<Fail, Success>>, AddReceiptHandler>();
+            services.AddScoped<IValidator<AddReceipt>, AddReceiptValidator>();
+            services.AddScoped<IPipelineBehavior<AddReceipt, Either<Fail, Success>>, ValidationPipelineBehavior<AddReceipt, Success, AddReceiptValidator>>();
+            services.AddScoped<IRequestHandler<UpdateReceipt, Either<Fail, Success>>, UpdateReceiptHandler>();
+            services.AddScoped<IValidator<UpdateReceipt>, UpdateReceiptValidator>();
+            services.AddScoped<IPipelineBehavior<UpdateReceipt, Either<Fail, Success>>, ValidationPipelineBehavior<UpdateReceipt, Success, UpdateReceiptValidator>>();
             services.AddScoped<IRequestHandler<UpdateReceiptTotal, Unit>, UpdateReceiptTotalHandler>();
 
             services.AddScoped<IRequestHandler<GetReceiptItems, ReceiptItemModel[]>, GetReceiptItemsHandler>();
-            services.AddScoped<IRequestHandler<AddReceiptItem, Unit>, AddReceiptItemHandler>();
-            services.AddScoped<IRequestHandler<UpdateReceiptItem, Unit>, UpdateReceiptItemHandler>();
+            services.AddScoped<IRequestHandler<AddReceiptItem, Either<Fail, Success>>, AddReceiptItemHandler>();
+            services.AddScoped<IValidator<AddReceiptItem>, AddReceiptItemValidator>();
+            services.AddScoped<IPipelineBehavior<AddReceiptItem, Either<Fail, Success>>, ValidationPipelineBehavior<AddReceiptItem, Success, AddReceiptItemValidator>>();
+            services.AddScoped<IRequestHandler<UpdateReceiptItem, Either<Fail, Success>>, UpdateReceiptItemHandler>();
+            services.AddScoped<IValidator<UpdateReceiptItem>, UpdateReceiptItemValidator>();
+            services.AddScoped<IPipelineBehavior<UpdateReceiptItem, Either<Fail, Success>>, ValidationPipelineBehavior<UpdateReceiptItem, Success, UpdateReceiptItemValidator>>();
             services.AddScoped<IRequestHandler<DeleteReceiptItem, Unit>, DeleteReceiptItemHandler>();
         }
 

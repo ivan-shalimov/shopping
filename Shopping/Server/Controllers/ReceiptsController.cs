@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Shopping.Server.Common;
 using Shopping.Shared.Models.Results;
 using Shopping.Shared.Requests;
 
@@ -26,16 +27,16 @@ namespace Shopping.Server.Controllers
         [HttpPost]
         public async Task<IActionResult> AddReceipt(AddReceipt request)
         {
-            await _mediator.Send(request).ConfigureAwait(false);
-            return Ok();
+            var result = await _mediator.Send(request).ConfigureAwait(false);
+            return result.Reduce();
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(Guid id, UpdateReceipt request)
         {
             request.Id = id;
-            await _mediator.Send(request).ConfigureAwait(false);
-            return Ok();
+            var result = await _mediator.Send(request).ConfigureAwait(false);
+            return result.Reduce();
         }
 
         [HttpGet("{receiptId}/items")]
@@ -49,9 +50,9 @@ namespace Shopping.Server.Controllers
         public async Task<IActionResult> AddReceiptItem(Guid receiptId, AddReceiptItem request)
         {
             request.ReceiptId = receiptId;
-            await _mediator.Send(request).ConfigureAwait(false);
+            var result = await _mediator.Send(request).ConfigureAwait(false);
             await _mediator.Send(new UpdateReceiptTotal { Id = receiptId }).ConfigureAwait(false);
-            return Ok();
+            return result.Reduce();
         }
 
         [HttpPut("{receiptId}/items/{id}")]
@@ -59,9 +60,9 @@ namespace Shopping.Server.Controllers
         {
             request.Id = id;
             request.ReceiptId = receiptId;
-            await _mediator.Send(request);
+            var result = await _mediator.Send(request);
             await _mediator.Send(new UpdateReceiptTotal { Id = receiptId }).ConfigureAwait(false);
-            return Ok();
+            return result.Reduce();
         }
 
         [HttpDelete("{receiptId}/items/{id}")]

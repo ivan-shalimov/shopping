@@ -45,10 +45,20 @@
                             var stringValue = scenarioContext.TryGetValue<string>(key, out var sv) ? sv : default;
                             prop.SetValue(obj, stringValue);
                         }
+                        else if (prop.PropertyType.Equals(typeof(DateTime)))
+                        {
+                            var dateTimeValue = scenarioContext.TryGetValue<DateTime>(key, out var dt) ? dt : default;
+                            prop.SetValue(obj, dateTimeValue);
+                        }
                         else if (prop.PropertyType.Equals(typeof(Guid)))
                         {
                             var guidValue = scenarioContext.TryGetValue<Guid>(key, out var gv) ? gv : default;
                             prop.SetValue(obj, guidValue);
+                        }
+                        else if (prop.PropertyType.Equals(typeof(Guid?)))
+                        {
+                            var nullabelGuidValue = scenarioContext.TryGetValue<Guid?>(key, out var gv) ? gv : default;
+                            prop.SetValue(obj, nullabelGuidValue);
                         }
                     }
                     else
@@ -60,6 +70,10 @@
                         else if (prop.PropertyType.Equals(typeof(Guid)))
                         {
                             prop.SetValue(obj, Guid.Parse(value));
+                        }
+                        else if (prop.PropertyType.Equals(typeof(decimal)))
+                        {
+                            prop.SetValue(obj, decimal.Parse(value));
                         }
                     }
                 }

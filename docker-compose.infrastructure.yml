@@ -19,6 +19,7 @@ services:
       - shopping:/var/opt/mssql
     labels:
       NAME: "shopping-ms-sql"
+    restart: always
 volumes:
   shopping:
     external: true
