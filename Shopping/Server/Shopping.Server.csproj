@@ -13,13 +13,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Configuration.ConfigurationBuilders.Environment" Version="2.0.0" />
-		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Client\Shopping.Client.csproj" />
 		<ProjectReference Include="..\Shopping\Shopping.csproj" />
 	</ItemGroup>
 

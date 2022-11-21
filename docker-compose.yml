@@ -1,13 +1,31 @@
 version: '3.4'
+
 networks:
   shopping-network:
-    external:
-      name: shopping-network
+    name: shopping-network
+    external: true
 services:
   shopping.server:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ENV}
+      - ConnectionStrings__Shopping=Server=shopping-ms-sql;Database=${DB};User=sa;Password=T3rr$$b!e;Connection Timeout=30;Encrypt=False;
     image: ${DOCKER_REGISTRY-}shoppingserver
     build:
       context: .
       dockerfile: Shopping/Server/Dockerfile
     networks:
       - shopping-network
+    ports:
+      - "${API_PORT}:80"
+    restart: ${RESTART}
+  shopping.client:
+    image: ${DOCKER_REGISTRY-}shoppingclient
+    build:
+      context: .
+      dockerfile: Shopping/Client/Dockerfile
+    ports:
+      - "${PORTAL_PORT}:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ENV}
+      - API=${API_HOST}:${API_PORT}
+    restart: ${RESTART}

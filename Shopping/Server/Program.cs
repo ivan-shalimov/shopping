@@ -13,7 +13,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 var settings = builder.Configuration.Get<AppSettigns>();
-builder.Services.AddSingleton(settings);
+builder.Services.AddSingleton<AppSettigns>(settings);
 
 var connectionStr = builder.Configuration.GetConnectionString("Shopping");
 builder.Services.AddSqlServer<ShoppingDbContext>(connectionStr);
@@ -23,24 +23,22 @@ builder.Services.RegisterMediatrServices();
 
 var app = builder.Build();
 
+app.UseCors(config => config.AllowAnyOrigin());
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseWebAssemblyDebugging();
+    app.UseDeveloperExceptionPage();
 }
 else
 {
+     // todo implement special handling
     app.UseExceptionHandler("/Error");
 }
 
-app.UseBlazorFrameworkFiles();
-app.UseStaticFiles();
-
 app.UseRouting();
 
-app.MapRazorPages();
 app.MapControllers();
-app.MapFallbackToFile("index.html");
 
 app.Run();
 
