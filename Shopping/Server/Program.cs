@@ -20,10 +20,10 @@ builder.Services.AddSqlServer<ShoppingDbContext>(connectionStr);
 
 builder.Services.RegisterMediatR();
 builder.Services.RegisterMediatrServices();
+builder.Services.AddCors();
+builder.Services.AddControllers();
 
 var app = builder.Build();
-
-app.UseCors(config => config.AllowAnyOrigin());
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -32,14 +32,14 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-     // todo implement special handling
+    // todo implement special handling
     app.UseExceptionHandler("/Error");
 }
 
 app.UseRouting();
+app.UseCors(conf=>conf.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.MapControllers();
-
 app.Run();
 
 public partial class Program
