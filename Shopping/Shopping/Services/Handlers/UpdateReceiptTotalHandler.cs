@@ -14,7 +14,7 @@ namespace Shopping.Services.Handlers
             _context = context;
         }
 
-        public async Task<Unit> Handle(UpdateReceiptTotal request, CancellationToken cancellationToken)
+        public async Task Handle(UpdateReceiptTotal request, CancellationToken cancellationToken)
         {
             var item = await _context.Receipts.FindAsync(new object[] { request.Id }, cancellationToken).ConfigureAwait(false);
             var total = await _context.ReceiptItems
@@ -25,8 +25,6 @@ namespace Shopping.Services.Handlers
                 item.Total = total;
                 await _context.SaveChangesAsync();
             }
-
-            return default;
         }
     }
 }

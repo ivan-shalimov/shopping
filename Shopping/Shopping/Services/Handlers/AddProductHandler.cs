@@ -14,7 +14,7 @@ namespace Shopping.Services.Handlers
             _context = context;
         }
 
-        public async Task<Unit> Handle(AddProduct request, CancellationToken cancellationToken)
+        public async Task Handle(AddProduct request, CancellationToken cancellationToken)
         {
             var item = new Product
             {
@@ -25,8 +25,6 @@ namespace Shopping.Services.Handlers
 
             await _context.Products.AddAsync(item);
             await _context.SaveChangesAsync();
-
-            return default;
         }
     }
 }

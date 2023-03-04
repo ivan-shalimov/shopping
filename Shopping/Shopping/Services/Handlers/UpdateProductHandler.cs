@@ -13,7 +13,7 @@ namespace Shopping.Services.Handlers
             _context = context;
         }
 
-        public async Task<Unit> Handle(UpdateProduct request, CancellationToken cancellationToken)
+        public async Task Handle(UpdateProduct request, CancellationToken cancellationToken)
         {
             var item = await _context.Products.FindAsync(new object[] { request.Id }, cancellationToken).ConfigureAwait(false);
             if (item != null)
@@ -22,8 +22,6 @@ namespace Shopping.Services.Handlers
                 item.ProductKindId = request.ProductKindId;
                 await _context.SaveChangesAsync();
             }
-
-            return default;
         }
     }
 }

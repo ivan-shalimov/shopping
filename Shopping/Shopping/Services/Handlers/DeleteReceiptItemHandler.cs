@@ -14,7 +14,7 @@ namespace Shopping.Services.Handlers
             _context = context;
         }
 
-        public async Task<Unit> Handle(DeleteReceiptItem request, CancellationToken cancellationToken)
+        public async Task Handle(DeleteReceiptItem request, CancellationToken cancellationToken)
         {
             var item = await _context.ReceiptItems.FindAsync(new object[] { request.Id }, cancellationToken).ConfigureAwait(false);
             if (item != null)
@@ -22,8 +22,6 @@ namespace Shopping.Services.Handlers
                 _context.ReceiptItems.Remove(item);
                 await _context.SaveChangesAsync();
             }
-
-            return default;
         }
     }
 }

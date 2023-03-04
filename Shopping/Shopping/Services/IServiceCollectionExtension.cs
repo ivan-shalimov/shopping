@@ -14,7 +14,7 @@ namespace Shopping.Services
     {
         public static void RegisterMediatR(this IServiceCollection services)
         {
-            services.AddTransient<ServiceFactory>(p => p.GetService);
+            //services.AddTransient<ServiceFactory>(p => p.GetService);
             services.AddTransient<IMediator, Mediator>();
         }
 
@@ -23,8 +23,8 @@ namespace Shopping.Services
             services.AddScoped<IRequestHandler<GetPurchaseStatistic, PurchaseStatistic>, GetPurchaseStatisticHandler>();
 
             services.AddScoped<IRequestHandler<GetProducts, ProductModel[]>, GetProductsHandler>();
-            services.AddScoped<IRequestHandler<AddProduct, Unit>, AddProductHandler>();
-            services.AddScoped<IRequestHandler<UpdateProduct, Unit>, UpdateProductHandler>();
+            services.AddScoped<IRequestHandler<AddProduct>, AddProductHandler>();
+            services.AddScoped<IRequestHandler<UpdateProduct>, UpdateProductHandler>();
             services.AddScoped<IRequestHandler<DeleteProduct, Either<Fail, Success>>, DeleteProductHandler>();
 
             services.AddScoped<IRequestHandler<DeleteProduct, Either<Fail, Success>>, DeleteProductHandler>();
@@ -40,7 +40,7 @@ namespace Shopping.Services
             services.AddScoped<IRequestHandler<UpdateReceipt, Either<Fail, Success>>, UpdateReceiptHandler>();
             services.AddScoped<IValidator<UpdateReceipt>, UpdateReceiptValidator>();
             services.AddScoped<IPipelineBehavior<UpdateReceipt, Either<Fail, Success>>, ValidationPipelineBehavior<UpdateReceipt, Success, UpdateReceiptValidator>>();
-            services.AddScoped<IRequestHandler<UpdateReceiptTotal, Unit>, UpdateReceiptTotalHandler>();
+            services.AddScoped<IRequestHandler<UpdateReceiptTotal>, UpdateReceiptTotalHandler>();
 
             services.AddScoped<IRequestHandler<GetReceiptItems, ReceiptItemModel[]>, GetReceiptItemsHandler>();
             services.AddScoped<IRequestHandler<AddReceiptItem, Either<Fail, Success>>, AddReceiptItemHandler>();
@@ -49,7 +49,7 @@ namespace Shopping.Services
             services.AddScoped<IRequestHandler<UpdateReceiptItem, Either<Fail, Success>>, UpdateReceiptItemHandler>();
             services.AddScoped<IValidator<UpdateReceiptItem>, UpdateReceiptItemValidator>();
             services.AddScoped<IPipelineBehavior<UpdateReceiptItem, Either<Fail, Success>>, ValidationPipelineBehavior<UpdateReceiptItem, Success, UpdateReceiptItemValidator>>();
-            services.AddScoped<IRequestHandler<DeleteReceiptItem, Unit>, DeleteReceiptItemHandler>();
+            services.AddScoped<IRequestHandler<DeleteReceiptItem>, DeleteReceiptItemHandler>();
         }
 
         private static void RegisterProductKindsServices(IServiceCollection services)

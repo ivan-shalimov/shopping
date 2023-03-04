@@ -27,7 +27,7 @@ namespace Shopping.Server.Controllers
         [HttpPost]
         public async Task<IActionResult> AddProduct(AddProduct request)
         {
-            var result = await _mediator.Send(request);
+            await _mediator.Send(request);
             return Ok();
         }
 
@@ -35,7 +35,7 @@ namespace Shopping.Server.Controllers
         public async Task<IActionResult> UpdateProduct(Guid id, UpdateProduct request)
         {
             request.Id = id;
-            var result = await _mediator.Send(request);
+            await _mediator.Send(request);
             return Ok();
         }
 
