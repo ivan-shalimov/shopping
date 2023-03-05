@@ -1,5 +1,7 @@
 #!/bin/sh
 
+
+
 echo "$API" >> /proc/1/fd/1
 
 echo "Looking for appsettigns in /usr/share/nginx/html/" >> /proc/1/fd/1
@@ -15,3 +17,5 @@ find "/usr/share/nginx/html/" -follow -type f -name "appsettings.json*" -print |
 done
 
 gzip -c appsettings.json > appsettings.json.gz
+
+# if there is error "/docker-entrypoint.sh: line 31: /docker-entrypoint.d/21-envsubst-on-appsettings-templates.sh: not found" change file ending to LF instead of CRLF
