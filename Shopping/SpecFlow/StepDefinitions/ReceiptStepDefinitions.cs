@@ -122,7 +122,7 @@ namespace Shopping.SpecFlow.StepDefinitions
             var receiptItem = GetTheReceiptItem();
             var product = GetTheProduct();
 
-            var expectedReceiptItem = new ReceiptItemModel { Id = receiptItem.Id, ProductName = product.Name, Amount = receiptItem.Amount, Price = receiptItem.Price };
+            var expectedReceiptItem = new ReceiptItemModel { Id = receiptItem.Id, ProductId = product.Id, ProductName = product.Name, Amount = receiptItem.Amount, Price = receiptItem.Price };
 
             var productKindCollection = _scenarioContext.GetDeserializedCollectionOrEmpty<ReceiptItemModel>(ResponseContent);
             productKindCollection.Should().ContainEquivalentOf(expectedReceiptItem, config => config.ExcludingMissingMembers());

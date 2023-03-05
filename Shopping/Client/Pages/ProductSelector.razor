@@ -1,0 +1,17 @@
+﻿<div class="container-fluid">
+    <div class="row">
+        <RadzenCard>
+            <RadzenTree @ref=@radzenTree AllowCheckBoxes="true" AllowCheckChildren="false" AllowCheckParents="false" Style="width: 100%; height: 100%"
+                        Change=@OnChange Data=@_kindWithProducts @bind-CheckedValues=@_checkedValues>
+                <RadzenTreeLevel TextProperty="Name" ChildrenProperty="Products" Expanded=@(e=>(e as ProductKindsGroup).IsExpanded) />
+                <RadzenTreeLevel TextProperty="Name" HasChildren=@(product => false) />
+            </RadzenTree>
+        </RadzenCard>
+        <div class="mt-4 lg-12">
+            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Wrap="FlexWrap.Wrap">
+                <RadzenButton Variant="Variant.Outlined" Click=@(args => AddSelectedAndClose()) Text="AddSelectedAndClose" ButtonStyle="ButtonStyle.Success" />
+                <RadzenButton Variant="Variant.Outlined" Click=@(args => Close()) Text="Close" ButtonStyle="ButtonStyle.Secondary" />
+            </RadzenStack>
+        </div>
+    </div>
+</div>

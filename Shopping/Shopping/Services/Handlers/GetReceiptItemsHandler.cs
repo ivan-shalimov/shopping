@@ -25,7 +25,14 @@ namespace Shopping.Services.Handlers
                         join product in _context.Products on receiptItem.ProductId equals product.Id
                         orderby product.Name
                         where receiptItem.ReceiptId == request.ReceiptId
-                        select new ReceiptItemModel { Id = receiptItem.Id, ProductName = product.Name, Price = receiptItem.Price, Amount = receiptItem.Amount };
+                        select new ReceiptItemModel
+                        {
+                            Id = receiptItem.Id,
+                            ProductId = product.Id,
+                            ProductName = product.Name,
+                            Price = receiptItem.Price,
+                            Amount = receiptItem.Amount
+                        };
 
             var purchases = await query.ToArrayAsync(cancellationToken).ConfigureAwait(false);
 
