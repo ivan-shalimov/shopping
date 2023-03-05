@@ -40,6 +40,36 @@ namespace Shopping.SpecFlow.StepDefinitions
             _context.SaveChanges();
         }
 
+        [Given(@"The DB has the product")]
+        public void GivenTheDBHasTheProduct()
+        {
+            var productKind = new ProductKind { Id = Guid.NewGuid(), Name = new Faker().Name.Random.Word() };
+            _scenarioContext[TheProductKind] = productKind;
+            _scenarioContext[TheProductKindId] = productKind.Id;
+            _context.ProductKinds.Add(productKind);
+
+            var product = new Product { Id = Guid.NewGuid(), ProductKindId = productKind.Id, Name = new Faker().Name.Random.Word() };
+            _scenarioContext[TheProduct] = product;
+            _scenarioContext[ProductId] = product.Id;
+            _context.Products.Add(product);
+
+            _context.SaveChanges();
+        }
+
+        [Given(@"The DB has another product")]
+        public void GivenTheDBHasAnotherProduct()
+        {
+            var anotherProductKind = new ProductKind { Id = Guid.NewGuid(), Name = new Faker().Name.Random.Word() };
+            _scenarioContext[AnotherProductKind] = anotherProductKind;
+            _context.ProductKinds.Add(anotherProductKind);
+
+            var anotherProduct = new Product { Id = Guid.NewGuid(), ProductKindId = anotherProductKind.Id, Name = new Faker().Name.Random.Word() };
+            _scenarioContext[AnotherProduct] = anotherProduct;
+            _scenarioContext[AnotherProductId] = anotherProduct.Id;
+            _context.Products.Add(anotherProduct);
+            _context.SaveChanges();
+        }
+
         [Given(@"The DB has a product for the product kind")]
         public void GivenTheDBHasAProductForTheProductKind()
         {
@@ -68,8 +98,22 @@ namespace Shopping.SpecFlow.StepDefinitions
             var theProdcut = _scenarioContext.GetValueOrDefault<Product>(TheProduct);
             var receipt = new Receipt { Date = DateTime.UtcNow, Id = Guid.NewGuid(), Description = "test" };
             _context.Receipts.Add(receipt);
-            _context.ReceiptItems.Add(new ReceiptItem { Id = Guid.NewGuid(), ReceiptId = receipt.Id, ProductId = theProdcut.Id });
+            var receiptItem = new ReceiptItem { Id = Guid.NewGuid(), ReceiptId = receipt.Id, ProductId = theProdcut.Id };
+            _context.ReceiptItems.Add(receiptItem);
             _context.SaveChanges();
+            _scenarioContext[TheProductReceiptItemId] = receiptItem.Id;
+        }
+
+        [Given(@"The another product is used")]
+        public void GivenTheAnotherProductIsUsed()
+        {
+            var anotherProduct = _scenarioContext.GetValueOrDefault<Product>(AnotherProduct);
+            var receipt = new Receipt { Date = DateTime.UtcNow, Id = Guid.NewGuid(), Description = "test" };
+            _context.Receipts.Add(receipt);
+            var anotherProductReceiptItem = new ReceiptItem { Id = Guid.NewGuid(), ReceiptId = receipt.Id, ProductId = anotherProduct.Id };
+            _context.ReceiptItems.Add(anotherProductReceiptItem);
+            _context.SaveChanges();
+            _scenarioContext[AnotherProductReceiptItemId] = anotherProductReceiptItem.Id;
         }
 
         [Given(@"The DB has the receipt created in this month")]
@@ -106,7 +150,8 @@ namespace Shopping.SpecFlow.StepDefinitions
         {
             var product = _scenarioContext.GetValueOrDefault<Product>(TheProduct);
             _context.Products.AsNoTracking()
-                .Should().NotContainEquivalentOf(product);
+                .Should().Contain(p => p.Id == product.Id)
+                .Which.Should().BeEquivalentTo(product);
         }
 
         [Then(@"The DB should not contain the product")]
@@ -116,6 +161,15 @@ namespace Shopping.SpecFlow.StepDefinitions
             _context.Products.AsNoTracking()
                 .Should().NotContainEquivalentOf(product);
         }
+
+        [Then(@"The DB should not contain another product")]
+        public void ThenTheDBShouldNotContainAnotherProduct()
+        {
+            var notherProduct = _scenarioContext.GetValueOrDefault<Product>(AnotherProduct);
+            _context.Products.AsNoTracking()
+                .Should().NotContainEquivalentOf(notherProduct);
+        }
+
 
         [Then(@"The DB should contain the product for the another product kind with the new name")]
         public void ThenTheDBShouldContainTheProductForTheAnotherProductKindWithTheNewName()
@@ -216,6 +270,28 @@ namespace Shopping.SpecFlow.StepDefinitions
 
             _context.ReceiptItems.AsNoTracking()
                 .Should().NotContain(r => r.Id == receiptItemId);
+        }
+
+        [Then(@"The DB should contain receipt's items of the product assigned to the product")]
+        public void ThenTheDBShouldContainReceiptsItemsOfTheProductAssignedToTheProduct()
+        {
+            var receiptItemId = _scenarioContext.GetValueOrDefault<Guid>(TheProductReceiptItemId);
+            var productId = _scenarioContext.GetValueOrDefault<Guid>(ProductId);
+
+            _context.ReceiptItems.AsNoTracking()
+                .Should().Contain(r => r.Id == receiptItemId)
+                .Which.ProductId.Should().Be(productId);
+        }
+
+        [Then(@"The DB should contain receipt's items of another product assigned to the product")]
+        public void ThenTheDBShouldContainReceiptsItemsOfAnotherProductAssignedToTheProduct()
+        {
+            var receiptItemId = _scenarioContext.GetValueOrDefault<Guid>(AnotherProductReceiptItemId);
+            var productId = _scenarioContext.GetValueOrDefault<Guid>(ProductId);
+
+            _context.ReceiptItems.AsNoTracking()
+                .Should().Contain(r => r.Id == receiptItemId)
+                .Which.ProductId.Should().Be(productId);
         }
     }
 }

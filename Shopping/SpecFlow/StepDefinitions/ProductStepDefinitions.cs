@@ -32,7 +32,7 @@ namespace Shopping.SpecFlow.StepDefinitions
             {
                 Id = product.Id,
                 Name = product.Name,
-                ProductKindId = product.Id,
+                ProductKindId = productKind.Id,
             });
             _scenarioContext[RequestContentModel] = request;
         }
@@ -57,6 +57,20 @@ namespace Shopping.SpecFlow.StepDefinitions
             var product = GetTheProduct();
             _scenarioContext[ProductId] = product.Id;
         }
+
+        [Given(@"I want to merge the product with another product")]
+        public void GivenIWantToMergeTheProductWithAnotherProduct()
+        {
+            var theProduct = _scenarioContext.GetValueOrDefault<Product>(TheProduct);
+            var anotherProduct = _scenarioContext.GetValueOrDefault<Product>(AnotherProduct);
+            var request = new MergeProduct
+            {
+                SavedProductId = theProduct.Id,
+                RemovedProductId = anotherProduct.Id,
+            };
+            _scenarioContext[RequestContentModel] = request;
+        }
+
 
         [When(@"The result contains the product with the product kind")]
         public void WhenTheResultContainsTheProductWithTheProductKind()

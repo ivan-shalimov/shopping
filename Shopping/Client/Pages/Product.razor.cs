@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Radzen;
+using Shopping.Client.Models;
 using Shopping.Shared.Models.Results;
 using Shopping.Shared.Requests;
 using System.Net.Http.Json;
@@ -9,6 +11,9 @@ namespace Shopping.Client.Pages
     {
         [Inject]
         protected HttpClient HttpClient { get; set; }
+
+        [Inject]
+        protected DialogService DialogService { get; set; }
 
         private bool _pending = true;
         private ProductModel[]? _list;
@@ -84,6 +89,20 @@ namespace Shopping.Client.Pages
         {
             await HttpClient.DeleteAsync($"/api/products/{product.Id}");
             await Reload().ConfigureAwait(false);
+        }
+
+        public async Task StartMergeProduct(ProductModel product)
+        {
+            var result = await DialogService.OpenAsync<MergeProductComponent>($"Merge products",
+                   new Dictionary<string, object>() {
+                   { nameof(MergeProductComponent.ProductToMerge), product } ,
+                   { nameof(MergeProductComponent.AllProducts), _list } ,
+                   },
+                   new DialogOptions() { Width = "700px", Height = "742px", Resizable = true, Draggable = true });
+            if (result is bool success && success)
+            {
+                await Reload().ConfigureAwait(false);
+            }
         }
     }
 }

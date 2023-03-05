@@ -31,6 +31,10 @@ namespace Shopping.Services
             services.AddScoped<IValidator<DeleteProduct>, DeleteProductValidator>();
             services.AddScoped<IPipelineBehavior<DeleteProduct, Either<Fail, Success>>, ValidationPipelineBehavior<DeleteProduct, Success, DeleteProductValidator>>();
 
+            services.AddScoped<IRequestHandler<MergeProduct, Either<Fail, Success>>, MergeProductHandler>();
+            services.AddScoped<IValidator<MergeProduct>, MergeProductValidator>();
+            services.AddScoped<IPipelineBehavior<MergeProduct, Either<Fail, Success>>, ValidationPipelineBehavior<MergeProduct, Success, MergeProductValidator>>();
+
             RegisterProductKindsServices(services);
 
             services.AddScoped<IRequestHandler<GetReceipts, ReceiptModel[]>, GetReceiptsHandler>();

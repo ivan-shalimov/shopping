@@ -46,6 +46,13 @@ namespace Shopping.Server.Controllers
             return result.Reduce();
         }
 
+        [HttpPost("merged")]
+        public async Task<IActionResult> MergeProductKind(MergeProduct request)
+        {
+            var result = await _mediator.Send(request);
+            return result.Reduce();
+        }
+
         [HttpGet("kinds")]
         public async Task<ActionResult<ProductKindModel[]>> GetProductKinds()
         {

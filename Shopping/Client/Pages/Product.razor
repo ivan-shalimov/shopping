@@ -73,6 +73,7 @@
                             <td>
                                 <div class="action-block">
                                     <button class="btn btn-primary" type="button" @onclick="@(async () => StartEdit(item))">Edit</button>
+                                    <button class="btn btn-primary" type="button" @onclick="@(async () => await StartMergeProduct(item))">Merge</button>
                                     @if (!item.Used)
                                     {
                                         <button class="btn btn-primary" type="button" @onclick="@(async () =>await Delete(item))">Delete</button>

@@ -1,0 +1,54 @@
+﻿<div class="container-fluid">
+    <div class="row">
+        <h5>To merge products please select second product</h5>
+        <RadzenCard>
+            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Wrap="FlexWrap.Wrap">
+                <RadzenStack>
+                    <RadzenText TextStyle="TextStyle.Overline">First Product Name</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body1"><b>@ProductToMerge.Name</b></RadzenText>
+                </RadzenStack>
+                <RadzenStack>
+                    <RadzenText TextStyle="TextStyle.Overline">First ProductKind</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body1"><b>@ProductToMerge.ProductKindName</b></RadzenText>
+                </RadzenStack>
+            </RadzenStack>
+        </RadzenCard>
+        <RadzenStack class="rz-mb-2 rz-mt-2" Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" Wrap="FlexWrap.Wrap">
+            <RadzenIcon Icon="compare_arrows" IconStyle="IconStyle.Primary" style="font-weight: 800;" />
+        </RadzenStack>
+        <RadzenCard>
+            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Wrap="FlexWrap.Wrap">
+                <RadzenStack>
+                    <RadzenText TextStyle="TextStyle.Overline">Second Product Name</RadzenText>
+                    <RadzenDropDown FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.StartsWith" AllowFiltering="true"
+                                    Data=@_products TextProperty="Name" AllowClear="true" @bind-Value=_secondProduct />
+                </RadzenStack>
+                <RadzenStack>
+                    <RadzenText TextStyle="TextStyle.Overline">Second Product Kind</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body1"><b>@_secondProduct?.ProductKindName</b></RadzenText>
+                </RadzenStack>
+            </RadzenStack>
+        </RadzenCard>
+        <RadzenStack class="rz-mb-2 rz-mt-2" Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" Wrap="FlexWrap.Wrap">
+            <RadzenIcon Icon="get_app" IconStyle="IconStyle.Success" style="font-weight: 800;" />
+        </RadzenStack>
+        <RadzenCard>
+            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Wrap="FlexWrap.Wrap">
+                <RadzenStack>
+                    <RadzenText TextStyle="TextStyle.Overline">Product Name</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body1"><b>@ProductToMerge.Name</b></RadzenText>
+                </RadzenStack>
+                <RadzenStack>
+                    <RadzenText TextStyle="TextStyle.Overline">Kind</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body1"><b>@ProductToMerge.ProductKindName</b></RadzenText>
+                </RadzenStack>
+            </RadzenStack>
+        </RadzenCard>
+        <div class="mt-4 lg-12">
+            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Wrap="FlexWrap.Wrap">
+                <RadzenButton Variant="Variant.Outlined" Disabled=@(_secondProduct==null) Click=@(async args => await Merge()) Text="Merge" ButtonStyle="ButtonStyle.Success" />
+                <RadzenButton Variant="Variant.Outlined" Click=@(args => Close()) Text="Close" ButtonStyle="ButtonStyle.Secondary" />
+            </RadzenStack>
+        </div>
+    </div>
+</div>

@@ -29,5 +29,7 @@
 
         public const string TheReceiptItemId = "TheReceiptItemId";
         public const string TheReceiptItem = "TheReceiptItem";
+        public const string TheProductReceiptItemId = "TheProductReceiptItemId";
+        public const string AnotherProductReceiptItemId = "AnotherProductReceiptItemId";
     }
 }
