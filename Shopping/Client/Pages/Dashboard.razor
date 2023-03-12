@@ -1,0 +1,80 @@
+﻿@page "/"
+
+<RadzenRow>
+    <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
+        <RadzenCard Style="position: relative;">
+            <RadzenText TextStyle="TextStyle.H6">Previous Month</RadzenText>
+            <RadzenText TextStyle="TextStyle.H5" Class="rz-color-info" Style="position: absolute; right: 1.5rem; top: 1rem;">@PreviousMonthTotal</RadzenText>
+            <RadzenChart Style="width: 100%; height: 200px; margin-bottom: -30px;">
+                <RadzenDonutSeries Data="@PreviousMonth" CategoryProperty="Key" ValueProperty="Value" />
+            </RadzenChart>
+        </RadzenCard>
+    </RadzenColumn>
+    <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
+        <RadzenCard Style="position: relative;">
+            <RadzenText TextStyle="TextStyle.H6">Current Month</RadzenText>
+            <RadzenText TextStyle="TextStyle.H5" Class="rz-color-success-light" Style="position: absolute; right: 1.5rem; top: 1rem;">@CurrentMonthTotal</RadzenText>
+            <RadzenChart Style="width: 100%; height: 200px; margin-bottom: -30px;">
+                <RadzenDonutSeries Data="@CurrentMonth" CategoryProperty="Key" ValueProperty="Value" />
+            </RadzenChart>
+        </RadzenCard>
+    </RadzenColumn>
+    <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
+        <RadzenCard Style="position: relative;">
+            <RadzenText TextStyle="TextStyle.H6">Outlay</RadzenText>
+            <RadzenChart Style="width: 100%; height: 190px; margin-bottom: -20px;">
+                <RadzenColumnSeries Data="@LastYearOutlay" CategoryProperty="Key" Title="2022" ValueProperty="Value" />
+                <RadzenColumnSeries Data="@CurrentYearOutlay" CategoryProperty="Key" Title="2023" ValueProperty="Value" />
+            </RadzenChart>
+        </RadzenCard>
+    </RadzenColumn>
+    <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
+        <RadzenCard Style="position: relative;">
+            <RadzenText TextStyle="TextStyle.H6">Shops</RadzenText>
+            <RadzenChart Style="width: 100%; height: 200px; margin-bottom: -30px;">
+                <RadzenPieSeries Data="@Shops" CategoryProperty="Key" ValueProperty="Value" />
+            </RadzenChart>
+        </RadzenCard>
+    </RadzenColumn>
+</RadzenRow>
+
+<RadzenRow class="rz-mt-2">
+    <RadzenColumn Size="12" SizeMD="6" SizeLG="6">
+        <RadzenCard Style="position: relative;">
+            <RadzenText TextStyle="TextStyle.H6">Cost change</RadzenText>
+            <RadzenDataGrid Data="@ProductCostChanges" TItem="ProductCostChange" ColumnWidth="100%">
+                <Columns>
+                    <RadzenDataGridColumn TItem="ProductCostChange" Property="Name" Title="Name" />
+                    <RadzenDataGridColumn TItem="ProductCostChange" Property="Kind" Title="Kind" />
+                    <RadzenDataGridColumn TItem="ProductCostChange" Property="Shop" Title="Shop" />
+                    <RadzenDataGridColumn TItem="ProductCostChange" Property="PreviousCost" Title="Previous Cost" />
+                    <RadzenDataGridColumn TItem="ProductCostChange" Property="LastCost" Title="Last Cost" />
+                    <RadzenDataGridColumn TItem="ProductCostChange" Title="Change" TextAlign="TextAlign.Center">
+                        <Template Context="product">
+                            <RadzenBadge BadgeStyle="@( product.ChangePercent>0?BadgeStyle.Danger:BadgeStyle.Success)" Shade="Shade.Lighter" class="price-badge"
+                                         Text=@($"{String.Format("{0:P}", product.ChangePercent)}") />
+                        </Template>
+                    </RadzenDataGridColumn>
+                </Columns>
+            </RadzenDataGrid>
+        </RadzenCard>
+    </RadzenColumn>
+    <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
+        <RadzenCard Style="position: relative;">
+            <RadzenText TextStyle="TextStyle.H6">in design</RadzenText>
+            @* <RadzenText TextStyle="TextStyle.H5" Class="rz-color-success-light" Style="position: absolute; right: 1.5rem; top: 1rem;">@CurrentMonthTotal</RadzenText>
+            <RadzenChart Style="width: 100%; height: 200px; margin-bottom: -30px;">
+            <RadzenDonutSeries Data="@CurrentMonth" CategoryProperty="Key" ValueProperty="Value" />
+            </RadzenChart>*@
+        </RadzenCard>
+    </RadzenColumn>
+    <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
+        <RadzenCard Style="position: relative;">
+            <RadzenText TextStyle="TextStyle.H6">in design</RadzenText>
+            @* <RadzenChart Style="width: 100%; height: 190px; margin-bottom: -20px;">
+            <RadzenColumnSeries Data="@LastYearOutlay" CategoryProperty="Key" Title="2022" ValueProperty="Value" />
+            <RadzenColumnSeries Data="@CurrentYearOutlay" CategoryProperty="Key" Title="2023" ValueProperty="Value" />
+            </RadzenChart>*@
+        </RadzenCard>
+    </RadzenColumn>
+</RadzenRow>

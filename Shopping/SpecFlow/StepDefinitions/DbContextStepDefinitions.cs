@@ -24,7 +24,7 @@ namespace Shopping.SpecFlow.StepDefinitions
         [Given(@"The DB has the product kind")]
         public void GivenTheDBHasAProductKind()
         {
-            var productKind = new ProductKind { Id = Guid.NewGuid(), Name = new Faker().Name.Random.Word() };
+            var productKind = new ProductKind { Id = Guid.NewGuid(), Name = new Faker().Name.Random.Word(), IsMain = true };
             _scenarioContext[TheProductKind] = productKind;
             _scenarioContext[TheProductKindId] = productKind.Id;
             _context.ProductKinds.Add(productKind);
@@ -34,7 +34,7 @@ namespace Shopping.SpecFlow.StepDefinitions
         [Given(@"The DB has another product kind")]
         public void GivenTheDBHasAnotherProductKind()
         {
-            var productKind = new ProductKind { Id = Guid.NewGuid(), Name = new Faker().Name.Random.Word() };
+            var productKind = new ProductKind { Id = Guid.NewGuid(), Name = new Faker().Name.Random.Word(), IsMain = true };
             _scenarioContext[AnotherProductKind] = productKind;
             _context.ProductKinds.Add(productKind);
             _context.SaveChanges();
@@ -43,7 +43,7 @@ namespace Shopping.SpecFlow.StepDefinitions
         [Given(@"The DB has the product")]
         public void GivenTheDBHasTheProduct()
         {
-            var productKind = new ProductKind { Id = Guid.NewGuid(), Name = new Faker().Name.Random.Word() };
+            var productKind = new ProductKind { Id = Guid.NewGuid(), Name = new Faker().Name.Random.Word(), IsMain = true };
             _scenarioContext[TheProductKind] = productKind;
             _scenarioContext[TheProductKindId] = productKind.Id;
             _context.ProductKinds.Add(productKind);
@@ -59,7 +59,7 @@ namespace Shopping.SpecFlow.StepDefinitions
         [Given(@"The DB has another product")]
         public void GivenTheDBHasAnotherProduct()
         {
-            var anotherProductKind = new ProductKind { Id = Guid.NewGuid(), Name = new Faker().Name.Random.Word() };
+            var anotherProductKind = new ProductKind { Id = Guid.NewGuid(), Name = new Faker().Name.Random.Word(), IsMain = true };
             _scenarioContext[AnotherProductKind] = anotherProductKind;
             _context.ProductKinds.Add(anotherProductKind);
 
@@ -170,7 +170,6 @@ namespace Shopping.SpecFlow.StepDefinitions
                 .Should().NotContainEquivalentOf(notherProduct);
         }
 
-
         [Then(@"The DB should contain the product for the another product kind with the new name")]
         public void ThenTheDBShouldContainTheProductForTheAnotherProductKindWithTheNewName()
         {
@@ -188,7 +187,7 @@ namespace Shopping.SpecFlow.StepDefinitions
         {
             var productKind = _scenarioContext.GetValueOrDefault<ProductKind>(TheProductKind);
             _context.ProductKinds.AsNoTracking()
-                .Should().ContainEquivalentOf(productKind);
+                .Should().ContainEquivalentOf(new ProductKind { Id = productKind.Id, Name = productKind.Name });
         }
 
         [Then(@"The DB should not contain the product kind")]
@@ -196,7 +195,7 @@ namespace Shopping.SpecFlow.StepDefinitions
         {
             var productKind = _scenarioContext.GetValueOrDefault<ProductKind>(TheProductKind);
             _context.ProductKinds.AsNoTracking()
-                .Should().NotContainEquivalentOf(productKind);
+                .Should().NotContainEquivalentOf(new ProductKind { Id = productKind.Id, Name = productKind.Name });
         }
 
         [Then(@"The DB should not contain another product kind")]
@@ -204,16 +203,17 @@ namespace Shopping.SpecFlow.StepDefinitions
         {
             var anotherProductKind = _scenarioContext.GetValueOrDefault<ProductKind>(AnotherProductKind);
             _context.ProductKinds.AsNoTracking()
-                .Should().NotContainEquivalentOf(anotherProductKind);
+                .Should().NotContainEquivalentOf(new ProductKind { Id = anotherProductKind.Id, Name = anotherProductKind.Name });
         }
 
         [Then(@"The DB should contain the product kind with the new name")]
         public void ThenTheDBShouldContainTheProductKindWithTheNewName()
         {
+            var productKind = _scenarioContext.GetValueOrDefault<ProductKind>(TheProductKind);
             var productKindId = _scenarioContext.GetValueOrDefault<string>(ProductKindId);
             var newName = _scenarioContext.GetValueOrDefault<string>(TheNewName);
 
-            var product = new ProductKind { Id = Guid.Parse(productKindId), Name = newName };
+            var product = new ProductKind { Id = Guid.Parse(productKindId), Name = newName, IsMain = productKind.IsMain };
             _context.ProductKinds.AsNoTracking()
                 .Should().ContainEquivalentOf(product);
         }

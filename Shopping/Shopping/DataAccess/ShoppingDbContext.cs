@@ -14,6 +14,8 @@ namespace Shopping.DataAccess
 
         public DbSet<ProductKind> ProductKinds { get; set; }
 
+        public DbSet<Shop> Shops { get; set; }
+
         public ShoppingDbContext(DbContextOptions options) : base(options)
         {
         }
@@ -26,6 +28,7 @@ namespace Shopping.DataAccess
             modelBuilder.ApplyConfiguration(new ReceiptItemConfiguration());
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
             modelBuilder.ApplyConfiguration(new ProductKindConfiguration());
+            modelBuilder.ApplyConfiguration(new ShopConfiguration());
         }
     }
 }

@@ -18,10 +18,17 @@ namespace Shopping.SpecFlow.Hooks
             _context = context;
         }
 
+        [AfterScenario]
+        public void AfterScenario(ShoppingDbContext context)
+        {
+            context.ReceiptItems.RemoveRange(context.ReceiptItems);
+            context.SaveChanges();
+        }
+
         [AfterStep]
         public void AfterScenario(ScenarioContext scenarioContext)
         {
-            if (scenarioContext.ScenarioExecutionStatus == ScenarioExecutionStatus.TestError 
+            if (scenarioContext.ScenarioExecutionStatus == ScenarioExecutionStatus.TestError
                 && scenarioContext.Keys.Contains(ScenarioContextKeys.ResponseContent))
             {
                 var error = scenarioContext[ScenarioContextKeys.ResponseContent];

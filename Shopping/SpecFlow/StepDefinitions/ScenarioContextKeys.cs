@@ -31,5 +31,22 @@
         public const string TheReceiptItem = "TheReceiptItem";
         public const string TheProductReceiptItemId = "TheProductReceiptItemId";
         public const string AnotherProductReceiptItemId = "AnotherProductReceiptItemId";
+
+        public const string TheShop = "TheShop";
+        public const string AnotherShop = "AnotherShop";
+        
+        public const string PreviousMonthTheProductCost = "PreviousMonthTheProductCost";
+        public const string CurrentMonthTheProductCost = "CurrentMonthTheProductCost";
+
+        public const string PreviousMonthAnotherProductCost = "PreviousMonthAnotherProductCost";
+        public const string CurrentMonthAnotherProductCost = "CurrentMonthAnotherProductCost";
+
+        public const string CurrentMonthExpensesByTheProductKind = "CurrentMonthExpensesByTheProductKind";
+        public const string CurrentMonthExpensesByAnotherProductKind = "CurrentMonthExpensesByAnotherProductKind";
+
+        public const string CurrentMonthExpenses = "CurrentMonthExpenses";
+        public const string PreviousMonthExpenses = "PreviousMonthExpenses";
+        public const string TheShopCurrentMonthExpenses = "TheShopCurrentMonthExpenses";
+        public const string AnotherShopCurrentMonthExpenses = "AnotherShopCurrentMonthExpenses";
     }
 }
