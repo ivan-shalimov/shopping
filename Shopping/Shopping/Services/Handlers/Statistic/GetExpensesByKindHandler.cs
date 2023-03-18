@@ -5,7 +5,7 @@ using Shopping.Shared.Requests.Statistic;
 
 namespace Shopping.Services.Handlers.Statistic
 {
-    public sealed class GetExpensesByKindHandler : IRequestHandler<GetExpensesByKind, IDictionary<string, double>>
+    public sealed class GetExpensesByKindHandler : IRequestHandler<GetExpensesByKind, IDictionary<string, decimal>>
     {
         private readonly ShoppingDbContext _context;
 
@@ -14,7 +14,7 @@ namespace Shopping.Services.Handlers.Statistic
             _context = context;
         }
 
-        public async Task<IDictionary<string, double>> Handle(GetExpensesByKind request, CancellationToken cancellationToken)
+        public async Task<IDictionary<string, decimal>> Handle(GetExpensesByKind request, CancellationToken cancellationToken)
         {
             var firstDayOfMonth = request.StartOfMonth;
             var lastDayOfMonth = request.StartOfMonth.AddMonths(1).AddSeconds(-1);
@@ -27,7 +27,7 @@ namespace Shopping.Services.Handlers.Statistic
                         select new { ProductKindName = productKind.Name, Price = receiptItem.Price, Amount = receiptItem.Amount };
 
             var data = await query.OrderBy(x=>x.ProductKindName).ToArrayAsync(cancellationToken).ConfigureAwait(false);
-            return data.GroupBy(d => d.ProductKindName).ToDictionary(x => x.Key, v => v.Sum(d => (double)(d.Price * d.Amount)));
+            return data.GroupBy(d => d.ProductKindName).ToDictionary(x => x.Key, v => v.Sum(d => (d.Price * d.Amount)));
         }
     }
 }

@@ -6,7 +6,9 @@
             <RadzenText TextStyle="TextStyle.H6">Previous Month</RadzenText>
             <RadzenText TextStyle="TextStyle.H5" Class="rz-color-info" Style="position: absolute; right: 1.5rem; top: 1rem;">@PreviousMonthTotal</RadzenText>
             <RadzenChart Style="width: 100%; height: 200px; margin-bottom: -30px;">
-                <RadzenDonutSeries Data="@PreviousMonth" CategoryProperty="Key" ValueProperty="Value" />
+                <RadzenDonutSeries Data="@PreviousMonth" CategoryProperty="Key" ValueProperty="Value" >
+                    <RadzenValueAxis Formatter="@FormatAsUAN" />
+                </RadzenDonutSeries>
             </RadzenChart>
         </RadzenCard>
     </RadzenColumn>
@@ -15,7 +17,9 @@
             <RadzenText TextStyle="TextStyle.H6">Current Month</RadzenText>
             <RadzenText TextStyle="TextStyle.H5" Class="rz-color-success-light" Style="position: absolute; right: 1.5rem; top: 1rem;">@CurrentMonthTotal</RadzenText>
             <RadzenChart Style="width: 100%; height: 200px; margin-bottom: -30px;">
-                <RadzenDonutSeries Data="@CurrentMonth" CategoryProperty="Key" ValueProperty="Value" />
+                <RadzenDonutSeries Data="@CurrentMonth" CategoryProperty="Key" ValueProperty="Value">
+                    <RadzenValueAxis Formatter="@FormatAsUAN"/>
+                </RadzenDonutSeries>
             </RadzenChart>
         </RadzenCard>
     </RadzenColumn>
@@ -23,8 +27,13 @@
         <RadzenCard Style="position: relative;">
             <RadzenText TextStyle="TextStyle.H6">Outlay</RadzenText>
             <RadzenChart Style="width: 100%; height: 190px; margin-bottom: -20px;">
-                <RadzenColumnSeries Data="@LastYearOutlay" CategoryProperty="Key" Title="2022" ValueProperty="Value" />
-                <RadzenColumnSeries Data="@CurrentYearOutlay" CategoryProperty="Key" Title="2023" ValueProperty="Value" />
+                <RadzenColumnSeries Data="@LastYearOutlay" CategoryProperty="Key" Title="2022" ValueProperty="Value" >
+                    <RadzenValueAxis Formatter="@FormatAsUAN" />
+                </RadzenColumnSeries>
+                <RadzenColumnSeries Data="@CurrentYearOutlay" CategoryProperty="Key" Title="2023" ValueProperty="Value" >
+                    <RadzenValueAxis Formatter="@FormatAsUAN" />
+                </RadzenColumnSeries>
+                <RadzenCategoryAxis Padding="20" Formatter="@FormatAsMonth" />
             </RadzenChart>
         </RadzenCard>
     </RadzenColumn>
@@ -32,7 +41,9 @@
         <RadzenCard Style="position: relative;">
             <RadzenText TextStyle="TextStyle.H6">Shops</RadzenText>
             <RadzenChart Style="width: 100%; height: 200px; margin-bottom: -30px;">
-                <RadzenPieSeries Data="@Shops" CategoryProperty="Key" ValueProperty="Value" />
+                <RadzenPieSeries Data="@Shops" CategoryProperty="Key" ValueProperty="Value" >
+                    <RadzenValueAxis Formatter="@FormatAsUAN" />
+                </RadzenPieSeries>
             </RadzenChart>
         </RadzenCard>
     </RadzenColumn>

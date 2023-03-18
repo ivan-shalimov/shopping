@@ -13,7 +13,5 @@
         public decimal LastCost { get; set; }
 
         public decimal ChangePercent { get; set; }
-
-        // public double ChangePercent => (LastCost - PreviousCost) / PreviousCost;
     }
 }

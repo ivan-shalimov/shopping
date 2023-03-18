@@ -43,8 +43,8 @@ namespace Shopping.Services.Handlers.Statistic
 
             var priceChange = allPriceChange.GroupBy(x => $"{x.Shop}_{x.ProductId}")
                 .Select(x => x.OrderBy(x => x.LastDate).Last())
-                .Select(x => new { x.ProductId, x.PreviousPrice, x.LastPrice, x.Shop, ChangePercent = (x.LastPrice - x.PreviousPrice) / x.PreviousPrice })
-                .OrderByDescending(x => x.ChangePercent)
+                .Select(x => new { x.LastDate, x.ProductId, x.PreviousPrice, x.LastPrice, x.Shop, ChangePercent = (x.LastPrice - x.PreviousPrice) / x.PreviousPrice })
+                .OrderByDescending(x => x.LastDate)
                 .Skip((request.Page - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToArray();
