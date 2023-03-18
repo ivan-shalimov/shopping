@@ -46,6 +46,8 @@ namespace Shopping.SpecFlow.StepDefinitions
             var currentMonthExpensesByAnotherProductKind = 0m;
             var theShopCurrentMonthExpenses = 0m;
             var anotherShopCurrentMonthExpenses = 0m;
+            var theProductCurrentMonthExpenses = 0m;
+            var theProductExpensesDetails = new List<ProductExpensesDetail>();
 
             do
             {
@@ -63,7 +65,15 @@ namespace Shopping.SpecFlow.StepDefinitions
                     Amount = 10,
                 };
                 currentMonthExpensesByTheProductKind += currentMonthTheProductCost * 10;
+                theProductCurrentMonthExpenses += currentMonthTheProductCost * 10;
                 theShopCurrentMonthExpenses += currentMonthTheProductCost * 10;
+                theProductExpensesDetails.Add(new ProductExpensesDetail
+                {
+                    Amount = (int)theShopTheProductReceiptItem.Amount,
+                    Price = theShopTheProductReceiptItem.Price,
+                    ShopName = theShopReceipt.Description,
+                    SpentOn = theShopReceipt.Date,
+                });
                 _context.ReceiptItems.Add(theShopTheProductReceiptItem);
                 var theShopAnotherProductReceiptItem = new ReceiptItem
                 {
@@ -86,7 +96,15 @@ namespace Shopping.SpecFlow.StepDefinitions
                     Amount = 100,
                 };
                 currentMonthExpensesByTheProductKind += currentMonthTheProductCost * 100;
+                theProductCurrentMonthExpenses += currentMonthTheProductCost * 100;
                 anotherShopCurrentMonthExpenses += currentMonthTheProductCost * 100;
+                theProductExpensesDetails.Add(new ProductExpensesDetail
+                {
+                    Amount = (int)anotherShopTheProductReceiptItem.Amount,
+                    Price = anotherShopTheProductReceiptItem.Price,
+                    ShopName = anotherShopReceipt.Description,
+                    SpentOn = anotherShopReceipt.Date,
+                });
                 _context.ReceiptItems.Add(anotherShopTheProductReceiptItem);
                 var anotherShopAnotherProductReceiptItem = new ReceiptItem
                 {
@@ -106,11 +124,13 @@ namespace Shopping.SpecFlow.StepDefinitions
 
             _context.SaveChanges();
 
-            _scenarioContext[CurrentMonthExpenses] = (double)(currentMonthExpensesByTheProductKind + currentMonthExpensesByAnotherProductKind);
-            _scenarioContext[CurrentMonthExpensesByTheProductKind] = (double)currentMonthExpensesByTheProductKind;
-            _scenarioContext[CurrentMonthExpensesByAnotherProductKind] = (double)currentMonthExpensesByAnotherProductKind;
-            _scenarioContext[TheShopCurrentMonthExpenses] = (double)theShopCurrentMonthExpenses;
-            _scenarioContext[AnotherShopCurrentMonthExpenses] = (double)anotherShopCurrentMonthExpenses;
+            _scenarioContext[CurrentMonthExpenses] = (currentMonthExpensesByTheProductKind + currentMonthExpensesByAnotherProductKind);
+            _scenarioContext[CurrentMonthExpensesByTheProductKind] =currentMonthExpensesByTheProductKind;
+            _scenarioContext[CurrentMonthExpensesByAnotherProductKind] = currentMonthExpensesByAnotherProductKind;
+            _scenarioContext[TheShopCurrentMonthExpenses] =theShopCurrentMonthExpenses;
+            _scenarioContext[TheProductCurrentMonthExpenses] = theProductCurrentMonthExpenses;
+            _scenarioContext[AnotherShopCurrentMonthExpenses] = anotherShopCurrentMonthExpenses;
+            _scenarioContext[TheProductExpensesDetails] = theProductExpensesDetails.ToArray();
         }
 
         [Given(@"The DB has the set receipt with items created in previous month")]
@@ -185,7 +205,7 @@ namespace Shopping.SpecFlow.StepDefinitions
 
             _context.SaveChanges();
 
-            _scenarioContext[PreviousMonthExpenses] = (double)previousMonthExpenses;
+            _scenarioContext[PreviousMonthExpenses] = previousMonthExpenses;
         }
 
         [Then(@"The response should contains expenses of current month grouped by kind")]
@@ -194,10 +214,10 @@ namespace Shopping.SpecFlow.StepDefinitions
             var productKind = _scenarioContext.GetValueOrDefault<ProductKind>(TheProductKind);
             var anotherProductKind = _scenarioContext.GetValueOrDefault<ProductKind>(AnotherProductKind);
 
-            var currentMonthExpensesByTheProductKind = _scenarioContext.GetValueOrDefault<double>(CurrentMonthExpensesByTheProductKind);
-            var currentMonthExpensesByAnotherProductKind = _scenarioContext.GetValueOrDefault<double>(CurrentMonthExpensesByAnotherProductKind);
+            var currentMonthExpensesByTheProductKind = _scenarioContext.GetValueOrDefault<decimal>(CurrentMonthExpensesByTheProductKind);
+            var currentMonthExpensesByAnotherProductKind = _scenarioContext.GetValueOrDefault<decimal>(CurrentMonthExpensesByAnotherProductKind);
 
-            var response = _scenarioContext.GetDeserializedValueOrDefault<Dictionary<string, double>>(ResponseContent);
+            var response = _scenarioContext.GetDeserializedValueOrDefault<Dictionary<string, decimal>>(ResponseContent);
             response.Should().ContainKey(productKind.Name).WhoseValue.Should().Be(currentMonthExpensesByTheProductKind);
             response.Should().ContainKey(anotherProductKind.Name).WhoseValue.Should().Be(currentMonthExpensesByAnotherProductKind);
         }
@@ -206,11 +226,11 @@ namespace Shopping.SpecFlow.StepDefinitions
         public void ThenTheResponseShouldContainsExpensesOfThisYearByMonth()
         {
             var currentMonth = DateTime.UtcNow.Month;
-            var currentMonthExpenses = _scenarioContext.GetValueOrDefault<double>(CurrentMonthExpenses);
+            var currentMonthExpenses = _scenarioContext.GetValueOrDefault<decimal>(CurrentMonthExpenses);
             var previousMonth = DateTime.UtcNow.AddMonths(-1).Month;
-            var previousMonthExpenses = _scenarioContext.GetValueOrDefault<double>(PreviousMonthExpenses);
+            var previousMonthExpenses = _scenarioContext.GetValueOrDefault<decimal>(PreviousMonthExpenses);
 
-            var response = _scenarioContext.GetDeserializedValueOrDefault<Dictionary<int, double>>(ResponseContent);
+            var response = _scenarioContext.GetDeserializedValueOrDefault<Dictionary<int, decimal>>(ResponseContent);
             response.Should().ContainKey(currentMonth).WhoseValue.Should().Be(currentMonthExpenses);
             response.Should().ContainKey(previousMonth).WhoseValue.Should().Be(previousMonthExpenses);
         }
@@ -219,11 +239,11 @@ namespace Shopping.SpecFlow.StepDefinitions
         public void ThenTheResponseShouldContainsExpensesOfCurrentMonthGroupedByShop()
         {
             var theShop = _scenarioContext.GetValueOrDefault<string>(TheShop);
-            var theShopCurrentMonthExpenses = _scenarioContext.GetValueOrDefault<double>(TheShopCurrentMonthExpenses);
+            var theShopCurrentMonthExpenses = _scenarioContext.GetValueOrDefault<decimal>(TheShopCurrentMonthExpenses);
             var anotherShop = _scenarioContext.GetValueOrDefault<string>(AnotherShop);
-            var anotherShopCurrentMonthExpenses = _scenarioContext.GetValueOrDefault<double>(AnotherShopCurrentMonthExpenses);
+            var anotherShopCurrentMonthExpenses = _scenarioContext.GetValueOrDefault<decimal>(AnotherShopCurrentMonthExpenses);
 
-            var response = _scenarioContext.GetDeserializedValueOrDefault<Dictionary<string, double>>(ResponseContent);
+            var response = _scenarioContext.GetDeserializedValueOrDefault<Dictionary<string, decimal>>(ResponseContent);
             response.Should().ContainKey(theShop).WhoseValue.Should().Be(theShopCurrentMonthExpenses);
             response.Should().ContainKey(anotherShop).WhoseValue.Should().Be(anotherShopCurrentMonthExpenses);
         }
@@ -268,6 +288,26 @@ namespace Shopping.SpecFlow.StepDefinitions
             var response = _scenarioContext.GetDeserializedCollectionOrEmpty<ProductCostChange>(ResponseContent);
             response.Should().ContainEquivalentOf(theProdcutCostChange);
             response.Should().ContainEquivalentOf(anotherProdcutCostChange);
+        }
+
+        [Then(@"The response should contains expenses for the kind of the current month grouped by product")]
+        public void ThenTheResponseShouldContainsExpensesForTheKindOfTheCurrentMonthGroupedByProduct()
+        {
+            var theProductCurrentMonthExpenses = _scenarioContext.GetValueOrDefault<decimal>(TheProductCurrentMonthExpenses);
+            var theProduct = _scenarioContext.GetValueOrDefault<Product>(TheProduct);
+
+            var response = _scenarioContext.GetDeserializedValueOrDefault<Dictionary<string, decimal>>(ResponseContent);
+            response.Should().ContainKey(theProduct.Name).WhoseValue.Should().Be(theProductCurrentMonthExpenses);
+        }
+
+        [Then(@"The response should contains details of expenses for the product of the current month")]
+        public void ThenTheResponseShouldContainsDetailsOfExpensesForTheProductOfTheCurrentMonth()
+        {
+            var expectedDetails = _scenarioContext.GetValueOrDefault<ProductExpensesDetail[]>(TheProductExpensesDetails);
+
+            var response = _scenarioContext.GetDeserializedCollectionOrEmpty<ProductExpensesDetail>(ResponseContent);
+
+            response.Should().BeEquivalentTo(expectedDetails);
         }
     }
 }

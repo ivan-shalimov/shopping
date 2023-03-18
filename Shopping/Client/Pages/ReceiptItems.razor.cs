@@ -1,11 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using Radzen;
-using Shopping.Client.Models;
-using Shopping.Shared.Models.Results;
-using Shopping.Shared.Requests;
-using System.Net.Http.Json;
-
-namespace Shopping.Client.Pages
+﻿namespace Shopping.Client.Pages
 {
     public partial class ReceiptItems : ComponentBase
     {

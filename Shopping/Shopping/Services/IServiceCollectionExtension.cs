@@ -25,6 +25,8 @@ namespace Shopping.Services
             services.AddScoped<IRequestHandler<GetPurchaseStatistic, PurchaseStatistic>, GetPurchaseStatisticHandler>();
 
             services.AddScoped<IRequestHandler<GetExpensesByKind, IDictionary<string, decimal>>, GetExpensesByKindHandler>();
+            services.AddScoped<IRequestHandler<GetExpensesByProducts, IDictionary<string, decimal>>, GetExpensesByProductsHandler>();
+            services.AddScoped<IRequestHandler<GetProductsExpensesDetails, ProductExpensesDetail[]>, GetProductsExpensesDetailsHandler>();
             services.AddScoped<IRequestHandler<GetExpensesByMonth, IDictionary<int, decimal>>, GetExpensesByMonthHandler>();
             services.AddScoped<IRequestHandler<GetExpensesByShop, IDictionary<string, decimal>>, GetExpensesByShopHandler>();
             services.AddScoped<IRequestHandler<GetProductCostChange, ProductCostChange[]>, GetProductCostChangeHandler>();

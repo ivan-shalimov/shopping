@@ -2,9 +2,9 @@
 
 namespace Shopping.Shared.Requests.Statistic
 {
-    public sealed class GetExpensesByKind : IRequest<IDictionary<string, decimal>>
+    public sealed class GetExpensesByProducts : IRequest<IDictionary<string, decimal>>
     {
-        public bool OnlyMain { get; set; }
+        public string Kind { get; set; }
 
         public DateTime Start { get; set; }
 

@@ -267,6 +267,152 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="Get expenses by product kind for current month")]
+        [Xunit.TraitAttribute("FeatureTitle", "Statistic")]
+        [Xunit.TraitAttribute("Description", "Get expenses by product kind for current month")]
+        public void GetExpensesByProductKindForCurrentMonth()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get expenses by product kind for current month", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 40
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 4
+this.FeatureBackground();
+#line hidden
+#line 41
+ testRunner.Given("The DB has the set receipt with items created in this month", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 42
+ testRunner.And("The DB has the set receipt with items created in previous month", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+                TechTalk.SpecFlow.Table table15 = new TechTalk.SpecFlow.Table(new string[] {
+                            "start",
+                            "end"});
+                table15.AddRow(new string[] {
+                            "{StartOfCurrentMonth}",
+                            "{EndOfCurrentMonth}"});
+#line 43
+ testRunner.When("I make a GET request to \'api/statistic/expenses-by-kinds\' with query parameters", ((string)(null)), table15, "When ");
+#line hidden
+#line 46
+ testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 47
+ testRunner.And("The response should contains expenses of current month grouped by kind", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Get expenses by product for the kind of the current month")]
+        [Xunit.TraitAttribute("FeatureTitle", "Statistic")]
+        [Xunit.TraitAttribute("Description", "Get expenses by product for the kind of the current month")]
+        public void GetExpensesByProductForTheKindOfTheCurrentMonth()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get expenses by product for the kind of the current month", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 49
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 4
+this.FeatureBackground();
+#line hidden
+#line 50
+ testRunner.Given("The DB has the set receipt with items created in this month", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 51
+ testRunner.And("The DB has the set receipt with items created in previous month", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+                TechTalk.SpecFlow.Table table16 = new TechTalk.SpecFlow.Table(new string[] {
+                            "kind",
+                            "start",
+                            "end"});
+                table16.AddRow(new string[] {
+                            "{TheProductKindName}",
+                            "{StartOfCurrentMonth}",
+                            "{EndOfCurrentMonth}"});
+#line 52
+ testRunner.When("I make a GET request to \'api/statistic/expenses-by-products\' with query parameter" +
+                        "s", ((string)(null)), table16, "When ");
+#line hidden
+#line 55
+ testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 56
+ testRunner.And("The response should contains expenses for the kind of the current month grouped b" +
+                        "y product", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Get expenses details for product of the current month")]
+        [Xunit.TraitAttribute("FeatureTitle", "Statistic")]
+        [Xunit.TraitAttribute("Description", "Get expenses details for product of the current month")]
+        public void GetExpensesDetailsForProductOfTheCurrentMonth()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get expenses details for product of the current month", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 58
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 4
+this.FeatureBackground();
+#line hidden
+#line 59
+ testRunner.Given("The DB has the set receipt with items created in this month", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 60
+ testRunner.And("The DB has the set receipt with items created in previous month", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+                TechTalk.SpecFlow.Table table17 = new TechTalk.SpecFlow.Table(new string[] {
+                            "productName",
+                            "start",
+                            "end"});
+                table17.AddRow(new string[] {
+                            "{TheProductName}",
+                            "{StartOfCurrentMonth}",
+                            "{EndOfCurrentMonth}"});
+#line 61
+ testRunner.When("I make a GET request to \'api/statistic/product-expenses-details\' with query param" +
+                        "eters", ((string)(null)), table17, "When ");
+#line hidden
+#line 64
+ testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 65
+ testRunner.And("The response should contains details of expenses for the product of the current m" +
+                        "onth", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable

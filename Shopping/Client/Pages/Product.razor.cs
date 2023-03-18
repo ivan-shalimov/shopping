@@ -1,11 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using Radzen;
-using Shopping.Client.Models;
-using Shopping.Shared.Models.Results;
-using Shopping.Shared.Requests;
-using System.Net.Http.Json;
-
-namespace Shopping.Client.Pages
+﻿namespace Shopping.Client.Pages
 {
     public partial class Product : ComponentBase
     {
@@ -18,7 +11,6 @@ namespace Shopping.Client.Pages
         private bool _pending = true;
         private ProductModel[]? _list;
 
-
         private ProductKindModel[]? _productKinds;
 
         private Guid _allProductKindsId = Guid.Empty;
@@ -28,7 +20,7 @@ namespace Shopping.Client.Pages
         private ProductModel _newItem = new ProductModel();
         private ProductModel _editedItem = null;
 
-        protected async override Task OnInitializedAsync()
+        protected override async Task OnInitializedAsync()
         {
             _productKinds = await HttpClient.GetFromJsonAsync<ProductKindModel[]>("/api/products/kinds");
 

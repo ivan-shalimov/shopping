@@ -1,11 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using Radzen;
-using Radzen.Blazor;
-using Shopping.Client.Models;
-using Shopping.Shared.Models.Results;
-using System.Net.Http.Json;
-
-namespace Shopping.Client.Pages
+﻿namespace Shopping.Client.Pages
 {
     public partial class ProductSelector : ComponentBase
     {

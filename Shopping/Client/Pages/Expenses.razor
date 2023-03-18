@@ -1,0 +1,59 @@
+﻿@page "/expenses"
+
+<h3>Expenses</h3>
+
+<RadzenCard class="my-4">
+    <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.End" Wrap="FlexWrap.Wrap">
+        <RadzenStack Orientation="Orientation.Vertical" Gap="4px">
+            Period
+            <RadzenDropDown Data="@_periods"  @bind-Value="@_selectedPeriod" Change="@(args => UpdatePeriodsDates())" 
+                TextProperty="Value" ValueProperty="Key" Size="ButtonSize.Small" />
+        </RadzenStack>
+        <RadzenStack Orientation="Orientation.Vertical" Gap="4px">
+            Start period date
+            <RadzenDatePicker @bind-Value=@_startDate Change="@(args => PeriodDatesChanged())" />
+        </RadzenStack>
+        <RadzenStack Orientation="Orientation.Vertical" Gap="4px" >
+            End period date
+            <RadzenDatePicker @bind-Value=@_endDate Change="@(args => PeriodDatesChanged())" />
+        </RadzenStack>
+        <RadzenButton Shade="Shade.Lighter" Click=@(async args => await Load()) Disabled="@(!_hasFilterChanges)" Text="Apply" ButtonStyle="ButtonStyle.Light" />
+    </RadzenStack>
+</RadzenCard>
+
+<RadzenProgressBar Visible="@_inProgress" style="height: 2px" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+
+<RadzenRow>
+    <RadzenColumn Size="12" SizeLG="12">
+        <RadzenDataGrid AllowSorting="true" ExpandMode="DataGridExpandMode.Single"
+                        Data="@_expensesByKind" TItem="ExpenseByKind" RowExpand="@(async expensesByKind=> await ExpenseByKindRowExpand(expensesByKind))">
+            <Template Context="expenseByKind">
+                <RadzenDataGrid AllowSorting="true" Data="@expenseByKind.ExpensesByProduct" TItem="ExpenseByProduct"
+                                RowExpand="@(async expenseByProduct=> await ExpenseByProductRowExpand(expenseByProduct))">
+                    <Template Context="expenseByProduct">
+                        <RadzenDataGrid AllowSorting="true" Data="@expenseByProduct.ProductExpensesDetails" TItem="ProductExpensesDetail">
+                            <Columns>
+                                <RadzenDataGridColumn TItem="ProductExpensesDetail" Property="ShopName" Title="Shop Name" Width="323px" />
+                                <RadzenDataGridColumn TItem="ProductExpensesDetail" Property="SpentOn" Title="Spent On" FormatString="{0:d}" Width="140px" />
+                                <RadzenDataGridColumn TItem="ProductExpensesDetail" Property="Price" Title="Price" FormatString="{0:f2}" Width="110px" />
+                                <RadzenDataGridColumn TItem="ProductExpensesDetail" Property="Amount" Title="Amount" Width="90px" />
+                                <RadzenDataGridColumn TItem="ProductExpensesDetail" Property="Expenses" Title="Expenses" FormatString="{0:f2}" Width="140px" />
+                                <RadzenDataGridColumn TItem="ProductExpensesDetail" />
+                            </Columns>
+                        </RadzenDataGrid>
+                    </Template>
+                    <Columns>
+                        <RadzenDataGridColumn TItem="ExpenseByProduct" Property="ProductName" Title="Product Name" Width="640px" />
+                        <RadzenDataGridColumn TItem="ExpenseByProduct" Property="Expenses" Title="Expenses" FormatString="{0:f2}" Width="140px" />
+                        <RadzenDataGridColumn TItem="ExpenseByProduct" />
+                    </Columns>
+                </RadzenDataGrid>
+            </Template>
+            <Columns>
+                <RadzenDataGridColumn TItem="ExpenseByKind" Property="KindName" Title="Kind Name" Width="650px" />
+                <RadzenDataGridColumn TItem="ExpenseByKind" Property="Expenses" Title="Expenses" FormatString="{0:f2}" Width="140px" />
+                <RadzenDataGridColumn TItem="ExpenseByKind" />
+            </Columns>
+        </RadzenDataGrid>
+    </RadzenColumn>
+</RadzenRow>

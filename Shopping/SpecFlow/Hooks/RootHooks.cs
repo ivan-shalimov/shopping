@@ -27,7 +27,11 @@ namespace Shopping.SpecFlow.Hooks
         {
             scenarioContext[ScenarioContextKeys.EmptyId] = Guid.Empty;
             scenarioContext[ScenarioContextKeys.EmptyString] = string.Empty;
-            scenarioContext[ScenarioContextKeys.UtcNow] = DateTime.UtcNow;
+
+            var now = DateTime.UtcNow;
+            scenarioContext[ScenarioContextKeys.UtcNow] = now;
+            scenarioContext[ScenarioContextKeys.StartOfCurrentMonth] = new DateTime(now.Year, now.Month, 1);
+            scenarioContext[ScenarioContextKeys.EndOfCurrentMonth] = new DateTime(now.Year, now.Month, 1).AddMonths(1).AddSeconds(-1);
         }
     }
 }

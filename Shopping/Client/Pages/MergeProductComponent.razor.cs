@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using Radzen;
-using Shopping.Shared.Models.Results;
-using Shopping.Shared.Requests;
-using System.Net.Http.Json;
-
-namespace Shopping.Client.Pages
+﻿namespace Shopping.Client.Pages
 {
     // implement feature to suggest three similar products
     public partial class MergeProductComponent : ComponentBase

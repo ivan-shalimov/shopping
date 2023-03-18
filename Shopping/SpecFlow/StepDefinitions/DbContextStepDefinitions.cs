@@ -27,6 +27,7 @@ namespace Shopping.SpecFlow.StepDefinitions
             var productKind = new ProductKind { Id = Guid.NewGuid(), Name = new Faker().Name.Random.Word(), IsMain = true };
             _scenarioContext[TheProductKind] = productKind;
             _scenarioContext[TheProductKindId] = productKind.Id;
+            _scenarioContext[TheProductKindName] = productKind.Name;
             _context.ProductKinds.Add(productKind);
             _context.SaveChanges();
         }
@@ -46,11 +47,13 @@ namespace Shopping.SpecFlow.StepDefinitions
             var productKind = new ProductKind { Id = Guid.NewGuid(), Name = new Faker().Name.Random.Word(), IsMain = true };
             _scenarioContext[TheProductKind] = productKind;
             _scenarioContext[TheProductKindId] = productKind.Id;
+            _scenarioContext[TheProductKindName] = productKind.Name;
             _context.ProductKinds.Add(productKind);
 
             var product = new Product { Id = Guid.NewGuid(), ProductKindId = productKind.Id, Name = new Faker().Name.Random.Word() };
             _scenarioContext[TheProduct] = product;
             _scenarioContext[ProductId] = product.Id;
+            _scenarioContext[TheProductName] = product.Name;
             _context.Products.Add(product);
 
             _context.SaveChanges();
@@ -77,6 +80,7 @@ namespace Shopping.SpecFlow.StepDefinitions
             var product = new Product { Id = Guid.NewGuid(), ProductKindId = productKind.Id, Name = new Faker().Name.Random.Word() };
             _scenarioContext[TheProduct] = product;
             _scenarioContext[ProductId] = product.Id;
+            _scenarioContext[TheProductName] = product.Name;
             _context.Products.Add(product);
             _context.SaveChanges();
         }

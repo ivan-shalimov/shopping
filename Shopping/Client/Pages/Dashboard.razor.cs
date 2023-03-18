@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using Shopping.Shared.Models.Results;
-using System.Globalization;
-using System.Net.Http.Json;
+﻿using System.Globalization;
 
 namespace Shopping.Client.Pages
 {
@@ -33,7 +30,6 @@ namespace Shopping.Client.Pages
             CurrentMonthTotal = FormatAsUAN(CurrentMonth.Values.Sum(x => x));
 
             var currnetMonth = DateTime.UtcNow.Month;
-            // ;
             var lastYearExpenses = await HttpClient.GetFromJsonAsync<IDictionary<int, decimal>>("/api/statistic/expenses-by-month/previous/year");
             LastYearOutlay = lastYearExpenses
                 .Where(x => x.Key <= currnetMonth)
