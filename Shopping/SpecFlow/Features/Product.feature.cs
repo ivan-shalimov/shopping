@@ -162,12 +162,12 @@ this.FeatureBackground();
 #line 19
  testRunner.And("The DB has another product for another product kind", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-                TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                             "productKindId"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "{TheProductKindId}"});
 #line 20
- testRunner.When("I make a GET request to \'api/products/\' with query parameters", ((string)(null)), table1, "When ");
+ testRunner.When("I make a GET request to \'api/products/\' with query parameters", ((string)(null)), table2, "When ");
 #line hidden
 #line 23
  testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");

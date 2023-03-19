@@ -125,12 +125,12 @@ this.FeatureBackground();
 #line 13
  testRunner.And("I want to get receipts for current month", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-                TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
                             "month"});
-                table2.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "{CurrentMonth}"});
 #line 14
- testRunner.When("I make a GET request to \'api/receipts\' with query parameters", ((string)(null)), table2, "When ");
+ testRunner.When("I make a GET request to \'api/receipts\' with query parameters", ((string)(null)), table3, "When ");
 #line hidden
 #line 17
  testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -163,14 +163,14 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-                TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
                             "Description",
                             "Date"});
-                table3.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "Test",
                             "{UtcNow}"});
 #line 22
- testRunner.Given("I want to add a new receipt with", ((string)(null)), table3, "Given ");
+ testRunner.Given("I want to add a new receipt with", ((string)(null)), table4, "Given ");
 #line hidden
 #line 25
  testRunner.When("I make a POST request to \'api/receipts\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -206,14 +206,14 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-                TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
                             "Description",
                             "Date"});
-                table4.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "{EmptyString}",
                             "{UtcNow}"});
 #line 30
- testRunner.Given("I want to add a new receipt with", ((string)(null)), table4, "Given ");
+ testRunner.Given("I want to add a new receipt with", ((string)(null)), table5, "Given ");
 #line hidden
 #line 33
  testRunner.When("I make a POST request to \'api/receipts\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -252,14 +252,14 @@ this.FeatureBackground();
 #line 39
  testRunner.Given("The DB has the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
                             "Description",
                             "Date"});
-                table5.AddRow(new string[] {
+                table6.AddRow(new string[] {
                             "Update description",
                             "{UtcNow}"});
 #line 40
- testRunner.Given("I want to update the receipt with", ((string)(null)), table5, "Given ");
+ testRunner.Given("I want to update the receipt with", ((string)(null)), table6, "Given ");
 #line hidden
 #line 43
  testRunner.When("I make a PUT request to \'api/receipts/{TheReceiptId}\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -298,14 +298,14 @@ this.FeatureBackground();
 #line 48
  testRunner.Given("The DB has the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
                             "Description",
                             "Date"});
-                table6.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "{EmptyString}",
                             "{UtcNow}"});
 #line 49
- testRunner.Given("I want to update the receipt with", ((string)(null)), table6, "Given ");
+ testRunner.Given("I want to update the receipt with", ((string)(null)), table7, "Given ");
 #line hidden
 #line 52
  testRunner.When("I make a PUT request to \'api/receipts/{TheReceiptId}\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -387,16 +387,16 @@ this.FeatureBackground();
 #line 67
  testRunner.Given("The DB has the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
                             "ProductId",
                             "Price",
                             "Amount"});
-                table7.AddRow(new string[] {
+                table8.AddRow(new string[] {
                             "{ProductId}",
                             "1.2",
                             "2"});
 #line 68
- testRunner.And("I want to add new item to the receipt with", ((string)(null)), table7, "And ");
+ testRunner.And("I want to add new item to the receipt with", ((string)(null)), table8, "And ");
 #line hidden
 #line 71
  testRunner.When("I make a POST request to \'api/receipts/{TheReceiptId}/items\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -435,16 +435,16 @@ this.FeatureBackground();
 #line 76
  testRunner.Given("The DB has the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
                             "ProductId",
                             "Price",
                             "Amount"});
-                table8.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "{EmptyId}",
                             "1.2",
                             "2"});
 #line 77
- testRunner.And("I want to add new item to the receipt with", ((string)(null)), table8, "And ");
+ testRunner.And("I want to add new item to the receipt with", ((string)(null)), table9, "And ");
 #line hidden
 #line 80
  testRunner.When("I make a POST request to \'api/receipts/{TheReceiptId}/items\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -483,16 +483,16 @@ this.FeatureBackground();
 #line 85
  testRunner.Given("The DB has the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
                             "ProductId",
                             "Price",
                             "Amount"});
-                table9.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "{ProductId}",
                             "0",
                             "2"});
 #line 86
- testRunner.And("I want to add new item to the receipt with", ((string)(null)), table9, "And ");
+ testRunner.And("I want to add new item to the receipt with", ((string)(null)), table10, "And ");
 #line hidden
 #line 89
  testRunner.When("I make a POST request to \'api/receipts/{TheReceiptId}/items\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -531,16 +531,16 @@ this.FeatureBackground();
 #line 94
  testRunner.Given("The DB has the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
                             "ProductId",
                             "Price",
                             "Amount"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "{ProductId}",
                             "1.2",
                             "0"});
 #line 95
- testRunner.And("I want to add new item to the receipt with", ((string)(null)), table10, "And ");
+ testRunner.And("I want to add new item to the receipt with", ((string)(null)), table11, "And ");
 #line hidden
 #line 98
  testRunner.When("I make a POST request to \'api/receipts/{TheReceiptId}/items\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -582,14 +582,14 @@ this.FeatureBackground();
 #line 105
  testRunner.And("The DB has the item with the product of the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-                TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
                             "Price",
                             "Amount"});
-                table11.AddRow(new string[] {
+                table12.AddRow(new string[] {
                             "2.2",
                             "3"});
 #line 106
- testRunner.And("I want to update the item of the receipt", ((string)(null)), table11, "And ");
+ testRunner.And("I want to update the item of the receipt", ((string)(null)), table12, "And ");
 #line hidden
 #line 109
  testRunner.When("I make a PUT request to \'api/receipts/{TheReceiptId}/items/{TheReceiptItemId}\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -631,14 +631,14 @@ this.FeatureBackground();
 #line 115
  testRunner.And("The DB has the item with the product of the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-                TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table13 = new TechTalk.SpecFlow.Table(new string[] {
                             "Price",
                             "Amount"});
-                table12.AddRow(new string[] {
+                table13.AddRow(new string[] {
                             "0",
                             "3"});
 #line 116
- testRunner.And("I want to update the item of the receipt", ((string)(null)), table12, "And ");
+ testRunner.And("I want to update the item of the receipt", ((string)(null)), table13, "And ");
 #line hidden
 #line 119
  testRunner.When("I make a PUT request to \'api/receipts/{TheReceiptId}/items/{TheReceiptItemId}\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -680,14 +680,14 @@ this.FeatureBackground();
 #line 125
  testRunner.And("The DB has the item with the product of the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-                TechTalk.SpecFlow.Table table13 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table14 = new TechTalk.SpecFlow.Table(new string[] {
                             "Price",
                             "Amount"});
-                table13.AddRow(new string[] {
+                table14.AddRow(new string[] {
                             "2.2",
                             "0"});
 #line 126
- testRunner.And("I want to update the item of the receipt", ((string)(null)), table13, "And ");
+ testRunner.And("I want to update the item of the receipt", ((string)(null)), table14, "And ");
 #line hidden
 #line 129
  testRunner.When("I make a PUT request to \'api/receipts/{TheReceiptId}/items/{TheReceiptItemId}\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");

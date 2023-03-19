@@ -55,5 +55,9 @@
 
         public const string TheProductCurrentMonthExpenses = "TheProductCurrentMonthExpenses";
         public const string TheProductExpensesDetails = "TheProductExpensesDetails";
+
+
+        public const string LastTheProductCost = "LastTheProductCost";
+        public const string LastAnotherProductCost = "LastAnotherProductCost";
     }
 }

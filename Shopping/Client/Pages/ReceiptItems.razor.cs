@@ -13,13 +13,11 @@
 
         private ExtendedReceiptItemModel[]? _list;
 
-        private IEnumerable<ProductModel> _products = Array.Empty<ProductModel>();
-        private AddReceiptItemModel _newItem = new AddReceiptItemModel();
-
         protected override async Task OnInitializedAsync()
         {
-            _products = await HttpClient.GetFromJsonAsync<ProductModel[]>("/api/products");
-            await Reload();
+            _list = null;
+            var response = await HttpClient.GetFromJsonAsync<ReceiptItemModel[]>($"/api/receipts/{ReceiptId}/items");
+            _list = response.Select(item => new ExtendedReceiptItemModel(item)).ToArray();
         }
 
         public async Task OpenProductSelector()
@@ -28,75 +26,36 @@
                    new Dictionary<string, object>() {
                    { nameof(ProductSelector.ReceiptProductIs), _list.Select(item => item.ReceiptItem.ProductId).ToArray() } },
                    new DialogOptions() { Width = "700px", Height = "742px", Resizable = true, Draggable = true }) as List<ProductModel>;
-            if (result != null)
+            if (result != null && result.Any())
             {
+                var url = $"/api/prices/latest?receiptId={ReceiptId}&" + string.Join('&', result.Select(p => $"productIds={p.Id}"));
+                var lastPrices = await HttpClient.GetFromJsonAsync<IDictionary<Guid, decimal>>(url);
                 var temp = _list.ToList();
-                temp.AddRange(result.Select(p => new ExtendedReceiptItemModel(p)));
+                temp.AddRange(result.Select(p => new ExtendedReceiptItemModel(p, lastPrices.TryGetValue(p.Id, out var price) ? price : 0m)));
                 _list = temp.ToArray();
             }
         }
 
-        private async Task Reload()
-        {
-            _list = null;
-            var response = await HttpClient.GetFromJsonAsync<ReceiptItemModel[]>($"/api/receipts/{ReceiptId}/items");
-            _list = response.Select(item => new ExtendedReceiptItemModel(item)).ToArray();
-            if (_list == null)
-            {
-                return;
-            }
-        }
-
-        private void ProductNameChanged(object value)
-        {
-            var product = _products.FirstOrDefault(p => p.Name == _newItem.ProductName);
-            _newItem.ProductId = product?.Id;
-        }
-
         private async Task Add(ExtendedReceiptItemModel newItem = null)
         {
-            if (newItem != null)
-            {
-                newItem.EditReceiptItem.IsSubmitted = true;
-                if (!newItem.EditReceiptItem.IsValid)
-                {
-                    return;
-                }
-
-                var addReceiptItemRequest = new AddReceiptItem
-                {
-                    Id = newItem.ReceiptItem.Id,
-                    ReceiptId = Guid.Parse(ReceiptId), // todo investigate how to configure converting
-                    ProductId = newItem.ReceiptItem.ProductId,
-                    Price = newItem.EditReceiptItem.Price,
-                    Amount = newItem.EditReceiptItem.Amount,
-                };
-
-                await HttpClient.PostAsJsonAsync($"/api/receipts/{ReceiptId}/items", addReceiptItemRequest);
-                newItem.ApplyChanges();
-                return;
-            }
-
-            _newItem.IsSubmitted = true;
-            if (!_newItem.IsValid)
+            newItem.EditReceiptItem.IsSubmitted = true;
+            if (!newItem.EditReceiptItem.IsValid)
             {
                 return;
             }
 
-            var request = new AddReceiptItem
+            var addReceiptItemRequest = new AddReceiptItem
             {
-                Id = Guid.NewGuid(),
+                Id = newItem.ReceiptItem.Id,
                 ReceiptId = Guid.Parse(ReceiptId), // todo investigate how to configure converting
-                ProductId = _newItem.ProductId.Value,
-                Price = _newItem.Price,
-                Amount = _newItem.Amount,
+                ProductId = newItem.ReceiptItem.ProductId,
+                Price = newItem.EditReceiptItem.Price,
+                Amount = newItem.EditReceiptItem.Amount,
             };
 
-            await HttpClient.PostAsJsonAsync($"/api/receipts/{ReceiptId}/items", request);
-
-            _newItem = new AddReceiptItemModel();
-
-            await Reload().ConfigureAwait(false);
+            await HttpClient.PostAsJsonAsync($"/api/receipts/{ReceiptId}/items", addReceiptItemRequest);
+            newItem.ApplyChanges();
+            return;
         }
 
         private async Task Save(ExtendedReceiptItemModel itemModel)

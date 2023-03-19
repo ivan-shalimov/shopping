@@ -22,41 +22,6 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>
-                        <div style="display:flex; flex-direction:column">
-                            <RadzenAutoComplete Data=@_products FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                                            TextProperty="Name"
-                                            @bind-Value=@_newItem.ProductName
-                                            Style="width: 100%;"
-                                            Change="@ProductNameChanged" />
-                            <span hidden="@(!_newItem.IsProductRequired)"
-                                  style="font-size:small; color:red">
-                                Product is required
-                            </span>
-                        </div>
-                    </td>
-                    <td>
-                        <div style="display:flex; flex-direction:column">
-                            <RadzenNumeric ShowUpDown="false" TValue="decimal" @bind-Value=@_newItem.Price Class="w-100" />
-                            <span hidden="@(!_newItem.IsPriceInvalid)"
-                                  style="font-size:small; color:red">
-                                Price is invalid.
-                            </span>
-                        </div>
-                    </td>
-                    <td>
-                        <div style="display:flex; flex-direction:column">
-                            <RadzenNumeric ShowUpDown="false" TValue="decimal" @bind-Value=@_newItem.Amount Class="w-100" />
-                            <span hidden="@(!_newItem.IsAmountInvalid)"
-                                  style="font-size:small; color:red">
-                                Amount is invalid.
-                            </span>
-                        </div>
-                    </td>
-                    <td>@_newItem.Cost</td>
-                    <td><div class="action-block"><button class="btn btn-primary" type="button" @onclick="@(async () => await Add())">Add</button></div></td>
-                </tr>
                 @foreach (var item in _list)
                 {
                     @if (item.IsEditing)

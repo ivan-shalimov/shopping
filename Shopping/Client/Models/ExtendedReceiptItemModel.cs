@@ -18,13 +18,14 @@ namespace Shopping.Client.Models
             ReceiptItem = receiptItem;
         }
 
-        public ExtendedReceiptItemModel(ProductModel productModel)
+        public ExtendedReceiptItemModel(ProductModel productModel, decimal price)
         {
             ReceiptItem = new ReceiptItemModel
             {
                 Id = Guid.NewGuid(),
                 ProductId = productModel.Id,
                 ProductName = productModel.Name,
+                Price = price,
             };
             IsNew = true;
             StartEdit();

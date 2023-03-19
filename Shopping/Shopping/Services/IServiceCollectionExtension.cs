@@ -3,11 +3,13 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Shopping.Services.Common;
 using Shopping.Services.Handlers;
+using Shopping.Services.Handlers.Prices;
 using Shopping.Services.Handlers.Statistic;
 using Shopping.Services.Validators;
 using Shopping.Shared.Models.Common;
 using Shopping.Shared.Models.Results;
 using Shopping.Shared.Requests;
+using Shopping.Shared.Requests.Prices;
 using Shopping.Shared.Requests.Statistic;
 
 namespace Shopping.Services
@@ -23,6 +25,8 @@ namespace Shopping.Services
         public static void RegisterMediatrServices(this IServiceCollection services)
         {
             services.AddScoped<IRequestHandler<GetPurchaseStatistic, PurchaseStatistic>, GetPurchaseStatisticHandler>();
+
+            services.AddScoped<IRequestHandler<GetLastProductsPrices, IDictionary<Guid, decimal>>, GetLastProductsPricesHandler>();
 
             services.AddScoped<IRequestHandler<GetExpensesByKind, IDictionary<string, decimal>>, GetExpensesByKindHandler>();
             services.AddScoped<IRequestHandler<GetExpensesByProducts, IDictionary<string, decimal>>, GetExpensesByProductsHandler>();
