@@ -1,4 +1,7 @@
-﻿namespace Shopping.Client.Pages
+﻿using Microsoft.Extensions.Localization;
+using Shopping.Client.Shared.ResourceFiles;
+
+namespace Shopping.Client.Pages
 {
     public partial class ReceiptItems : ComponentBase
     {
@@ -7,6 +10,9 @@
 
         [Inject]
         protected HttpClient HttpClient { get; set; }
+
+        [Inject]
+        protected IStringLocalizer<Resource> Localizer { get; set; }
 
         [Inject]
         protected DialogService DialogService { get; set; }
@@ -22,7 +28,7 @@
 
         public async Task OpenProductSelector()
         {
-            var result = await DialogService.OpenAsync<ProductSelector>($"Please select the product to add them to receipt",
+            var result = await DialogService.OpenAsync<ProductSelector>(Localizer["Please select the product to add them to receipt"],
                    new Dictionary<string, object>() {
                    { nameof(ProductSelector.ReceiptProductIs), _list.Select(item => item.ReceiptItem.ProductId).ToArray() } },
                    new DialogOptions() { Width = "700px", Height = "742px", Resizable = true, Draggable = true }) as List<ProductModel>;

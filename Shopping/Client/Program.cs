@@ -14,5 +14,6 @@ builder.Services.AddScoped(sp =>
     return new HttpClient { BaseAddress = new Uri(api) };
 });
 builder.Services.AddScoped<DialogService>();
+builder.Services.AddLocalization();
 
 await builder.Build().RunAsync();

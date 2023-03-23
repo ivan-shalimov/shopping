@@ -1,9 +1,15 @@
-﻿namespace Shopping.Client.Pages
+﻿using Microsoft.Extensions.Localization;
+using Shopping.Client.Shared.ResourceFiles;
+
+namespace Shopping.Client.Pages
 {
     public partial class Product : ComponentBase
     {
         [Inject]
         protected HttpClient HttpClient { get; set; }
+
+        [Inject]
+        protected IStringLocalizer<Resource> Localizer { get; set; }
 
         [Inject]
         protected DialogService DialogService { get; set; }
@@ -85,7 +91,7 @@
 
         public async Task StartMergeProduct(ProductModel product)
         {
-            var result = await DialogService.OpenAsync<MergeProductComponent>($"Merge products",
+            var result = await DialogService.OpenAsync<MergeProductComponent>(Localizer["Merge products"],
                    new Dictionary<string, object>() {
                    { nameof(MergeProductComponent.ProductToMerge), product } ,
                    { nameof(MergeProductComponent.AllProducts), _list } ,

@@ -12,9 +12,9 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Name</th>
+                    <th scope="col">@Localizer["Name"]</th>
                     <th scope="col">
-                        <span> Kind</span>
+                        <span>@Localizer["Kind"]</span>
                         <RadzenDropDown @bind-Value=@_filterProductKindId TValue="Guid" Class="w-100" Data=@_productKindsForFilter TextProperty="Name" ValueProperty="Id"
                                     Change="(async ()=> await Reload())" />
                     </th>
@@ -31,7 +31,7 @@
                         @if (_editedItem == null)
                         {
                             <div class="action-block">
-                                <button class="btn btn-primary" type="button" @onclick="@(async () => await Add())">Add</button>
+                                <button class="btn btn-primary" type="button" @onclick="@(async () => await Add())">@Localizer["Add"]</button>
                             </div>
                         }
                     </td>
@@ -43,7 +43,8 @@
                         {
                             <td><RadzenTextBox @bind-Value=@_editedItem.Name Class="w-100" /></td>
                             <td>
-                                <RadzenDropDown @bind-Value=@_editedItem.ProductKindId TValue="Guid" Class="w-100" Data=@_productKinds TextProperty="Name" ValueProperty="Id" />
+                                <RadzenDropDown @bind-Value=@_editedItem.ProductKindId TValue="Guid" 
+                                Class="w-100" Data=@_productKinds TextProperty="Name" ValueProperty="Id" />
                             </td>
                         }
                         else
@@ -58,8 +59,8 @@
                             {
                                 <td>
                                     <div class="action-block">
-                                        <button class="btn btn-primary" type="button" @onclick="@(async () => await Save())">Save</button>
-                                        <button class="btn btn-primary ms-2" type="button" @onclick="@(async () => Cancel())">Cancel</button>
+                                        <button class="btn btn-primary" type="button" @onclick="@(async () => await Save())">@Localizer["Save"]</button>
+                                        <button class="btn btn-primary ms-2" type="button" @onclick="@(async () => Cancel())">@Localizer["Cancel"]</button>
                                     </div>
                                 </td>
                             }
@@ -72,11 +73,11 @@
                         {
                             <td>
                                 <div class="action-block">
-                                    <button class="btn btn-primary" type="button" @onclick="@(async () => StartEdit(item))">Edit</button>
-                                    <button class="btn btn-primary" type="button" @onclick="@(async () => await StartMergeProduct(item))">Merge</button>
+                                    <button class="btn btn-primary" type="button" @onclick="@(async () => StartEdit(item))">@Localizer["Edit"]</button>
+                                    <button class="btn btn-primary" type="button" @onclick="@(async () => await StartMergeProduct(item))">@Localizer["Merge"]</button>
                                     @if (!item.Used)
                                     {
-                                        <button class="btn btn-primary" type="button" @onclick="@(async () =>await Delete(item))">Delete</button>
+                                        <button class="btn btn-primary" type="button" @onclick="@(async () =>await Delete(item))">@Localizer["Delete"]</button>
                                     }
                                 </div>
                             </td>

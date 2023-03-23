@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using Microsoft.Extensions.Localization;
+using Shopping.Client.Shared.ResourceFiles;
+using System.Globalization;
 
 namespace Shopping.Client.Pages
 {
@@ -6,6 +8,9 @@ namespace Shopping.Client.Pages
     {
         [Inject]
         protected HttpClient HttpClient { get; set; }
+
+        [Inject]
+        protected IStringLocalizer<Resource> Localizer { get; set; }
 
         public string PreviousMonthTotal { get; set; }
         public string CurrentMonthTotal { get; set; }

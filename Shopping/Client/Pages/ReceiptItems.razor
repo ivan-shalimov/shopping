@@ -10,13 +10,13 @@
         <table class="table ">
             <thead>
                 <tr>
-                    <th scope="col">Item</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Cost</th>
+                    <th scope="col">@Localizer["Item"]</th>
+                    <th scope="col">@Localizer["Price"]</th>
+                    <th scope="col">@Localizer["Amount"]</th>
+                    <th scope="col">@Localizer["Cost"]</th>
                     <th scope="col">
                         <div class="action-block">
-                            <button class="btn btn-primary" type="button" @onclick="@(async () => await OpenProductSelector())">Select products</button>
+                            <button class="btn btn-primary" type="button" @onclick="@(async () => await OpenProductSelector())">@Localizer["Select products"]</button>
                         </div>
                     </th>
                 </tr>
@@ -33,7 +33,7 @@
                                     <RadzenNumeric ShowUpDown="false" TValue="decimal" @bind-Value=@item.EditReceiptItem.Price Class="w-100" />
                                     <span hidden="@(!item.EditReceiptItem.IsPriceInvalid)"
                                           style="font-size:small; color:red">
-                                        Price is invalid.
+                                        @Localizer["Price is invalid."]
                                     </span>
                                 </div>
                             </td>
@@ -42,7 +42,7 @@
                                     <RadzenNumeric ShowUpDown="false" TValue="decimal" @bind-Value=@item.EditReceiptItem.Amount Class="w-100" />
                                     <span hidden="@(!item.EditReceiptItem.IsAmountInvalid)"
                                           style="font-size:small; color:red">
-                                        Amount is invalid.
+                                        @Localizer["Amount is invalid."]
                                     </span>
                                 </div>
                             </td>
@@ -51,13 +51,13 @@
                                 <div class="action-block">
                                     @if (item.IsNew)
                                     {
-                                        <button class="btn btn-primary" type="button" @onclick="@(async () => await Add(item))">Add</button>
-                                        <button class="btn btn-primary ms-2" type="button" @onclick="@(async () => await Delete(item))">Delete</button>
+                                        <button class="btn btn-primary" type="button" @onclick="@(async () => await Add(item))">@Localizer["Add"]</button>
+                                        <button class="btn btn-primary ms-2" type="button" @onclick="@(async () => await Delete(item))">@Localizer["Delete"]</button>
                                     }
                                     else
                                     {
-                                        <button class="btn btn-primary" type="button" @onclick="@(async () => await Save(item))">Save</button>
-                                        <button class="btn btn-primary ms-2" type="button" @onclick="@(async () => item.Cancel())">Cancel</button>
+                                        <button class="btn btn-primary" type="button" @onclick="@(async () => await Save(item))">@Localizer["Save"]</button>
+                                        <button class="btn btn-primary ms-2" type="button" @onclick="@(async () => item.Cancel())">@Localizer["Cancel"]</button>
                                     }
                                 </div>
                             </td>
@@ -72,8 +72,8 @@
                             <td>@item.ReceiptItem.Cost</td>
                             <td>
                                 <div class="action-block">
-                                    <button class="btn btn-primary" type="button" @onclick="@(() => item.StartEdit())">Edit</button>
-                                    <button class="btn btn-primary ms-2" type="button" @onclick="@(async () => await Delete(item))">Delete</button>
+                                    <button class="btn btn-primary" type="button" @onclick="@(() => item.StartEdit())">@Localizer["Edit"]</button>
+                                    <button class="btn btn-primary ms-2" type="button" @onclick="@(async () => await Delete(item))">@Localizer["Delete"]</button>
                                 </div>
                             </td>
                         </tr>

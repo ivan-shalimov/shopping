@@ -9,8 +9,8 @@
         </RadzenCard>
         <div class="mt-4 lg-12">
             <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Wrap="FlexWrap.Wrap">
-                <RadzenButton Variant="Variant.Outlined" Click=@(args => AddSelectedAndClose()) Text="AddSelectedAndClose" ButtonStyle="ButtonStyle.Success" />
-                <RadzenButton Variant="Variant.Outlined" Click=@(args => Close()) Text="Close" ButtonStyle="ButtonStyle.Secondary" />
+                <RadzenButton Variant="Variant.Outlined" Click=@(args => AddSelectedAndClose()) Text="@Localizer["AddSelectedAndClose"]" ButtonStyle="ButtonStyle.Success" />
+                <RadzenButton Variant="Variant.Outlined" Click=@(args => Close()) Text="@Localizer["Close"]" ButtonStyle="ButtonStyle.Secondary" />
             </RadzenStack>
         </div>
     </div>

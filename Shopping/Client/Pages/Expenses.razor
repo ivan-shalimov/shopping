@@ -5,19 +5,19 @@
 <RadzenCard class="my-4">
     <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.End" Wrap="FlexWrap.Wrap">
         <RadzenStack Orientation="Orientation.Vertical" Gap="4px">
-            Period
+            @Localizer["Period"]
             <RadzenDropDown Data="@_periods"  @bind-Value="@_selectedPeriod" Change="@(args => UpdatePeriodsDates())" 
                 TextProperty="Value" ValueProperty="Key" Size="ButtonSize.Small" />
         </RadzenStack>
         <RadzenStack Orientation="Orientation.Vertical" Gap="4px">
-            Start period date
+            @Localizer["Start period date"]
             <RadzenDatePicker @bind-Value=@_startDate Change="@(args => PeriodDatesChanged())" />
         </RadzenStack>
         <RadzenStack Orientation="Orientation.Vertical" Gap="4px" >
-            End period date
+            @Localizer["End period date"]
             <RadzenDatePicker @bind-Value=@_endDate Change="@(args => PeriodDatesChanged())" />
         </RadzenStack>
-        <RadzenButton Shade="Shade.Lighter" Click=@(async args => await Load()) Disabled="@(!_hasFilterChanges)" Text="Apply" ButtonStyle="ButtonStyle.Light" />
+        <RadzenButton Shade="Shade.Lighter" Click=@(async args => await Load()) Disabled="@(!_hasFilterChanges)" Text="@Localizer["Apply"]" ButtonStyle="ButtonStyle.Light" />
     </RadzenStack>
 </RadzenCard>
 
@@ -33,25 +33,25 @@
                     <Template Context="expenseByProduct">
                         <RadzenDataGrid AllowSorting="true" Data="@expenseByProduct.ProductExpensesDetails" TItem="ProductExpensesDetail">
                             <Columns>
-                                <RadzenDataGridColumn TItem="ProductExpensesDetail" Property="ShopName" Title="Shop Name" Width="323px" />
-                                <RadzenDataGridColumn TItem="ProductExpensesDetail" Property="SpentOn" Title="Spent On" FormatString="{0:d}" Width="140px" />
-                                <RadzenDataGridColumn TItem="ProductExpensesDetail" Property="Price" Title="Price" FormatString="{0:f2}" Width="110px" />
-                                <RadzenDataGridColumn TItem="ProductExpensesDetail" Property="Amount" Title="Amount" Width="90px" />
-                                <RadzenDataGridColumn TItem="ProductExpensesDetail" Property="Expenses" Title="Expenses" FormatString="{0:f2}" Width="140px" />
+                                <RadzenDataGridColumn TItem="ProductExpensesDetail" Property="ShopName" Title="@Localizer["Shop Name"]" Width="323px" />
+                                <RadzenDataGridColumn TItem="ProductExpensesDetail" Property="SpentOn" Title="@Localizer["Spent On"]" FormatString="{0:d}" Width="140px" />
+                                <RadzenDataGridColumn TItem="ProductExpensesDetail" Property="Price" Title="@Localizer["Price"]" FormatString="{0:f2}" Width="110px" />
+                                <RadzenDataGridColumn TItem="ProductExpensesDetail" Property="Amount" Title="@Localizer["Amount"]" Width="90px" />
+                                <RadzenDataGridColumn TItem="ProductExpensesDetail" Property="Expenses" Title="@Localizer["Expenses"]" FormatString="{0:f2}" Width="140px" />
                                 <RadzenDataGridColumn TItem="ProductExpensesDetail" />
                             </Columns>
                         </RadzenDataGrid>
                     </Template>
                     <Columns>
-                        <RadzenDataGridColumn TItem="ExpenseByProduct" Property="ProductName" Title="Product Name" Width="640px" />
-                        <RadzenDataGridColumn TItem="ExpenseByProduct" Property="Expenses" Title="Expenses" FormatString="{0:f2}" Width="140px" />
+                        <RadzenDataGridColumn TItem="ExpenseByProduct" Property="ProductName" Title="@Localizer["Product Name"]" Width="640px" />
+                        <RadzenDataGridColumn TItem="ExpenseByProduct" Property="Expenses" Title="@Localizer["Expenses"]" FormatString="{0:f2}" Width="140px" />
                         <RadzenDataGridColumn TItem="ExpenseByProduct" />
                     </Columns>
                 </RadzenDataGrid>
             </Template>
             <Columns>
-                <RadzenDataGridColumn TItem="ExpenseByKind" Property="KindName" Title="Kind Name" Width="650px" />
-                <RadzenDataGridColumn TItem="ExpenseByKind" Property="Expenses" Title="Expenses" FormatString="{0:f2}" Width="140px" />
+                <RadzenDataGridColumn TItem="ExpenseByKind" Property="KindName" Title="@Localizer["Kind Name"]" Width="650px" />
+                <RadzenDataGridColumn TItem="ExpenseByKind" Property="Expenses" Title="@Localizer["Expenses"]" FormatString="{0:f2}" Width="140px" />
                 <RadzenDataGridColumn TItem="ExpenseByKind" />
             </Columns>
         </RadzenDataGrid>

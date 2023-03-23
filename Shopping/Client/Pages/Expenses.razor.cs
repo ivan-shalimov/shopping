@@ -1,4 +1,7 @@
-﻿namespace Shopping.Client.Pages
+﻿using Microsoft.Extensions.Localization;
+using Shopping.Client.Shared.ResourceFiles;
+
+namespace Shopping.Client.Pages
 {
     public partial class Expenses : ComponentBase
     {
@@ -9,16 +12,12 @@
         [Inject]
         protected HttpClient HttpClient { get; set; }
 
+        [Inject]
+        protected IStringLocalizer<Resource> Localizer { get; set; }
+
         private IEnumerable<ExpenseByKind> _expensesByKind;
 
-        private IEnumerable<KeyValuePair<Periods, string>> _periods = new[]
-        {
-            new KeyValuePair<Periods, string>(Periods.CurrentMonth,"CurrentMonth"),
-            new KeyValuePair<Periods, string>(Periods.PreviousMonth,"Previous Month"),
-            new KeyValuePair<Periods, string>(Periods.CurrentYear,"Current Year"),
-            new KeyValuePair<Periods, string>(Periods.PreviousYear,"Previous Year"),
-            new KeyValuePair<Periods, string>(Periods.Custom,"Custom"),
-        };
+        private IEnumerable<KeyValuePair<Periods, string>> _periods = Array.Empty<KeyValuePair<Periods, string>>();
 
         private Periods _selectedPeriod = Periods.CurrentMonth;
 
@@ -30,6 +29,15 @@
 
         protected override async Task OnInitializedAsync()
         {
+            _periods = new[]
+           {
+                new KeyValuePair<Periods, string>(Periods.CurrentMonth, Localizer["Current Month"]),
+                new KeyValuePair<Periods, string>(Periods.PreviousMonth,Localizer["Previous Month"]),
+                new KeyValuePair<Periods, string>(Periods.CurrentYear,Localizer["Current Year"]),
+                new KeyValuePair<Periods, string>(Periods.PreviousYear,Localizer["Previous Year"]),
+                new KeyValuePair<Periods, string>(Periods.Custom,Localizer["Custom"]),
+            };
+
             _selectedPeriod = Period switch
             {
                 "previous-month" => Periods.PreviousMonth,
@@ -47,7 +55,7 @@
             _inProgress = true;
             _expensesByKind = Array.Empty<ExpenseByKind>();
 
-            var result = await HttpClient.GetFromJsonAsync<IDictionary<string, decimal>>($"/api/statistic/expenses-by-kinds?start={_startDate}&end={_endDate}");
+            var result = await HttpClient.GetFromJsonAsync<IDictionary<string, decimal>>($"/api/statistic/expenses-by-kinds?start={_startDate:O}&end={_endDate:O}");
             _inProgress = false;
             _expensesByKind = result
                 .Select(it => new ExpenseByKind { KindName = it.Key, Expenses = it.Value })
@@ -89,7 +97,7 @@
         {
             if (expenseByKind.ExpensesByProduct == null)
             {
-                var url = $"/api/statistic/expenses-by-products?kind={expenseByKind.KindName}&start={_startDate}&end={_endDate}";
+                var url = $"/api/statistic/expenses-by-products?kind={expenseByKind.KindName}&start={_startDate:O}&end={_endDate:O}";
                 var result = await HttpClient.GetFromJsonAsync<IDictionary<string, decimal>>(url);
                 expenseByKind.ExpensesByProduct = result
                 .Select(it => new ExpenseByProduct { ProductName = it.Key, Expenses = it.Value })
@@ -102,7 +110,7 @@
         {
             if (expenseByProduct.ProductExpensesDetails == null)
             {
-                var url = $"/api/statistic/product-expenses-details?productName={expenseByProduct.ProductName}&start={_startDate}&end={_endDate}";
+                var url = $"/api/statistic/product-expenses-details?productName={expenseByProduct.ProductName}&start={_startDate:O}&end={_endDate:O}";
                 var result = await HttpClient.GetFromJsonAsync<ProductExpensesDetail[]>(url);
                 expenseByProduct.ProductExpensesDetails = result.OrderBy(it => it.SpentOn).ToArray();
             }

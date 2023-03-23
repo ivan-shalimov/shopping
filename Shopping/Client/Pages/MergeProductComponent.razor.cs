@@ -1,4 +1,7 @@
-﻿namespace Shopping.Client.Pages
+﻿using Microsoft.Extensions.Localization;
+using Shopping.Client.Shared.ResourceFiles;
+
+namespace Shopping.Client.Pages
 {
     // implement feature to suggest three similar products
     public partial class MergeProductComponent : ComponentBase
@@ -11,6 +14,9 @@
 
         [Inject]
         protected HttpClient HttpClient { get; set; }
+
+        [Inject]
+        protected IStringLocalizer<Resource> Localizer { get; set; }
 
         [Inject]
         protected DialogService DialogService { get; set; }
