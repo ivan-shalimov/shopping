@@ -19,10 +19,19 @@ namespace Shopping.Services.Handlers
         {
             var query = from product in _context.Products
                         join productKind in _context.ProductKinds on product.ProductKindId equals productKind.Id
-                        where product.ProductKindId == request.ProductKindId || !request.ProductKindId.HasValue
-                        orderby product.Name 
-                        select new ProductModel { Id = product.Id, Name = product.Name, ProductKindId = productKind.Id, ProductKindName = productKind.Name };
-            
+                        where (product.ProductKindId == request.ProductKindId || !request.ProductKindId.HasValue)
+                        && (!product.Hidden || request.ShowHidden)
+                        orderby product.Type, product.Name
+                        select new ProductModel
+                        {
+                            Id = product.Id,
+                            Name = product.Name,
+                            Type = product.Type,
+                            ProductKindId = productKind.Id,
+                            Hidden = product.Hidden,
+                            ProductKindName = productKind.Name
+                        };
+
             var products = await query.ToArrayAsync(cancellationToken).ConfigureAwait(false);
 
             var hasreceitByKind = (await _context.ReceiptItems

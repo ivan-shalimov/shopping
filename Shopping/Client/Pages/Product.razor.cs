@@ -26,6 +26,8 @@ namespace Shopping.Client.Pages
         private ProductModel _newItem = new ProductModel();
         private ProductModel _editedItem = null;
 
+        private bool _showHidden = false;
+
         protected override async Task OnInitializedAsync()
         {
             _productKinds = await HttpClient.GetFromJsonAsync<ProductKindModel[]>("/api/products/kinds");
@@ -40,8 +42,8 @@ namespace Shopping.Client.Pages
         private async Task Reload()
         {
             _pending = true;
-            var query = _filterProductKindId == Guid.Empty ? string.Empty : $"?productKindId={_filterProductKindId}";
-            _list = await HttpClient.GetFromJsonAsync<ProductModel[]>($"/api/products{query}");
+            var query = _filterProductKindId == Guid.Empty ? string.Empty : $"&productKindId={_filterProductKindId}";
+            _list = await HttpClient.GetFromJsonAsync<ProductModel[]>($"/api/products?showHidden={_showHidden}{query}");
             _pending = false;
             if (_list == null)
             {
@@ -54,6 +56,7 @@ namespace Shopping.Client.Pages
             var request = new AddProduct
             {
                 Id = Guid.NewGuid(),
+                Type = _newItem.Type,
                 Name = _newItem.Name,
                 ProductKindId = _newItem.ProductKindId,
             };
@@ -77,7 +80,12 @@ namespace Shopping.Client.Pages
 
         private async Task Save()
         {
-            var request = new UpdateProduct { Name = _editedItem.Name, ProductKindId = _editedItem.ProductKindId, };
+            var request = new UpdateProduct
+            {
+                Name = _editedItem.Name,
+                Type = _editedItem.Type,
+                ProductKindId = _editedItem.ProductKindId,
+            };
             await HttpClient.PutAsJsonAsync($"/api/products/{_editedItem.Id}", request);
             _editedItem = null;
             await Reload().ConfigureAwait(false);
@@ -86,6 +94,18 @@ namespace Shopping.Client.Pages
         private async Task Delete(ProductModel product)
         {
             await HttpClient.DeleteAsync($"/api/products/{product.Id}");
+            await Reload().ConfigureAwait(false);
+        }
+
+        private async Task MarkAsHidden(ProductModel product)
+        {
+            await HttpClient.PutAsync($"/api/products/{product.Id}/hidden", null);
+            await Reload().ConfigureAwait(false);
+        }
+
+        private async Task MarkAsVisible(ProductModel product)
+        {
+            await HttpClient.PutAsync($"/api/products/{product.Id}/visible", null);
             await Reload().ConfigureAwait(false);
         }
 

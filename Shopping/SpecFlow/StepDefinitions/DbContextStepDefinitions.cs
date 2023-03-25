@@ -85,6 +85,18 @@ namespace Shopping.SpecFlow.StepDefinitions
             _context.SaveChanges();
         }
 
+        [Given(@"The DB has the product with hidden flag")]
+        public void GivenTheDBHasTheProductWithHiddenFlag()
+        {
+            var productKind = _scenarioContext.GetValueOrDefault<ProductKind>(TheProductKind);
+            var product = new Product { Id = Guid.NewGuid(), ProductKindId = productKind.Id, Name = new Faker().Name.Random.Word(), Hidden = true };
+            _scenarioContext[TheProduct] = product;
+            _scenarioContext[ProductId] = product.Id;
+            _scenarioContext[TheProductName] = product.Name;
+            _context.Products.Add(product);
+            _context.SaveChanges();
+        }
+
         [Given(@"The DB has another product for another product kind")]
         public void GivenTheDBHasAnotherProductForAnotherProductKind()
         {
@@ -174,14 +186,15 @@ namespace Shopping.SpecFlow.StepDefinitions
                 .Should().NotContainEquivalentOf(notherProduct);
         }
 
-        [Then(@"The DB should contain the product for the another product kind with the new name")]
+        [Then(@"The DB should contain the product with updated info")]
         public void ThenTheDBShouldContainTheProductForTheAnotherProductKindWithTheNewName()
         {
             var productId = _scenarioContext.GetValueOrDefault<Guid>(ProductId);
             var anotherProductKind = _scenarioContext.GetValueOrDefault<ProductKind>(AnotherProductKind);
             var newName = _scenarioContext.GetValueOrDefault<string>(TheNewName);
+            var newType = _scenarioContext.GetValueOrDefault<string>(TheNewType);
 
-            var product = new Product { Id = productId, Name = newName, ProductKindId = anotherProductKind.Id };
+            var product = new Product { Id = productId, Type = newType, Name = newName, ProductKindId = anotherProductKind.Id };
             _context.Products.AsNoTracking()
                 .Should().ContainEquivalentOf(product);
         }
@@ -235,6 +248,27 @@ namespace Shopping.SpecFlow.StepDefinitions
             _context.Products.AsNoTracking()
                 .Should().ContainEquivalentOf(new Product { Id = anotherProduct.Id, Name = anotherProduct.Name, ProductKindId = productKind.Id });
         }
+
+        [Then(@"The DB should contain the product with hidden flag")]
+        public void ThenTheDBShouldContainTheProductWithHiddenFlag()
+        {
+            var product = _scenarioContext.GetValueOrDefault<Product>(TheProduct);
+
+            _context.Products.AsNoTracking()
+                .Should().Contain(e => e.Id == product.Id)
+                .Which.Hidden.Should().BeTrue();
+        }
+
+        [Then(@"The DB should contain the product without hidden flag")]
+        public void ThenTheDBShouldContainTheProductWithoutHiddenFlag()
+        {
+            var product = _scenarioContext.GetValueOrDefault<Product>(TheProduct);
+
+            _context.Products.AsNoTracking()
+                .Should().Contain(e => e.Id == product.Id)
+                .Which.Hidden.Should().BeFalse();
+        }
+
 
         [Then(@"The DB should contain the receipt")]
         public void ThenTheDBShouldContainTheReceipt()

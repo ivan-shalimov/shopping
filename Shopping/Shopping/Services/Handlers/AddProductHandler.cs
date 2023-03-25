@@ -19,6 +19,7 @@ namespace Shopping.Services.Handlers
             var item = new Product
             {
                 Id = request.Id,
+                Type = request.Type,
                 Name = request.Name,
                 ProductKindId = request.ProductKindId,
             };

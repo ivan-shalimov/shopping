@@ -9,5 +9,8 @@
         public string Name { get; set; } = string.Empty;
 
         public Guid ProductKindId { get; set; }
+
+        public string Type { get; set; }
+        public bool Hidden { get; set; }
     }
 }

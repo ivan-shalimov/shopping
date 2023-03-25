@@ -37,6 +37,12 @@ namespace Shopping.Client.Pages
             await base.OnInitializedAsync();
         }
 
+        public string FormatProductName(RadzenTreeItem obj)
+        {
+            var model = obj.Value as ProductModel;
+            return model.Type == null ? model.Name : $"{model.Type} {model.Name}";
+        }
+
         private void OnChange(TreeEventArgs args)
         {
             if (args.Value is ProductModel productModel)

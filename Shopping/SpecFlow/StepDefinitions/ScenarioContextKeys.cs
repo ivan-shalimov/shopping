@@ -13,6 +13,7 @@
         public const string EndOfCurrentMonth = "EndOfCurrentMonth";
 
         public const string TheNewName = "TheNewName";
+        public const string TheNewType = "TheNewType";
         public const string CurrentMonth = "CurrentMonth";
 
         public const string ProductId = "ProductId";

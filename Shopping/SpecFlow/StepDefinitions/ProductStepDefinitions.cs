@@ -25,30 +25,55 @@ namespace Shopping.SpecFlow.StepDefinitions
         public void GivenIWantToAddNewProductForTheProductKind()
         {
             var productKind = GetTheProductKind();
-            var product = new Product { Id = Guid.NewGuid(), Name = new Faker().Name.Random.Word(), ProductKindId = productKind.Id };
+            var product = new Product { Id = Guid.NewGuid(), Type = new Faker().Name.Random.Word(), Name = new Faker().Name.Random.Word(), ProductKindId = productKind.Id };
             _scenarioContext[TheProduct] = product;
 
             var request = (new AddProduct
             {
                 Id = product.Id,
+                Type = product.Type,
                 Name = product.Name,
                 ProductKindId = productKind.Id,
             });
             _scenarioContext[RequestContentModel] = request;
         }
 
-        [Given(@"I want to rename the product and change product kind to another product kind")]
-        public void GivenIWantToRenameTheProductAndChangeProductKindToAnotherProductKind()
+        [Given(@"I want to update product")]
+        public void GivenIWantToUpdateProduct()
         {
-            var anotherProductKind = _scenarioContext.GetValueOrDefault<ProductKind>(AnotherProductKind);
             var product = GetTheProduct();
+
+            var request = new UpdateProduct { Id = product.Id, Name = product.Name, ProductKindId = product.ProductKindId, };
+            _scenarioContext[ProductId] = product.Id;
+            _scenarioContext[RequestContentModel] = request;
+        }
+
+        [Given(@"I want to update product's type")]
+        public void GivenIWantToUpdateProductsType()
+        {
+            var request = _scenarioContext.GetValueOrDefault<UpdateProduct>(RequestContentModel);
+            var theNewType = new Faker().Name.Random.Word();
+
+            _scenarioContext[TheNewType] = theNewType;
+            request.Type = theNewType;
+        }
+
+        [Given(@"I want to rename the product")]
+        public void GivenIWantToRenameTheProduct()
+        {
+            var request = _scenarioContext.GetValueOrDefault<UpdateProduct>(RequestContentModel);
             var theNewName = new Faker().Name.Random.Word();
 
             _scenarioContext[TheNewName] = theNewName;
+            request.Name = theNewName;
+        }
 
-            var request = new UpdateProduct { Id = product.Id, Name = theNewName, ProductKindId = anotherProductKind.Id, };
-            _scenarioContext[ProductId] = product.Id;
-            _scenarioContext[RequestContentModel] = request;
+        [Given(@"I want to change product kind to another product kind")]
+        public void GivenIWantToChangeProductKindToAnotherProductKind()
+        {
+            var anotherProductKind = _scenarioContext.GetValueOrDefault<ProductKind>(AnotherProductKind);
+            var request = _scenarioContext.GetValueOrDefault<UpdateProduct>(RequestContentModel);
+            request.ProductKindId = anotherProductKind.Id;
         }
 
         [Given(@"I want to delete the product")]
@@ -71,7 +96,6 @@ namespace Shopping.SpecFlow.StepDefinitions
             _scenarioContext[RequestContentModel] = request;
         }
 
-
         [When(@"The result contains the product with the product kind")]
         public void WhenTheResultContainsTheProductWithTheProductKind()
         {
@@ -84,7 +108,7 @@ namespace Shopping.SpecFlow.StepDefinitions
         }
 
         [Then(@"The response should contains both products")]
-        public void ThenTheResponseShouldContainsTheProduct()
+        public void ThenTheResponseShouldContainsTheProducts()
         {
             var product = GetTheProduct();
             var productKind = GetTheProductKind();
@@ -99,6 +123,7 @@ namespace Shopping.SpecFlow.StepDefinitions
             products.Should().ContainEquivalentOf(expectedAnother, config => config.ExcludingMissingMembers());
         }
 
+
         [Then(@"The response should contains products only for the product kind")]
         public void ThenTheResponseShouldContainsProductsOnlyForTheProductKind()
         {
@@ -107,5 +132,20 @@ namespace Shopping.SpecFlow.StepDefinitions
             var products = _scenarioContext.GetDeserializedCollectionOrEmpty<ProductModel>(ResponseContent);
             products.Should().OnlyContain(item => item.ProductKindId == productKind.Id);
         }
+
+        [Then(@"The response should not contain products with hidden flag")]
+        public void ThenTheResponseShouldNotContainProductsWithHiddenFlag()
+        {
+            var products = _scenarioContext.GetDeserializedCollectionOrEmpty<ProductModel>(ResponseContent);
+            products.Should().NotContain(item => item.Hidden);
+        }
+
+        [Then(@"The response should contains the product with hidden flag")]
+        public void ThenTheResponseShouldContainsTheProductWithHiddenFlag()
+        {
+            var products = _scenarioContext.GetDeserializedCollectionOrEmpty<ProductModel>(ResponseContent);
+            products.Should().Contain(item => item.Hidden);
+        }
+
     }
 }

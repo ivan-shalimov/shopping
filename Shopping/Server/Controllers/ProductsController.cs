@@ -18,9 +18,9 @@ namespace Shopping.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ProductModel[]>> GetProducts(Guid? productKindId)
+        public async Task<ActionResult<ProductModel[]>> GetProducts(Guid? productKindId, bool showHidden)
         {
-            var result = await _mediator.Send(new GetProducts { ProductKindId = productKindId });
+            var result = await _mediator.Send(new GetProducts { ProductKindId = productKindId, ShowHidden = showHidden });
             return Ok(result);
         }
 
@@ -36,6 +36,20 @@ namespace Shopping.Server.Controllers
         {
             request.Id = id;
             await _mediator.Send(request);
+            return Ok();
+        }
+
+        [HttpPut("{id}/hidden")]
+        public async Task<IActionResult> MarkAsHidden(Guid id)
+        {
+            await _mediator.Send(new ChangeProductVisibility { Id = id, Hidden = true });
+            return Ok();
+        }
+
+        [HttpPut("{id}/visible")]
+        public async Task<IActionResult> MarkAsVisible(Guid id)
+        {
+            await _mediator.Send(new ChangeProductVisibility { Id = id, Hidden = false });
             return Ok();
         }
 

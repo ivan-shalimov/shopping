@@ -245,17 +245,17 @@ this.FeatureBackground();
 #line 33
  testRunner.And("The DB has the set receipt with items created in previous month", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-                TechTalk.SpecFlow.Table table15 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table17 = new TechTalk.SpecFlow.Table(new string[] {
                             "page",
                             "pageSize",
                             "orderBy"});
-                table15.AddRow(new string[] {
+                table17.AddRow(new string[] {
                             "1",
                             "10",
                             "percent"});
 #line 34
  testRunner.When("I make a GET request to \'api/statistic/product-cost-change\' with query parameters" +
-                        "", ((string)(null)), table15, "When ");
+                        "", ((string)(null)), table17, "When ");
 #line hidden
 #line 37
  testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -294,14 +294,14 @@ this.FeatureBackground();
 #line 42
  testRunner.And("The DB has the set receipt with items created in previous month", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-                TechTalk.SpecFlow.Table table16 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table18 = new TechTalk.SpecFlow.Table(new string[] {
                             "start",
                             "end"});
-                table16.AddRow(new string[] {
+                table18.AddRow(new string[] {
                             "{StartOfCurrentMonth}",
                             "{EndOfCurrentMonth}"});
 #line 43
- testRunner.When("I make a GET request to \'api/statistic/expenses-by-kinds\' with query parameters", ((string)(null)), table16, "When ");
+ testRunner.When("I make a GET request to \'api/statistic/expenses-by-kinds\' with query parameters", ((string)(null)), table18, "When ");
 #line hidden
 #line 46
  testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -340,17 +340,17 @@ this.FeatureBackground();
 #line 51
  testRunner.And("The DB has the set receipt with items created in previous month", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-                TechTalk.SpecFlow.Table table17 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table19 = new TechTalk.SpecFlow.Table(new string[] {
                             "kind",
                             "start",
                             "end"});
-                table17.AddRow(new string[] {
+                table19.AddRow(new string[] {
                             "{TheProductKindName}",
                             "{StartOfCurrentMonth}",
                             "{EndOfCurrentMonth}"});
 #line 52
  testRunner.When("I make a GET request to \'api/statistic/expenses-by-products\' with query parameter" +
-                        "s", ((string)(null)), table17, "When ");
+                        "s", ((string)(null)), table19, "When ");
 #line hidden
 #line 55
  testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -390,17 +390,17 @@ this.FeatureBackground();
 #line 60
  testRunner.And("The DB has the set receipt with items created in previous month", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-                TechTalk.SpecFlow.Table table18 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table20 = new TechTalk.SpecFlow.Table(new string[] {
                             "productName",
                             "start",
                             "end"});
-                table18.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "{TheProductName}",
                             "{StartOfCurrentMonth}",
                             "{EndOfCurrentMonth}"});
 #line 61
  testRunner.When("I make a GET request to \'api/statistic/product-expenses-details\' with query param" +
-                        "eters", ((string)(null)), table18, "When ");
+                        "eters", ((string)(null)), table20, "When ");
 #line hidden
 #line 64
  testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");

@@ -12,17 +12,22 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th scope="col">@Localizer["Type"]</th>
                     <th scope="col">@Localizer["Name"]</th>
                     <th scope="col">
                         <span>@Localizer["Kind"]</span>
                         <RadzenDropDown @bind-Value=@_filterProductKindId TValue="Guid" Class="w-100" Data=@_productKindsForFilter TextProperty="Name" ValueProperty="Id"
                                     Change="(async ()=> await Reload())" />
                     </th>
-                    <th class="action-block-col" scope="col"></th>
+                    <th class="action-block-col" scope="col">
+                        <RadzenCheckBox @bind-Value=@_showHidden Name="CheckBox1" Change=@(async (bool args) => {_showHidden = args; await Reload(); }) />
+                        <RadzenLabel Text="@Localizer["Show hidden"]" Component="CheckBox1" Style="margin-left: 8px; vertical-align: middle;" />
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
+                    <td><RadzenTextBox @bind-Value=@_newItem.Type Class="w-100" /></td>
                     <td><RadzenTextBox @bind-Value=@_newItem.Name Class="w-100" /></td>
                     <td>
                         <RadzenDropDown @bind-Value=@_newItem.ProductKindId TValue="Guid" Class="w-100" Data=@_productKinds TextProperty="Name" ValueProperty="Id" />
@@ -41,6 +46,7 @@
                     <tr>
                         @if (_editedItem?.Id == item.Id)
                         {
+                            <td><RadzenTextBox @bind-Value=@_editedItem.Type Class="w-100" /></td>
                             <td><RadzenTextBox @bind-Value=@_editedItem.Name Class="w-100" /></td>
                             <td>
                                 <RadzenDropDown @bind-Value=@_editedItem.ProductKindId TValue="Guid" 
@@ -49,6 +55,7 @@
                         }
                         else
                         {
+                            <td>@item.Type</td>
                             <td>@item.Name</td>
                             <td>@item.ProductKindName</td>
                         }
@@ -78,6 +85,13 @@
                                     @if (!item.Used)
                                     {
                                         <button class="btn btn-primary" type="button" @onclick="@(async () =>await Delete(item))">@Localizer["Delete"]</button>
+                                    }
+                                    @if (!item.Hidden)
+                                    {
+                                        <button class="btn btn-primary" type="button" @onclick="@(async () =>await MarkAsHidden(item))">@Localizer["Mark as hidden"]</button>
+                                    }else
+                                    {
+                                        <button class="btn btn-primary" type="button" @onclick="@(async () =>await MarkAsVisible(item))">@Localizer["Mark as visible"]</button>
                                     }
                                 </div>
                             </td>

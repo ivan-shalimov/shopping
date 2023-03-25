@@ -304,6 +304,24 @@ namespace Shopping.Client.Shared.ResourceFiles {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mark as hidden.
+        /// </summary>
+        public static string Mark_as_hidden {
+            get {
+                return ResourceManager.GetString("Mark as hidden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mark as visible.
+        /// </summary>
+        public static string Mark_as_visible {
+            get {
+                return ResourceManager.GetString("Mark as visible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Merge.
         /// </summary>
         public static string Merge {
@@ -502,6 +520,15 @@ namespace Shopping.Client.Shared.ResourceFiles {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show hidden.
+        /// </summary>
+        public static string Show_hidden {
+            get {
+                return ResourceManager.GetString("Show hidden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Spent On.
         /// </summary>
         public static string Spent_On {
@@ -534,6 +561,15 @@ namespace Shopping.Client.Shared.ResourceFiles {
         public static string Total {
             get {
                 return ResourceManager.GetString("Total", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        public static string Type {
+            get {
+                return ResourceManager.GetString("Type", resourceCulture);
             }
         }
         

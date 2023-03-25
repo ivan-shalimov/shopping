@@ -30,6 +30,7 @@ namespace Shopping.Services.Handlers
                             Id = receiptItem.Id,
                             ProductId = product.Id,
                             ProductName = product.Name,
+                            ProductType = product.Type,
                             Price = receiptItem.Price,
                             Amount = receiptItem.Amount
                         };

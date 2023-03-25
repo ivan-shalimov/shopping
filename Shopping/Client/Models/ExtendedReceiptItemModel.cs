@@ -24,6 +24,7 @@ namespace Shopping.Client.Models
             {
                 Id = Guid.NewGuid(),
                 ProductId = productModel.Id,
+                ProductType = productModel.Type,
                 ProductName = productModel.Name,
                 Price = price,
             };

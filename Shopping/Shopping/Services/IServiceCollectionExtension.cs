@@ -38,6 +38,7 @@ namespace Shopping.Services
             services.AddScoped<IRequestHandler<GetProducts, ProductModel[]>, GetProductsHandler>();
             services.AddScoped<IRequestHandler<AddProduct>, AddProductHandler>();
             services.AddScoped<IRequestHandler<UpdateProduct>, UpdateProductHandler>();
+            services.AddScoped<IRequestHandler<ChangeProductVisibility, Either<Fail, Success>>, ChangeProductVisibilityHandler>();
             services.AddScoped<IRequestHandler<DeleteProduct, Either<Fail, Success>>, DeleteProductHandler>();
 
             services.AddScoped<IRequestHandler<DeleteProduct, Either<Fail, Success>>, DeleteProductHandler>();

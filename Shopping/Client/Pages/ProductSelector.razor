@@ -4,7 +4,11 @@
             <RadzenTree @ref=@radzenTree AllowCheckBoxes="true" AllowCheckChildren="false" AllowCheckParents="false" Style="width: 100%; height: 100%"
                         Change=@OnChange Data=@_kindWithProducts @bind-CheckedValues=@_checkedValues>
                 <RadzenTreeLevel TextProperty="Name" ChildrenProperty="Products" Expanded=@(e=>(e as ProductKindsGroup).IsExpanded) />
-                <RadzenTreeLevel TextProperty="Name" HasChildren=@(product => false) />
+                <RadzenTreeLevel TextProperty="Name" HasChildren=@(product => false)>
+                    <Template>
+                        @FormatProductName(context)
+                    </Template>
+                </RadzenTreeLevel>
             </RadzenTree>
         </RadzenCard>
         <div class="mt-4 lg-12">

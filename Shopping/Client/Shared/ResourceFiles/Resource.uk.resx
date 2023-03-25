@@ -198,6 +198,12 @@
   <data name="Last Cost" xml:space="preserve">
     <value>Остання ціна</value>
   </data>
+  <data name="Mark as hidden" xml:space="preserve">
+    <value>Приховати</value>
+  </data>
+  <data name="Mark as visible" xml:space="preserve">
+    <value>Відображувати</value>
+  </data>
   <data name="Merge" xml:space="preserve">
     <value>Об'єднати</value>
   </data>
@@ -264,6 +270,9 @@
   <data name="Shops" xml:space="preserve">
     <value>Магазини</value>
   </data>
+  <data name="Show hidden" xml:space="preserve">
+    <value>Відобразити приховані</value>
+  </data>
   <data name="Spent On" xml:space="preserve">
     <value>Дата</value>
   </data>
@@ -275,6 +284,9 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>Загальна сума</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Тип</value>
   </data>
   <data name="Welcome in" xml:space="preserve">
     <value>Вітаю</value>

@@ -198,6 +198,12 @@
   <data name="Last Cost" xml:space="preserve">
     <value>Last Cost</value>
   </data>
+  <data name="Mark as hidden" xml:space="preserve">
+    <value>Mark as hidden</value>
+  </data>
+  <data name="Mark as visible" xml:space="preserve">
+    <value>Mark as visible</value>
+  </data>
   <data name="Merge" xml:space="preserve">
     <value>Merge</value>
   </data>
@@ -264,6 +270,9 @@
   <data name="Shops" xml:space="preserve">
     <value>Shops</value>
   </data>
+  <data name="Show hidden" xml:space="preserve">
+    <value>Show hidden</value>
+  </data>
   <data name="Spent On" xml:space="preserve">
     <value>Spent On</value>
   </data>
@@ -275,6 +284,9 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>Total</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
   </data>
   <data name="Welcome in" xml:space="preserve">
     <value>Welcome in </value>

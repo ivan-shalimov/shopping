@@ -11,5 +11,9 @@
         public string ProductKindName { get; set; } = string.Empty;
 
         public bool Used { get; set; }
+
+        public bool Hidden { get; set; }
+
+        public string Type { get; set; }
     }
 }
