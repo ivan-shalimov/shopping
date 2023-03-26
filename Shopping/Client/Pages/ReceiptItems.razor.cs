@@ -31,7 +31,7 @@ namespace Shopping.Client.Pages
             var result = await DialogService.OpenAsync<ProductSelector>(Localizer["Please select the product to add them to receipt"],
                    new Dictionary<string, object>() {
                    { nameof(ProductSelector.ReceiptProductIs), _list.Select(item => item.ReceiptItem.ProductId).ToArray() } },
-                   new DialogOptions() { Width = "700px", Height = "742px", Resizable = true, Draggable = true }) as List<ProductModel>;
+                   new DialogOptions() { Width = "746px", Height = "742px", Resizable = true, Draggable = true }) as List<ProductModel>;
             if (result != null && result.Any())
             {
                 var url = $"/api/prices/latest?receiptId={ReceiptId}&" + string.Join('&', result.Select(p => $"productIds={p.Id}"));

@@ -10,6 +10,8 @@
 
         public string ProductName { get; set; }
 
+        public string ProductKind { get; set; }
+
         public decimal Price { get; set; }
 
         public decimal Amount { get; set; }

@@ -26,6 +26,7 @@ namespace Shopping.Client.Models
                 ProductId = productModel.Id,
                 ProductType = productModel.Type,
                 ProductName = productModel.Name,
+                ProductKind = productModel.ProductKindName,
                 Price = price,
             };
             IsNew = true;

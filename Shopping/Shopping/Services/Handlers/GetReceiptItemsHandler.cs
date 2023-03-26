@@ -23,6 +23,7 @@ namespace Shopping.Services.Handlers
 
             var query = from receiptItem in _context.ReceiptItems
                         join product in _context.Products on receiptItem.ProductId equals product.Id
+                        join productKind in _context.ProductKinds on product.ProductKindId equals productKind.Id
                         orderby product.Name
                         where receiptItem.ReceiptId == request.ReceiptId
                         select new ReceiptItemModel
@@ -31,6 +32,7 @@ namespace Shopping.Services.Handlers
                             ProductId = product.Id,
                             ProductName = product.Name,
                             ProductType = product.Type,
+                            ProductKind = productKind.Name,
                             Price = receiptItem.Price,
                             Amount = receiptItem.Amount
                         };

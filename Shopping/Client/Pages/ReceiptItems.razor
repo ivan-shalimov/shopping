@@ -27,7 +27,11 @@
                     @if (item.IsEditing)
                     {
                         <tr>
-                            <td>@item.ReceiptItem.ProductType @item.ReceiptItem.ProductName</td>
+                            <td>
+                                <label class="rz-color-base-500" style="font-size:12px">@item.ReceiptItem.ProductKind</label>
+                                <br />
+                                @item.ReceiptItem.ProductType @item.ReceiptItem.ProductName
+                            </td>
                             <td>
                                 <div style="display:flex; flex-direction:column">
                                     <RadzenNumeric ShowUpDown="false" TValue="decimal" @bind-Value=@item.EditReceiptItem.Price Class="w-100" />
@@ -66,7 +70,11 @@
                     else
                     {
                         <tr>
-                            <td>@item.ReceiptItem.ProductType @item.ReceiptItem.ProductName</td>
+                            <td>
+                                <label class="rz-color-base-500" style="font-size:12px">@item.ReceiptItem.ProductKind</label>
+                                <br />
+                                @item.ReceiptItem.ProductType @item.ReceiptItem.ProductName
+                            </td>
                             <td>@item.ReceiptItem.Price</td>
                             <td>@item.ReceiptItem.Amount</td>
                             <td>@item.ReceiptItem.Cost</td>
