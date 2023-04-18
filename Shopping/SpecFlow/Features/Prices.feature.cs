@@ -77,19 +77,76 @@ namespace Shopping.SpecFlow.Features
         
         public virtual void FeatureBackground()
         {
-#line 4
-#line hidden
 #line 5
-testRunner.Given("The DB has the product kind", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
+            TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Kind name",
+                        "Product Name"});
+            table1.AddRow(new string[] {
+                        "Vegetables",
+                        "Carrot"});
+            table1.AddRow(new string[] {
+                        "Vegetables",
+                        "Onion"});
 #line 6
-testRunner.And("The DB has another product kind", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("The Db has the following products", ((string)(null)), table1, "Given ");
 #line hidden
-#line 7
-testRunner.And("The DB has a product for the product kind", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Product Name",
+                        "Price",
+                        "Amount",
+                        "Cost"});
+            table2.AddRow(new string[] {
+                        "Carrot",
+                        "8",
+                        "3",
+                        "24"});
+            table2.AddRow(new string[] {
+                        "Onion",
+                        "4",
+                        "3",
+                        "24"});
+#line 10
+ testRunner.And("The Db has receipt for \'Local\' shop on 1st of the previous month with the followi" +
+                    "ng items", ((string)(null)), table2, "And ");
 #line hidden
-#line 8
-testRunner.And("The DB has another product for another product kind", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Product Name",
+                        "Price",
+                        "Amount",
+                        "Cost"});
+            table3.AddRow(new string[] {
+                        "Carrot",
+                        "10",
+                        "3",
+                        "30"});
+            table3.AddRow(new string[] {
+                        "Onion",
+                        "5.5",
+                        "10",
+                        "55"});
+#line 14
+ testRunner.And("The Db has receipt for \'Local\' shop on 1st of this month with the following items" +
+                    "", ((string)(null)), table3, "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Product Name",
+                        "Price",
+                        "Amount",
+                        "Cost"});
+            table4.AddRow(new string[] {
+                        "Carrot",
+                        "5",
+                        "3",
+                        "15"});
+            table4.AddRow(new string[] {
+                        "Onion",
+                        "5",
+                        "1",
+                        "5"});
+#line 18
+ testRunner.And("The Db has receipt for \'Gypper market\' shop on 1st of this month with the followi" +
+                    "ng items", ((string)(null)), table4, "And ");
 #line hidden
         }
         
@@ -106,7 +163,7 @@ testRunner.And("The DB has another product for another product kind", ((string)(
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get prices for products by from last receipt of the shop", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 10
+#line 23
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -116,38 +173,48 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 4
+#line 5
 this.FeatureBackground();
 #line hidden
-#line 11
- testRunner.Given("There are some receipt of two shops", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 24
+ testRunner.Given("I have created a new receipt for \'Local\' shop", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 12
- testRunner.And("I have created a new receipt for the shop", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+                TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Product Name"});
+                table5.AddRow(new string[] {
+                            "Carrot"});
+                table5.AddRow(new string[] {
+                            "Onion"});
+#line 25
+ testRunner.And("I have selected the following products", ((string)(null)), table5, "And ");
 #line hidden
-#line 13
- testRunner.And("I have selected products to add them to receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 14
+#line 29
  testRunner.And("I want to get prices for the products of the shop to fill them for selected produ" +
                         "cts", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-                TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
                             "receiptId",
-                            "productIds",
                             "productIds"});
-                table1.AddRow(new string[] {
+                table6.AddRow(new string[] {
                             "{TheReceiptId}",
-                            "{ProductId}",
-                            "{AnotherProductId}"});
-#line 15
- testRunner.When("I make a GET request to \'api/prices/latest\' with query parameters", ((string)(null)), table1, "When ");
+                            "{ProductIds}"});
+#line 30
+ testRunner.When("I make a GET request to \'api/prices/latest\' with query parameters", ((string)(null)), table6, "When ");
 #line hidden
-#line 18
+#line 33
  testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 19
- testRunner.And("The response should contains last product\'s prices of the shop", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+                TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Product name",
+                            "Prices"});
+                table7.AddRow(new string[] {
+                            "Carrot",
+                            "10"});
+                table7.AddRow(new string[] {
+                            "Onion",
+                            "5.5"});
+#line 34
+ testRunner.And("The response should contains the following prices", ((string)(null)), table7, "And ");
 #line hidden
             }
             this.ScenarioCleanup();

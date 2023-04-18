@@ -17,7 +17,6 @@ Scenario: Get all receipts
 	Then The response status should be success
 	And The response should contains the receipt
 
-
 Scenario: Add new receipt
 	Given I want to add a new receipt with
 	| Description | Date     |
@@ -33,7 +32,6 @@ Scenario: Add new receipt without description
 	When I make a POST request to 'api/receipts'
 	Then The response status should be bad request
 	And The response should contains the error 'The description should not be empty.'	
-
 	
 Scenario: Update receipt
 	Given The DB has the receipt
@@ -71,34 +69,20 @@ Scenario: Add item to the receipt
 	When I make a POST request to 'api/receipts/{TheReceiptId}/items'
 	Then The response status should be success
 	And The DB should contain the item of the receipt
-		
-Scenario: Add item to the receipt without product
-	Given The DB has the receipt
-	And I want to add new item to the receipt with
-	| ProductId | Price | Amount |
-	| {EmptyId} | 1.2   | 2      |
-	When I make a POST request to 'api/receipts/{TheReceiptId}/items'
-	Then The response status should be bad request
-	And The response should contains the error 'The ProductId is required.'
-		
-Scenario: Add item to the receipt without price
-	Given The DB has the receipt
-	And I want to add new item to the receipt with
-	| ProductId   | Price | Amount |
-	| {ProductId} | 0     | 2      |
-	When I make a POST request to 'api/receipts/{TheReceiptId}/items'
-	Then The response status should be bad request
-	And The response should contains the error 'The Price can not be zero or negative.'
-		
-Scenario: Add item to the receipt without amount
-	Given The DB has the receipt
-	And I want to add new item to the receipt with
-	| ProductId   | Price | Amount |
-	| {ProductId} | 1.2   | 0      |
-	When I make a POST request to 'api/receipts/{TheReceiptId}/items'
-	Then The response status should be bad request
-	And The response should contains the error 'The Amount can not be zero or negative.'	
 
+Scenario Outline: Add item to the receipt with invalid data
+	Given The DB has the receipt
+	And I want to add new item to the receipt with
+	| ProductId   | Price   | Amount   |
+	| <ProductId> | <Price> | <Amount> |
+	When I make a POST request to 'api/receipts/{TheReceiptId}/items'
+	Then The response status should be bad request
+	And The response should contains the error '<Error>'
+Examples: 
+	| ProductId   | Price | Amount | Error                                   |
+	| {EmptyId}   | 1.2   | 2      | The ProductId is required.              |
+	| {ProductId} | 0     | 2      | The Price can not be zero or negative.  |
+	| {ProductId} | 1.2   | 0      | The Amount can not be zero or negative. |
 	
 Scenario: Update price or amount of the receipt's item
 	Given The DB has the receipt
@@ -110,26 +94,19 @@ Scenario: Update price or amount of the receipt's item
 	Then The response status should be success
 	And The DB should contain the item of the receipt
 		
-Scenario: Update item of the receipt with zero price
+Scenario Outline: Update item of the receipt with invalid data
 	Given The DB has the receipt
 	And The DB has the item with the product of the receipt
 	And I want to update the item of the receipt
-	| Price | Amount |
-	| 0     | 3      |
+	| Price   | Amount   |
+	| <Price> | <Amount> |
 	When I make a PUT request to 'api/receipts/{TheReceiptId}/items/{TheReceiptItemId}'
 	Then The response status should be bad request
-	And The response should contains the error 'The Price can not be zero or negative.'
-		
-Scenario: Update item of the receipt with zero amount
-	Given The DB has the receipt
-	And The DB has the item with the product of the receipt
-	And I want to update the item of the receipt
-	| Price | Amount |
-	| 2.2   | 0      |
-	When I make a PUT request to 'api/receipts/{TheReceiptId}/items/{TheReceiptItemId}'
-	Then The response status should be bad request
-	And The response should contains the error 'The Amount can not be zero or negative.'
-	
+	And The response should contains the error '<Error>'
+Examples: 
+	| Price | Amount | Error                                   |
+	| 0     | 2      | The Price can not be zero or negative.  |
+	| 2.2   | 0      | The Amount can not be zero or negative. |
 
 Scenario: Delete item of the receipt
 	Given The DB has the receipt

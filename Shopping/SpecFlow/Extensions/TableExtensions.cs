@@ -1,4 +1,6 @@
-﻿namespace Shopping.SpecFlow.Extensions
+﻿using System.Collections;
+
+namespace Shopping.SpecFlow.Extensions
 {
     public static class TableExtensions
     {
@@ -14,7 +16,23 @@
                 if (kv.Value.StartsWith("{") && kv.Value.EndsWith("}"))
                 {
                     var key = kv.Value.Substring(1, kv.Value.Length - 2);
-                    var value = scenarioContext.TryGetValue(key, out var v) ? v.ToString() : string.Empty;
+                    var value = scenarioContext.TryGetValue(key, out var v) ? v: null;
+                    if(value == null)
+                    {
+                        throw new InvalidOperationException($"Value with key {key} is not found in context.");
+                    }
+
+                    if (value is IEnumerable values)
+                    {
+                        var pairs = new List<string>();
+                        foreach (var valueItem in values)
+                        {
+                            pairs.Add($"{kv.Key}={valueItem}");
+                        }
+
+                        return string.Join("&", pairs);
+                    }
+
                     return $"{kv.Key}={value}";
                 }
                 else

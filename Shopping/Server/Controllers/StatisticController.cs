@@ -77,9 +77,9 @@ namespace Shopping.Server.Controllers
         }
 
         [HttpGet("product-cost-change")]
-        public async Task<ActionResult<ProductCostChange[]>> GetProductCostChange([FromQuery] int page, [FromQuery] int pageSize, [FromQuery] string orderBy)
+        public async Task<ActionResult<ProductCostChange[]>> GetProductCostChange([FromQuery] int page, [FromQuery] int pageSize)
         {
-            var result = await _mediator.Send(new GetProductCostChange { Page = page, PageSize = pageSize, OrderBy = orderBy });
+            var result = await _mediator.Send(new GetProductCostChange { Page = page, PageSize = pageSize });
             return Ok(result);
         }
     }

@@ -21,7 +21,8 @@ namespace Shopping.SpecFlow.Hooks
         [AfterScenario]
         public void AfterScenario(ShoppingDbContext context)
         {
-            context.ReceiptItems.RemoveRange(context.ReceiptItems);
+            context.RemoveRange(context.ReceiptItems);
+            context.RemoveRange(context.Receipts);
             context.SaveChanges();
         }
 

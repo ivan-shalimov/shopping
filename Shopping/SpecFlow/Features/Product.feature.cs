@@ -162,12 +162,12 @@ this.FeatureBackground();
 #line 19
  testRunner.And("The DB has another product for another product kind", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-                TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
                             "productKindId"});
-                table2.AddRow(new string[] {
+                table8.AddRow(new string[] {
                             "{TheProductKindId}"});
 #line 20
- testRunner.When("I make a GET request to \'api/products/\' with query parameters", ((string)(null)), table2, "When ");
+ testRunner.When("I make a GET request to \'api/products/\' with query parameters", ((string)(null)), table8, "When ");
 #line hidden
 #line 23
  testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -203,12 +203,12 @@ this.FeatureBackground();
 #line 27
  testRunner.Given("The DB has the product with hidden flag", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
                             "showHidden"});
-                table3.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "False"});
 #line 28
- testRunner.When("I make a GET request to \'api/products/\' with query parameters", ((string)(null)), table3, "When ");
+ testRunner.When("I make a GET request to \'api/products/\' with query parameters", ((string)(null)), table9, "When ");
 #line hidden
 #line 31
  testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -244,12 +244,12 @@ this.FeatureBackground();
 #line 35
  testRunner.Given("The DB has the product with hidden flag", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
                             "showHidden"});
-                table4.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "True"});
 #line 36
- testRunner.When("I make a GET request to \'api/products/\' with query parameters", ((string)(null)), table4, "When ");
+ testRunner.When("I make a GET request to \'api/products/\' with query parameters", ((string)(null)), table10, "When ");
 #line hidden
 #line 39
  testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");

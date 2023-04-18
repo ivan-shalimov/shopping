@@ -2,6 +2,7 @@ using Bogus;
 using Microsoft.EntityFrameworkCore;
 using Shopping.DataAccess;
 using Shopping.Models.Domain;
+using Shopping.SpecFlow.Contexts;
 using Shopping.SpecFlow.Extensions;
 using static Shopping.SpecFlow.StepDefinitions.ScenarioContextKeys;
 using Product = Shopping.Models.Domain.Product;
@@ -11,14 +12,89 @@ namespace Shopping.SpecFlow.StepDefinitions
     [Binding]
     public class DbContextStepDefinitions
     {
+        private readonly ShoppingContext _stactisticContext;
         private readonly ScenarioContext _scenarioContext;
 
         public ShoppingDbContext _context { get; }
 
-        public DbContextStepDefinitions(ScenarioContext scenarioContext, ShoppingDbContext context)
+        public DbContextStepDefinitions(ScenarioContext scenarioContext, ShoppingContext stactisticContext, ShoppingDbContext context)
         {
             _scenarioContext = scenarioContext;
+            _stactisticContext = stactisticContext;
             _context = context;
+        }
+
+        [Given(@"The Db has the following products")]
+        public void GivenTheDbHasTheFollowingProducts(Table table)
+        {
+            foreach (var row in table.Rows)
+            {
+                var kind = row["Kind name"];
+                var product = row["Product Name"];
+
+                if (!_stactisticContext.Kinds.ContainsKey(kind))
+                {
+                    var kindEntity = _context.ProductKinds.FirstOrDefault(e => e.Name == kind);
+                    if (kindEntity == null)
+                    {
+                        kindEntity = new Models.Domain.ProductKind { Id = Guid.NewGuid(), Name = kind, IsMain = true, };
+                        _context.ProductKinds.Add(kindEntity);
+                        _context.SaveChanges();
+                    }
+
+                    _stactisticContext.Kinds.Add(kindEntity.Name, kindEntity.Id);
+                }
+
+                if (!_stactisticContext.Prodcuts.ContainsKey(product))
+                {
+                    var productEntity = _context.Products.FirstOrDefault(e => e.Name == product);
+                    if (productEntity == null)
+                    {
+                        var kindId = _stactisticContext.Kinds[kind];
+                        productEntity = new Models.Domain.Product { Id = Guid.NewGuid(), Name = product, ProductKindId = kindId };
+                        _context.Products.Add(productEntity);
+                        _context.SaveChanges();
+                    }
+
+                    _stactisticContext.Prodcuts.Add(productEntity.Name, productEntity.Id);
+                }
+            }
+        }
+
+        [Given(@"The Db has receipt for '([^']*)' shop on (.*) with the following items")]
+        public void GivenTheDbHasReceiptForShopOnStOfThisMonthWithTheFollowingItems(string shop, DateTime date, Table table)
+        {
+            var receipt = _context.Receipts.FirstOrDefault(e => e.Description == shop && e.Date == date);
+            if (receipt != null)
+            {
+                // data has been already added to DB
+                return;
+            }
+
+            receipt = new Models.Domain.Receipt { Id = Guid.NewGuid(), Date = date, Description = shop };
+            _context.Add(receipt);
+            foreach (var row in table.Rows)
+            {
+                var product = row["Product Name"];
+                var productId = _stactisticContext.Prodcuts.TryGetValue(product, out var id) ? id
+                    : throw new InvalidOperationException($"The product {product} is not in context");
+                var price = decimal.TryParse(row["Price"], out var priceValue) ? priceValue
+                    : throw new InvalidOperationException($"The Price {row["Price"]} is not valid");
+                var amount = decimal.TryParse(row["Amount"], out var amountValue) ? amountValue
+                    : throw new InvalidOperationException($"The Amount {row["Amount"]} is not valid");
+
+                var reseiptItem = new Models.Domain.ReceiptItem
+                {
+                    Id = Guid.NewGuid(),
+                    ReceiptId = receipt.Id,
+                    ProductId = productId,
+                    Price = price,
+                    Amount = amount
+                };
+                _context.Add(reseiptItem);
+            }
+
+            _context.SaveChanges();
         }
 
         [Given(@"The DB has the product kind")]
@@ -268,7 +344,6 @@ namespace Shopping.SpecFlow.StepDefinitions
                 .Should().Contain(e => e.Id == product.Id)
                 .Which.Hidden.Should().BeFalse();
         }
-
 
         [Then(@"The DB should contain the receipt")]
         public void ThenTheDBShouldContainTheReceipt()

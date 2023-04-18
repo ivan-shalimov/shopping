@@ -16,6 +16,7 @@
         public const string TheNewType = "TheNewType";
         public const string CurrentMonth = "CurrentMonth";
 
+        public const string ProductIds = "ProductIds";
         public const string ProductId = "ProductId";
         public const string TheProduct = "TheProduct";
         public const string TheProductName = "TheProductName";

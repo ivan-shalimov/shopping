@@ -1,6 +1,7 @@
 ﻿using BoDi;
 using Shopping.SpecFlow.Infrastructure;
 using Shopping.SpecFlow.StepDefinitions;
+using Shopping.SpecFlow.ValueRetrievers;
 
 namespace Shopping.SpecFlow.Hooks
 {
@@ -8,6 +9,13 @@ namespace Shopping.SpecFlow.Hooks
     public class RootHooks
     {
         public static ShoppingWebApplicationFactory ShoppingWebApplicationFactory = new ShoppingWebApplicationFactory();
+
+        [BeforeTestRun]
+        public static void BeforeTestRun()
+        {
+            TechTalk.SpecFlow.Assist.Service.Instance.ValueRetrievers.Register(new DateTimeValueRetriever());
+            TechTalk.SpecFlow.Assist.Service.Instance.ValueRetrievers.Register(new MonthNumberValueRetriever());
+        }
 
         [AfterTestRun]
         public static void AfterTestRun()

@@ -125,12 +125,12 @@ this.FeatureBackground();
 #line 13
  testRunner.And("I want to get receipts for current month", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-                TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
                             "month"});
-                table5.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "{CurrentMonth}"});
 #line 14
- testRunner.When("I make a GET request to \'api/receipts\' with query parameters", ((string)(null)), table5, "When ");
+ testRunner.When("I make a GET request to \'api/receipts\' with query parameters", ((string)(null)), table11, "When ");
 #line hidden
 #line 17
  testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -150,7 +150,7 @@ this.FeatureBackground();
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add new receipt", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 21
+#line 20
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -163,22 +163,22 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-                TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
                             "Description",
                             "Date"});
-                table6.AddRow(new string[] {
+                table12.AddRow(new string[] {
                             "Test",
                             "{UtcNow}"});
-#line 22
- testRunner.Given("I want to add a new receipt with", ((string)(null)), table6, "Given ");
+#line 21
+ testRunner.Given("I want to add a new receipt with", ((string)(null)), table12, "Given ");
 #line hidden
-#line 25
+#line 24
  testRunner.When("I make a POST request to \'api/receipts\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 26
+#line 25
  testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 27
+#line 26
  testRunner.And("The DB should contain the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
@@ -193,7 +193,7 @@ this.FeatureBackground();
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add new receipt without description", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 29
+#line 28
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -206,22 +206,22 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-                TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table13 = new TechTalk.SpecFlow.Table(new string[] {
                             "Description",
                             "Date"});
-                table7.AddRow(new string[] {
+                table13.AddRow(new string[] {
                             "{EmptyString}",
                             "{UtcNow}"});
-#line 30
- testRunner.Given("I want to add a new receipt with", ((string)(null)), table7, "Given ");
+#line 29
+ testRunner.Given("I want to add a new receipt with", ((string)(null)), table13, "Given ");
 #line hidden
-#line 33
+#line 32
  testRunner.When("I make a POST request to \'api/receipts\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 34
+#line 33
  testRunner.Then("The response status should be bad request", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 35
+#line 34
  testRunner.And("The response should contains the error \'The description should not be empty.\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
@@ -236,7 +236,7 @@ this.FeatureBackground();
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Update receipt", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 38
+#line 36
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -249,25 +249,25 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-#line 39
+#line 37
  testRunner.Given("The DB has the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table14 = new TechTalk.SpecFlow.Table(new string[] {
                             "Description",
                             "Date"});
-                table8.AddRow(new string[] {
+                table14.AddRow(new string[] {
                             "Update description",
                             "{UtcNow}"});
-#line 40
- testRunner.Given("I want to update the receipt with", ((string)(null)), table8, "Given ");
+#line 38
+ testRunner.Given("I want to update the receipt with", ((string)(null)), table14, "Given ");
 #line hidden
-#line 43
+#line 41
  testRunner.When("I make a PUT request to \'api/receipts/{TheReceiptId}\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 44
+#line 42
  testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 45
+#line 43
  testRunner.And("The DB should contain the receipt with the new description and date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
@@ -282,7 +282,7 @@ this.FeatureBackground();
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Update receipt with empty description", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 47
+#line 45
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -295,25 +295,25 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-#line 48
+#line 46
  testRunner.Given("The DB has the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table15 = new TechTalk.SpecFlow.Table(new string[] {
                             "Description",
                             "Date"});
-                table9.AddRow(new string[] {
+                table15.AddRow(new string[] {
                             "{EmptyString}",
                             "{UtcNow}"});
-#line 49
- testRunner.Given("I want to update the receipt with", ((string)(null)), table9, "Given ");
+#line 47
+ testRunner.Given("I want to update the receipt with", ((string)(null)), table15, "Given ");
 #line hidden
-#line 52
+#line 50
  testRunner.When("I make a PUT request to \'api/receipts/{TheReceiptId}\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 53
+#line 51
  testRunner.Then("The response status should be bad request", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 54
+#line 52
  testRunner.And("The response should contains the error \'The description should not be empty.\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
@@ -328,7 +328,7 @@ this.FeatureBackground();
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get items of the receipt", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 57
+#line 55
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -341,22 +341,22 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-#line 58
+#line 56
  testRunner.Given("The DB has the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 59
+#line 57
  testRunner.And("The DB has the item with the product of the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 60
+#line 58
  testRunner.And("I want to get items of the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 61
+#line 59
  testRunner.When("I make a GET request to \'api/receipts/{TheReceiptId}/items\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 62
+#line 60
  testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 63
+#line 61
  testRunner.And("The response should contains the item with the product of the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
@@ -371,7 +371,7 @@ this.FeatureBackground();
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add item to the receipt", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 66
+#line 64
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -384,42 +384,49 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-#line 67
+#line 65
  testRunner.Given("The DB has the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table16 = new TechTalk.SpecFlow.Table(new string[] {
                             "ProductId",
                             "Price",
                             "Amount"});
-                table10.AddRow(new string[] {
+                table16.AddRow(new string[] {
                             "{ProductId}",
                             "1.2",
                             "2"});
-#line 68
- testRunner.And("I want to add new item to the receipt with", ((string)(null)), table10, "And ");
+#line 66
+ testRunner.And("I want to add new item to the receipt with", ((string)(null)), table16, "And ");
 #line hidden
-#line 71
+#line 69
  testRunner.When("I make a POST request to \'api/receipts/{TheReceiptId}/items\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 72
+#line 70
  testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 73
+#line 71
  testRunner.And("The DB should contain the item of the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Add item to the receipt without product")]
+        [Xunit.SkippableTheoryAttribute(DisplayName="Add item to the receipt with invalid data")]
         [Xunit.TraitAttribute("FeatureTitle", "Receipt")]
-        [Xunit.TraitAttribute("Description", "Add item to the receipt without product")]
-        public void AddItemToTheReceiptWithoutProduct()
+        [Xunit.TraitAttribute("Description", "Add item to the receipt with invalid data")]
+        [Xunit.InlineDataAttribute("{EmptyId}", "1.2", "2", "The ProductId is required.", new string[0])]
+        [Xunit.InlineDataAttribute("{ProductId}", "0", "2", "The Price can not be zero or negative.", new string[0])]
+        [Xunit.InlineDataAttribute("{ProductId}", "1.2", "0", "The Amount can not be zero or negative.", new string[0])]
+        public void AddItemToTheReceiptWithInvalidData(string productId, string price, string amount, string error, string[] exampleTags)
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add item to the receipt without product", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 75
+            argumentsOfScenario.Add("ProductId", productId);
+            argumentsOfScenario.Add("Price", price);
+            argumentsOfScenario.Add("Amount", amount);
+            argumentsOfScenario.Add("Error", error);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add item to the receipt with invalid data", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 73
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -432,124 +439,28 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-#line 76
+#line 74
  testRunner.Given("The DB has the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table17 = new TechTalk.SpecFlow.Table(new string[] {
                             "ProductId",
                             "Price",
                             "Amount"});
-                table11.AddRow(new string[] {
-                            "{EmptyId}",
-                            "1.2",
-                            "2"});
-#line 77
- testRunner.And("I want to add new item to the receipt with", ((string)(null)), table11, "And ");
+                table17.AddRow(new string[] {
+                            string.Format("{0}", productId),
+                            string.Format("{0}", price),
+                            string.Format("{0}", amount)});
+#line 75
+ testRunner.And("I want to add new item to the receipt with", ((string)(null)), table17, "And ");
+#line hidden
+#line 78
+ testRunner.When("I make a POST request to \'api/receipts/{TheReceiptId}/items\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 79
+ testRunner.Then("The response status should be bad request", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 80
- testRunner.When("I make a POST request to \'api/receipts/{TheReceiptId}/items\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 81
- testRunner.Then("The response status should be bad request", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 82
- testRunner.And("The response should contains the error \'The ProductId is required.\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-            }
-            this.ScenarioCleanup();
-        }
-        
-        [Xunit.SkippableFactAttribute(DisplayName="Add item to the receipt without price")]
-        [Xunit.TraitAttribute("FeatureTitle", "Receipt")]
-        [Xunit.TraitAttribute("Description", "Add item to the receipt without price")]
-        public void AddItemToTheReceiptWithoutPrice()
-        {
-            string[] tagsOfScenario = ((string[])(null));
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add item to the receipt without price", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 84
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                this.ScenarioStart();
-#line 5
-this.FeatureBackground();
-#line hidden
-#line 85
- testRunner.Given("The DB has the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-                TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
-                            "ProductId",
-                            "Price",
-                            "Amount"});
-                table12.AddRow(new string[] {
-                            "{ProductId}",
-                            "0",
-                            "2"});
-#line 86
- testRunner.And("I want to add new item to the receipt with", ((string)(null)), table12, "And ");
-#line hidden
-#line 89
- testRunner.When("I make a POST request to \'api/receipts/{TheReceiptId}/items\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 90
- testRunner.Then("The response status should be bad request", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 91
- testRunner.And("The response should contains the error \'The Price can not be zero or negative.\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-            }
-            this.ScenarioCleanup();
-        }
-        
-        [Xunit.SkippableFactAttribute(DisplayName="Add item to the receipt without amount")]
-        [Xunit.TraitAttribute("FeatureTitle", "Receipt")]
-        [Xunit.TraitAttribute("Description", "Add item to the receipt without amount")]
-        public void AddItemToTheReceiptWithoutAmount()
-        {
-            string[] tagsOfScenario = ((string[])(null));
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add item to the receipt without amount", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 93
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                this.ScenarioStart();
-#line 5
-this.FeatureBackground();
-#line hidden
-#line 94
- testRunner.Given("The DB has the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-                TechTalk.SpecFlow.Table table13 = new TechTalk.SpecFlow.Table(new string[] {
-                            "ProductId",
-                            "Price",
-                            "Amount"});
-                table13.AddRow(new string[] {
-                            "{ProductId}",
-                            "1.2",
-                            "0"});
-#line 95
- testRunner.And("I want to add new item to the receipt with", ((string)(null)), table13, "And ");
-#line hidden
-#line 98
- testRunner.When("I make a POST request to \'api/receipts/{TheReceiptId}/items\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 99
- testRunner.Then("The response status should be bad request", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 100
- testRunner.And("The response should contains the error \'The Amount can not be zero or negative.\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("The response should contains the error \'{0}\'", error), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -563,7 +474,7 @@ this.FeatureBackground();
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Update price or amount of the receipt\'s item", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 103
+#line 87
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -576,43 +487,48 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-#line 104
+#line 88
  testRunner.Given("The DB has the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 105
+#line 89
  testRunner.And("The DB has the item with the product of the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-                TechTalk.SpecFlow.Table table14 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table18 = new TechTalk.SpecFlow.Table(new string[] {
                             "Price",
                             "Amount"});
-                table14.AddRow(new string[] {
+                table18.AddRow(new string[] {
                             "2.2",
                             "3"});
-#line 106
- testRunner.And("I want to update the item of the receipt", ((string)(null)), table14, "And ");
+#line 90
+ testRunner.And("I want to update the item of the receipt", ((string)(null)), table18, "And ");
 #line hidden
-#line 109
+#line 93
  testRunner.When("I make a PUT request to \'api/receipts/{TheReceiptId}/items/{TheReceiptItemId}\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 110
+#line 94
  testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 111
+#line 95
  testRunner.And("The DB should contain the item of the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Update item of the receipt with zero price")]
+        [Xunit.SkippableTheoryAttribute(DisplayName="Update item of the receipt with invalid data")]
         [Xunit.TraitAttribute("FeatureTitle", "Receipt")]
-        [Xunit.TraitAttribute("Description", "Update item of the receipt with zero price")]
-        public void UpdateItemOfTheReceiptWithZeroPrice()
+        [Xunit.TraitAttribute("Description", "Update item of the receipt with invalid data")]
+        [Xunit.InlineDataAttribute("0", "2", "The Price can not be zero or negative.", new string[0])]
+        [Xunit.InlineDataAttribute("2.2", "0", "The Amount can not be zero or negative.", new string[0])]
+        public void UpdateItemOfTheReceiptWithInvalidData(string price, string amount, string error, string[] exampleTags)
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Update item of the receipt with zero price", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 113
+            argumentsOfScenario.Add("Price", price);
+            argumentsOfScenario.Add("Amount", amount);
+            argumentsOfScenario.Add("Error", error);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Update item of the receipt with invalid data", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 97
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -625,78 +541,29 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-#line 114
+#line 98
  testRunner.Given("The DB has the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 115
+#line 99
  testRunner.And("The DB has the item with the product of the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-                TechTalk.SpecFlow.Table table15 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table19 = new TechTalk.SpecFlow.Table(new string[] {
                             "Price",
                             "Amount"});
-                table15.AddRow(new string[] {
-                            "0",
-                            "3"});
-#line 116
- testRunner.And("I want to update the item of the receipt", ((string)(null)), table15, "And ");
+                table19.AddRow(new string[] {
+                            string.Format("{0}", price),
+                            string.Format("{0}", amount)});
+#line 100
+ testRunner.And("I want to update the item of the receipt", ((string)(null)), table19, "And ");
 #line hidden
-#line 119
+#line 103
  testRunner.When("I make a PUT request to \'api/receipts/{TheReceiptId}/items/{TheReceiptItemId}\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 120
+#line 104
  testRunner.Then("The response status should be bad request", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 121
- testRunner.And("The response should contains the error \'The Price can not be zero or negative.\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-            }
-            this.ScenarioCleanup();
-        }
-        
-        [Xunit.SkippableFactAttribute(DisplayName="Update item of the receipt with zero amount")]
-        [Xunit.TraitAttribute("FeatureTitle", "Receipt")]
-        [Xunit.TraitAttribute("Description", "Update item of the receipt with zero amount")]
-        public void UpdateItemOfTheReceiptWithZeroAmount()
-        {
-            string[] tagsOfScenario = ((string[])(null));
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Update item of the receipt with zero amount", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 123
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                this.ScenarioStart();
-#line 5
-this.FeatureBackground();
-#line hidden
-#line 124
- testRunner.Given("The DB has the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 125
- testRunner.And("The DB has the item with the product of the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-                TechTalk.SpecFlow.Table table16 = new TechTalk.SpecFlow.Table(new string[] {
-                            "Price",
-                            "Amount"});
-                table16.AddRow(new string[] {
-                            "2.2",
-                            "0"});
-#line 126
- testRunner.And("I want to update the item of the receipt", ((string)(null)), table16, "And ");
-#line hidden
-#line 129
- testRunner.When("I make a PUT request to \'api/receipts/{TheReceiptId}/items/{TheReceiptItemId}\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 130
- testRunner.Then("The response status should be bad request", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 131
- testRunner.And("The response should contains the error \'The Amount can not be zero or negative.\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 105
+ testRunner.And(string.Format("The response should contains the error \'{0}\'", error), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -710,7 +577,7 @@ this.FeatureBackground();
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Delete item of the receipt", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 134
+#line 111
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -723,23 +590,23 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-#line 135
+#line 112
  testRunner.Given("The DB has the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 136
+#line 113
  testRunner.And("The DB has the item with the product of the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 137
+#line 114
  testRunner.And("I want to delete the item of the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 138
+#line 115
  testRunner.When("I make a DELETE request to \'api/receipts/{TheReceiptId}/items/{TheReceiptItemId}\'" +
                         "", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 139
+#line 116
  testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 140
+#line 117
  testRunner.And("The DB should not contain the item of the receipt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
