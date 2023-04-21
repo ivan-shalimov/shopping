@@ -1,16 +1,12 @@
 using Shopping.DataAccess;
+using Shopping.SeriGraylog;
 using Shopping.Server;
+using Shopping.Server.Extensions;
 using Shopping.Services;
 
-var builder = WebApplication
-    .CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddEnvironmentVariables();
-
-// Add services to the container.
-
-builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
+builder.Host.UseSeriGraylog();
 
 var settings = builder.Configuration.Get<AppSettigns>();
 builder.Services.AddSingleton<AppSettigns>(settings);
@@ -25,19 +21,10 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
-}
-else
-{
-    // todo implement special handling
-    app.UseExceptionHandler("/Error");
-}
+app.UseGlobalExceptionHandling();
 
 app.UseRouting();
-app.UseCors(conf=>conf.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+app.UseCors(conf => conf.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.MapControllers();
 app.Run();
