@@ -1,0 +1,1 @@
+docker build --pull --rm -f "Shopping\Server\Dockerfile" -t shopping.server:latest "." 
