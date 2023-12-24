@@ -1,10 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using Serilog.Configuration;
 using Serilog.Events;
 using Serilog.Sinks.Graylog;
-using Serilog.Sinks.Graylog.Core.Transport;
 
 namespace Shopping.SeriGraylog
 {
@@ -16,13 +14,18 @@ namespace Shopping.SeriGraylog
             {
                 var loggerSection = hostContext.Configuration.GetSection(nameof(LoggerSettings));
                 var loggerSettings = loggerSection.Get<LoggerSettings>();
+                if (loggerSettings == null)
+                {
+                    return;
+                }
+
                 var minimumLevel = Enum.TryParse<LogEventLevel>(loggerSettings.MinimumLevel, out var level) ? level : LogEventLevel.Warning;
                 configuration.MinimumLevel.Is(minimumLevel);
 
                 configuration.WriteTo.Console();
 
                 var graylogSinkOptions = loggerSection.GetSection(nameof(GraylogSinkOptions)).Get<GraylogSinkOptions>();
-                if(graylogSinkOptions!= null)
+                if (graylogSinkOptions != null)
                 {
                     configuration.WriteTo.Graylog(graylogSinkOptions);
                 }

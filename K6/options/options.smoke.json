@@ -1,0 +1,42 @@
+{
+    "hosts": {
+        "shopping.api": "localhost:19092"
+    },
+    "thresholds": {
+        "http_req_failed": [
+            "rate<10"
+        ]
+    },
+    "noConnectionReuse": true,
+    "scenarios": {
+        "dashboardTests": {
+            "executor": "shared-iterations",
+            "vus": 2,
+            "iterations": 20,
+            "maxDuration": "60s",
+            "exec": "dashboardTests"
+        },
+        "productKindTests": {
+            "executor": "shared-iterations",
+            "vus": 2,
+            "iterations": 4,
+            "maxDuration": "90s",
+            "exec": "productKindTests"
+        },
+        "productTests": {
+            "executor": "shared-iterations",
+            "vus": 2,
+            "iterations": 4,
+            "maxDuration": "90s",
+            "exec": "productTests"
+        },
+        "receiptTests": {
+            "executor": "shared-iterations",
+            "vus": 2,
+            "iterations": 4,
+            "maxDuration": "180s",
+            "exec": "receiptTests"
+        }
+    },
+    "userAgent": "MyK6UserAgentString/1.0"
+}

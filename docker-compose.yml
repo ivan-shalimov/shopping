@@ -11,11 +11,12 @@ services:
   shopping.server:
     environment:
       - ASPNETCORE_ENVIRONMENT=${ENV}
-      - ConnectionStrings__Shopping=Server=shopping-ms-sql;Database=${DB};User=sa;Password=T3rr$$b!e;Connection Timeout=30;Encrypt=False;
+      - ConnectionStrings__Shopping=Server=shopping-ms-sql;Database=${DB};User=sa;Password=T3rr$$b!e;Connection Timeout=30;Encrypt=False;Max Pool Size=100;
       - LoggerSettings__MinimumLevel=${LOGLEVEL}
       - LoggerSettings__GraylogSinkOptions__HostnameOrAddress=${API_LOGGER}
     image: ${DOCKER_REGISTRY-}shoppingserver
-    hostname: shoppingserver
+    container_name: shoppingserver${HOST_SUFFIX}
+    hostname: shoppingserver${HOST_SUFFIX}
     build:
       context: .
       dockerfile: Shopping/Server/Dockerfile

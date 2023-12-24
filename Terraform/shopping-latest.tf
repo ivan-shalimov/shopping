@@ -47,8 +47,8 @@ resource "docker_container" "shopping_client" {
   restart = "always"
 
   env = [
-    "ASPNETCORE_ENVIRONMENT=Development",
-    "API=http://localhost:9092"
+    "ASPNETCORE_ENVIRONMENT=Production",
+    "API=http://192.168.1.50:9092"
   ]
 
   ports {

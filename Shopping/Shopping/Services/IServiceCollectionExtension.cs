@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Shopping.Services.Common;
+using Shopping.Services.Extensions;
 using Shopping.Services.Handlers;
 using Shopping.Services.Handlers.Prices;
 using Shopping.Services.Handlers.Statistic;
@@ -24,71 +24,79 @@ namespace Shopping.Services
 
         public static void RegisterMediatrServices(this IServiceCollection services)
         {
-            services.AddScoped<IRequestHandler<GetPurchaseStatistic, PurchaseStatistic>, GetPurchaseStatisticHandler>();
+            services.RegisterScopedHandler<GetPurchaseStatistic, PurchaseStatistic, GetPurchaseStatisticHandler>();
 
-            services.AddScoped<IRequestHandler<GetLastProductsPrices, IDictionary<Guid, decimal>>, GetLastProductsPricesHandler>();
+            services.RegisterScopedHandler<GetPurchaseStatistic, PurchaseStatistic, GetPurchaseStatisticHandler>();
 
-            services.AddScoped<IRequestHandler<GetExpensesByKind, IDictionary<string, decimal>>, GetExpensesByKindHandler>();
-            services.AddScoped<IRequestHandler<GetExpensesByProducts, IDictionary<string, decimal>>, GetExpensesByProductsHandler>();
-            services.AddScoped<IRequestHandler<GetProductsExpensesDetails, ProductExpensesDetail[]>, GetProductsExpensesDetailsHandler>();
-            services.AddScoped<IRequestHandler<GetExpensesByMonth, IDictionary<int, decimal>>, GetExpensesByMonthHandler>();
-            services.AddScoped<IRequestHandler<GetExpensesByShop, IDictionary<string, decimal>>, GetExpensesByShopHandler>();
-            services.AddScoped<IRequestHandler<GetProductCostChange, ProductCostChange[]>, GetProductCostChangeHandler>();
+            services.RegisterScopedHandler<GetLastProductsPrices, IDictionary<Guid, decimal>, GetLastProductsPricesHandler>();
 
-            services.AddScoped<IRequestHandler<GetProducts, ProductModel[]>, GetProductsHandler>();
-            services.AddScoped<IRequestHandler<AddProduct>, AddProductHandler>();
-            services.AddScoped<IRequestHandler<UpdateProduct>, UpdateProductHandler>();
-            services.AddScoped<IRequestHandler<ChangeProductVisibility, Either<Fail, Success>>, ChangeProductVisibilityHandler>();
-            services.AddScoped<IRequestHandler<DeleteProduct, Either<Fail, Success>>, DeleteProductHandler>();
+            services.RegisterScopedHandler<GetExpensesByKind, IDictionary<string, decimal>, GetExpensesByKindHandler>();
+            services.RegisterScopedHandler<GetExpensesByProducts, IDictionary<string, decimal>, GetExpensesByProductsHandler>();
+            services.RegisterScopedHandler<GetProductsExpensesDetails, ProductExpensesDetail[], GetProductsExpensesDetailsHandler>();
+            services.RegisterScopedHandler<GetExpensesByMonth, IDictionary<int, decimal>, GetExpensesByMonthHandler>();
+            services.RegisterScopedHandler<GetExpensesByShop, IDictionary<string, decimal>, GetExpensesByShopHandler>();
+            services.RegisterScopedHandler<GetProductCostChange, ProductCostChange[], GetProductCostChangeHandler>();
 
-            services.AddScoped<IRequestHandler<DeleteProduct, Either<Fail, Success>>, DeleteProductHandler>();
-            services.AddScoped<IValidator<DeleteProduct>, DeleteProductValidator>();
-            services.AddScoped<IPipelineBehavior<DeleteProduct, Either<Fail, Success>>, ValidationPipelineBehavior<DeleteProduct, Success, DeleteProductValidator>>();
-
-            services.AddScoped<IRequestHandler<MergeProduct, Either<Fail, Success>>, MergeProductHandler>();
-            services.AddScoped<IValidator<MergeProduct>, MergeProductValidator>();
-            services.AddScoped<IPipelineBehavior<MergeProduct, Either<Fail, Success>>, ValidationPipelineBehavior<MergeProduct, Success, MergeProductValidator>>();
+            services.RegisterScopedHandler<GetProducts, ProductModel[], GetProductsHandler>();
+            services.RegisterScopedHandler<AddProduct, AddProductHandler>();
+            services.RegisterScopedHandler<UpdateProduct, UpdateProductHandler>();
+            services.RegisterScopedHandler<ChangeProductVisibility, Either<Fail, Success>, ChangeProductVisibilityHandler>();
+            services.RegisterScopedHandler<DeleteProduct, Either<Fail, Success>, DeleteProductHandler>();
+            services.RegisterScopedHandler<GetReceipts, ReceiptModel[], GetReceiptsHandler>();
 
             RegisterProductKindsServices(services);
 
-            services.AddScoped<IRequestHandler<GetReceipts, ReceiptModel[]>, GetReceiptsHandler>();
-            services.AddScoped<IRequestHandler<AddReceipt, Either<Fail, Success>>, AddReceiptHandler>();
-            services.AddScoped<IValidator<AddReceipt>, AddReceiptValidator>();
-            services.AddScoped<IPipelineBehavior<AddReceipt, Either<Fail, Success>>, ValidationPipelineBehavior<AddReceipt, Success, AddReceiptValidator>>();
-            services.AddScoped<IRequestHandler<UpdateReceipt, Either<Fail, Success>>, UpdateReceiptHandler>();
-            services.AddScoped<IValidator<UpdateReceipt>, UpdateReceiptValidator>();
-            services.AddScoped<IPipelineBehavior<UpdateReceipt, Either<Fail, Success>>, ValidationPipelineBehavior<UpdateReceipt, Success, UpdateReceiptValidator>>();
-            services.AddScoped<IRequestHandler<UpdateReceiptTotal>, UpdateReceiptTotalHandler>();
+            services.RegisterScopedRequest<DeleteProduct>()
+                .WithValidation<DeleteProductValidator>()
+                .ForHandler<DeleteProductHandler>();
 
-            services.AddScoped<IRequestHandler<GetReceiptItems, ReceiptItemModel[]>, GetReceiptItemsHandler>();
-            services.AddScoped<IRequestHandler<AddReceiptItem, Either<Fail, Success>>, AddReceiptItemHandler>();
-            services.AddScoped<IValidator<AddReceiptItem>, AddReceiptItemValidator>();
-            services.AddScoped<IPipelineBehavior<AddReceiptItem, Either<Fail, Success>>, ValidationPipelineBehavior<AddReceiptItem, Success, AddReceiptItemValidator>>();
-            services.AddScoped<IRequestHandler<UpdateReceiptItem, Either<Fail, Success>>, UpdateReceiptItemHandler>();
-            services.AddScoped<IValidator<UpdateReceiptItem>, UpdateReceiptItemValidator>();
-            services.AddScoped<IPipelineBehavior<UpdateReceiptItem, Either<Fail, Success>>, ValidationPipelineBehavior<UpdateReceiptItem, Success, UpdateReceiptItemValidator>>();
-            services.AddScoped<IRequestHandler<DeleteReceiptItem>, DeleteReceiptItemHandler>();
+            services.RegisterScopedRequest<MergeProduct>()
+                .WithValidation<MergeProductValidator>()
+                .ForHandler<MergeProductHandler>();
+
+            services.RegisterScopedRequest<AddReceipt>()
+                .WithValidation<AddReceiptValidator>()
+                .ForHandler<AddReceiptHandler>();
+
+            services.RegisterScopedRequest<UpdateReceipt>()
+                .WithValidation<UpdateReceiptValidator>()
+                .ForHandler<UpdateReceiptHandler>();
+
+            services.RegisterScopedHandler<UpdateReceiptTotal, UpdateReceiptTotalHandler>();
+
+            services.RegisterScopedHandler<GetReceiptItems, ReceiptItemModel[], GetReceiptItemsHandler>();
+            services.RegisterScopedHandler<AddReceiptItem, Either<Fail, Success>, AddReceiptItemHandler>();
+
+            services.RegisterScopedRequest<AddReceiptItem>()
+                .WithValidation<AddReceiptItemValidator>()
+                .ForHandler<AddReceiptItemHandler>();
+
+            services.RegisterScopedRequest<UpdateReceiptItem>()
+                .WithValidation<UpdateReceiptItemValidator>()
+                .ForHandler<UpdateReceiptItemHandler>();
+
+            services.RegisterScopedHandler<DeleteReceiptItem, DeleteReceiptItemHandler>();
         }
 
         private static void RegisterProductKindsServices(IServiceCollection services)
         {
-            services.AddScoped<IRequestHandler<GetProductKinds, ProductKindModel[]>, GetProductKindsHandler>();
+            services.RegisterScopedHandler<GetProductKinds, ProductKindModel[], GetProductKindsHandler>();
 
-            services.AddScoped<IRequestHandler<AddProductKind, Either<Fail, Success>>, AddProductKindHandler>();
-            services.AddScoped<IValidator<AddProductKind>, AddProductKindValidator>();
-            services.AddScoped<IPipelineBehavior<AddProductKind, Either<Fail, Success>>, ValidationPipelineBehavior<AddProductKind, Success, AddProductKindValidator>>();
+            services.RegisterScopedRequest<AddProductKind>()
+                .WithValidation<AddProductKindValidator>()
+                .ForHandler<AddProductKindHandler>();
 
-            services.AddScoped<IValidator<UpdateProductKind>, UpdateProductKindValidator>();
-            services.AddScoped<IPipelineBehavior<UpdateProductKind, Either<Fail, Success>>, ValidationPipelineBehavior<UpdateProductKind, Success, UpdateProductKindValidator>>();
-            services.AddScoped<IRequestHandler<UpdateProductKind, Either<Fail, Success>>, UpdateProductKindHandler>();
+            services.RegisterScopedRequest<UpdateProductKind>()
+                .WithValidation<UpdateProductKindValidator>()
+                .ForHandler<UpdateProductKindHandler>();
 
-            services.AddScoped<IRequestHandler<DeleteProductKind, Either<Fail, Success>>, DeleteProductKindHandler>();
-            services.AddScoped<IValidator<DeleteProductKind>, DeleteProductKindValidator>();
-            services.AddScoped<IPipelineBehavior<DeleteProductKind, Either<Fail, Success>>, ValidationPipelineBehavior<DeleteProductKind, Success, DeleteProductKindValidator>>();
+            services.RegisterScopedRequest<DeleteProductKind>()
+                .WithValidation<DeleteProductKindValidator>()
+                .ForHandler<DeleteProductKindHandler>();
 
-            services.AddScoped<IRequestHandler<MergeProductKind, Either<Fail, Success>>, MergeProductKindHandler>();
-            services.AddScoped<IValidator<MergeProductKind>, MergeProductKindValidator>();
-            services.AddScoped<IPipelineBehavior<MergeProductKind, Either<Fail, Success>>, ValidationPipelineBehavior<MergeProductKind, Success, MergeProductKindValidator>>();
+            services.RegisterScopedRequest<MergeProductKind>()
+                .WithValidation<MergeProductKindValidator>()
+                .ForHandler<MergeProductKindHandler>();
         }
     }
 }

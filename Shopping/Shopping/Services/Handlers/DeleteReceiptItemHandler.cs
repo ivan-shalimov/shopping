@@ -1,11 +1,12 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Shopping.DataAccess;
+using Shopping.Shared.Models.Common;
 using Shopping.Shared.Requests;
 
 namespace Shopping.Services.Handlers
 {
-    public sealed class DeleteReceiptItemHandler : IRequestHandler<DeleteReceiptItem>
+    public sealed class DeleteReceiptItemHandler : IRequestHandler<DeleteReceiptItem,Success>
     {
         private readonly ShoppingDbContext _context;
 
@@ -14,7 +15,7 @@ namespace Shopping.Services.Handlers
             _context = context;
         }
 
-        public async Task Handle(DeleteReceiptItem request, CancellationToken cancellationToken)
+        public async Task<Success> Handle(DeleteReceiptItem request, CancellationToken cancellationToken)
         {
             var item = await _context.ReceiptItems.FindAsync(new object[] { request.Id }, cancellationToken).ConfigureAwait(false);
             if (item != null)
@@ -22,6 +23,8 @@ namespace Shopping.Services.Handlers
                 _context.ReceiptItems.Remove(item);
                 await _context.SaveChangesAsync();
             }
+
+            return Success.Instance;
         }
     }
 }

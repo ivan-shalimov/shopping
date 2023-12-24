@@ -1,11 +1,12 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Shopping.DataAccess;
+using Shopping.Shared.Models.Common;
 using Shopping.Shared.Requests;
 
 namespace Shopping.Services.Handlers
 {
-    public sealed class UpdateReceiptTotalHandler : IRequestHandler<UpdateReceiptTotal>
+    public sealed class UpdateReceiptTotalHandler : IRequestHandler<UpdateReceiptTotal,Success>
     {
         private readonly ShoppingDbContext _context;
 
@@ -14,7 +15,7 @@ namespace Shopping.Services.Handlers
             _context = context;
         }
 
-        public async Task Handle(UpdateReceiptTotal request, CancellationToken cancellationToken)
+        public async Task<Success> Handle(UpdateReceiptTotal request, CancellationToken cancellationToken)
         {
             var item = await _context.Receipts.FindAsync(new object[] { request.Id }, cancellationToken).ConfigureAwait(false);
             var total = await _context.ReceiptItems
@@ -25,6 +26,8 @@ namespace Shopping.Services.Handlers
                 item.Total = total;
                 await _context.SaveChangesAsync();
             }
+
+            return Success.Instance;
         }
     }
 }

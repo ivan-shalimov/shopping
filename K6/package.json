@@ -1,0 +1,11 @@
+{
+  "name": "k6chai",
+  "version": "1.0.0",
+  "description": "Tool to test shopping api with k6 and chai",
+  "main": "index.js",
+  "scripts": {
+    "smoke-test": "k6 run --config options/options.smoke.json index.js "
+  },
+  "author": "Ivan Shalimov",
+  "license": "ISC"
+}

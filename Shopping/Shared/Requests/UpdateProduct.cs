@@ -1,9 +1,10 @@
 ﻿using MediatR;
+using Shopping.Shared.Models.Common;
 using System.Text.Json.Serialization;
 
 namespace Shopping.Shared.Requests
 {
-    public sealed class UpdateProduct : IRequest
+    public sealed class UpdateProduct : IRequest<Success>
     {
 
         [JsonIgnore]

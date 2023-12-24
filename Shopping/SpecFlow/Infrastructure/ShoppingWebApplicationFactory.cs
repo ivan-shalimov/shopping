@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿using App.Metrics;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.EnvironmentVariables;
@@ -34,6 +35,7 @@ namespace Shopping.SpecFlow.Infrastructure
         {
             builder.ConfigureServices(serviceCollection => ReplaceContext(serviceCollection));
             builder.ConfigureAppConfiguration(configBuilder => ModifyAppSettigns(configBuilder));
+            builder.ConfigureServices(collection => collection.AddSingleton(NSubstitute.Substitute.For<IMetrics>()));
             return base.CreateHost(builder);
         }
 

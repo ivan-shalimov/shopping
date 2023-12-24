@@ -24,7 +24,7 @@ namespace Shopping.Services.Handlers
                 await _context.SaveChangesAsync();
             }
 
-            return new Success();
+            return Success.Instance;
         }
     }
 }
