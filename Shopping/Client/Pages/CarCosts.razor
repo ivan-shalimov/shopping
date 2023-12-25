@@ -1,0 +1,97 @@
+﻿@page "/car-costs"
+
+<ul class="nav nav-pills">
+    @for (var i = 1; i <= 12; i++)
+    {
+        <li class="nav-item">
+            @if (month is null && DateTime.Now.Month == i)
+            {
+                <a class="nav-link active" aria-current="page" href="/car-costs">@i</a>
+            }
+            else if (month == i)
+            {
+                <a class="nav-link active" aria-current="page" href="/car-costs?month=@i">@i</a>
+            }
+            else
+            {
+                <a class="nav-link" href="/car-costs?month=@i">@i</a>
+            }
+        </li>
+    }
+</ul>
+
+<div class="row">
+    @if (_pending)
+    {
+        <p>Loading ...</p>
+    }
+    else
+    {
+        <table class="table ">
+            <thead>
+                <tr>
+                    <th scope="col">@Localizer["Description"]</th>
+                    <th scope="col">@Localizer["Price"]</th>
+                    <th scope="col">@Localizer["Amount"]</th>
+                    <th scope="col">@Localizer["Cost"]</th>
+                    <th scope="col">@Localizer["Date"]</th>
+                    <th scope="col"><button class="btn btn-primary" type="button" @onclick="@(() => Add())">@Localizer["Add"]</button></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in _list)
+                {
+                    @if (item.Id == _editingItemId)
+                    {
+                        <tr>
+                            <CascadingValue Value=@_editContext>
+                                <td>
+                                    <InputText @bind-Value=_formModel.Description class="form-control" from="editForm" />
+                                    <ValidationMessage For="() => _formModel.Description" />
+                                </td>
+                                <td>
+                                    <InputNumber @bind-Value=_formModel.Price class="form-control" />
+                                    <ValidationMessage For="() => _formModel.Price" />
+                                </td>
+                                <td>
+                                    <InputNumber @bind-Value=_formModel.Amount class="form-control" />
+                                    <ValidationMessage For="() => _formModel.Amount" />
+                                </td>
+                                <td>@_formModel.Cost</td>
+                                <td><InputDate @bind-Value=_formModel.Date class="form-control" /></td>
+                                <td>
+                                    <div class="action-block">
+                                        <button class="btn btn-primary" type="button" @onclick="@(async () => await Save())">@Localizer["Save"]</button>
+                                        <button class="btn btn-primary ms-2" type="button" @onclick="@(async () => Cancel())">@Localizer["Cancel"]</button>
+                                    </div>
+                                </td>
+                            </CascadingValue>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>
+                                @item.Description
+                            </td>
+                            <td>@item.Price</td>
+                            <td>@item.Amount</td>
+                            <td>@item.Cost</td>
+                            <td>@item.Date</td>
+                            <td>
+                                @if (_editingItemId == null)
+                                {
+                                    <div class="action-block">
+                                        <button class="btn btn-primary" type="button" @onclick="@(() => StartEdit(item))">@Localizer["Edit"]</button>
+                                        <button class="btn btn-primary ms-2" type="button" @onclick="@(async () => await Delete(item))">@Localizer["Delete"]</button>
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+                    }
+
+                }
+            </tbody>
+        </table>
+    }
+</div>

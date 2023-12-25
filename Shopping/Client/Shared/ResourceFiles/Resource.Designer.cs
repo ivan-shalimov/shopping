@@ -97,6 +97,15 @@ namespace Shopping.Client.Shared.ResourceFiles {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Amount is required..
+        /// </summary>
+        public static string Amount_is_required_ {
+            get {
+                return ResourceManager.GetString("Amount is required.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Apply.
         /// </summary>
         public static string Apply {
@@ -111,6 +120,15 @@ namespace Shopping.Client.Shared.ResourceFiles {
         public static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Car costs.
+        /// </summary>
+        public static string CarCosts {
+            get {
+                return ResourceManager.GetString("CarCosts", resourceCulture);
             }
         }
         
@@ -187,6 +205,15 @@ namespace Shopping.Client.Shared.ResourceFiles {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date is required.
+        /// </summary>
+        public static string Date_is_required {
+            get {
+                return ResourceManager.GetString("Date is required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string Delete {
@@ -201,6 +228,24 @@ namespace Shopping.Client.Shared.ResourceFiles {
         public static string Description {
             get {
                 return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Petrol A95.
+        /// </summary>
+        public static string Description_Car_Cost_Default {
+            get {
+                return ResourceManager.GetString("Description_Car_Cost_Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description is required..
+        /// </summary>
+        public static string Description_is_required_ {
+            get {
+                return ResourceManager.GetString("Description is required.", resourceCulture);
             }
         }
         
@@ -417,6 +462,15 @@ namespace Shopping.Client.Shared.ResourceFiles {
         public static string Price_is_invalid_ {
             get {
                 return ResourceManager.GetString("Price is invalid.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Price is required..
+        /// </summary>
+        public static string Price_is_required_ {
+            get {
+                return ResourceManager.GetString("Price is required.", resourceCulture);
             }
         }
         

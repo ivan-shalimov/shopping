@@ -129,11 +129,17 @@
   <data name="Amount is invalid." xml:space="preserve">
     <value>Amount is invalid.</value>
   </data>
+  <data name="Amount is required." xml:space="preserve">
+    <value>Amount is required.</value>
+  </data>
   <data name="Apply" xml:space="preserve">
     <value>Apply</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="CarCosts" xml:space="preserve">
+    <value>Car costs</value>
   </data>
   <data name="Change" xml:space="preserve">
     <value>Change</value>
@@ -159,11 +165,20 @@
   <data name="Date" xml:space="preserve">
     <value>Date</value>
   </data>
+  <data name="Date is required" xml:space="preserve">
+    <value>Date is required</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
   <data name="Description" xml:space="preserve">
     <value>Description</value>
+  </data>
+  <data name="Description is required." xml:space="preserve">
+    <value>Description is required.</value>
+  </data>
+  <data name="Description_Car_Cost_Default" xml:space="preserve">
+    <value>Petrol A95</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
@@ -236,6 +251,9 @@
   </data>
   <data name="Price is invalid." xml:space="preserve">
     <value>Price is invalid.</value>
+  </data>
+  <data name="Price is required." xml:space="preserve">
+    <value>Price is required.</value>
   </data>
   <data name="Product Kinds" xml:space="preserve">
     <value>Product Kinds</value>

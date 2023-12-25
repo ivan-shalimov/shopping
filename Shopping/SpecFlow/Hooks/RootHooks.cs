@@ -33,6 +33,7 @@ namespace Shopping.SpecFlow.Hooks
         [BeforeScenario]
         public void BeforeScenario(ScenarioContext scenarioContext)
         {
+            scenarioContext[ScenarioContextKeys.RandomId] = Guid.NewGuid();
             scenarioContext[ScenarioContextKeys.EmptyId] = Guid.Empty;
             scenarioContext[ScenarioContextKeys.EmptyString] = string.Empty;
 

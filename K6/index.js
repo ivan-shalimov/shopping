@@ -2,6 +2,7 @@ import * as dashboard from './tests/dashboard.js';
 import * as productKind from './tests/product-kind.js';
 import * as product from './tests/product.js';
 import * as receipt from './tests/receipt.js';
+import * as carCosts from './tests/car-costs.js';
 
 export function setup() {
   // 2. setup code
@@ -29,3 +30,8 @@ export function productTests({ productData }) {
 export function receiptTests({ receiptData }) {
   receipt.receiptTests(receiptData);
 }
+
+export function carCostsTests() {
+  carCosts.carCostsTests();
+}
+

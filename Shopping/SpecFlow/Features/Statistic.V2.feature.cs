@@ -79,95 +79,95 @@ namespace Shopping.SpecFlow.Features
         {
 #line 5
 #line hidden
-            TechTalk.SpecFlow.Table table20 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table26 = new TechTalk.SpecFlow.Table(new string[] {
                         "Kind name",
                         "Product Name"});
-            table20.AddRow(new string[] {
+            table26.AddRow(new string[] {
                         "Vegetables",
                         "Carrot"});
-            table20.AddRow(new string[] {
+            table26.AddRow(new string[] {
                         "Vegetables",
                         "Onion"});
-            table20.AddRow(new string[] {
+            table26.AddRow(new string[] {
                         "Fruit",
                         "Cherry"});
-            table20.AddRow(new string[] {
+            table26.AddRow(new string[] {
                         "Fruit",
                         "Lemon"});
 #line 6
- testRunner.Given("The Db has the following products", ((string)(null)), table20, "Given ");
+ testRunner.Given("The Db has the following products", ((string)(null)), table26, "Given ");
 #line hidden
-            TechTalk.SpecFlow.Table table21 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table27 = new TechTalk.SpecFlow.Table(new string[] {
                         "Product Name",
                         "Price",
                         "Amount",
                         "Cost"});
-            table21.AddRow(new string[] {
+            table27.AddRow(new string[] {
                         "Carrot",
                         "8",
                         "3",
                         "24"});
 #line 12
  testRunner.And("The Db has receipt for \'Local\' shop on 1st of the previous month with the followi" +
-                    "ng items", ((string)(null)), table21, "And ");
+                    "ng items", ((string)(null)), table27, "And ");
 #line hidden
-            TechTalk.SpecFlow.Table table22 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table28 = new TechTalk.SpecFlow.Table(new string[] {
                         "Product Name",
                         "Price",
                         "Amount",
                         "Cost"});
-            table22.AddRow(new string[] {
+            table28.AddRow(new string[] {
                         "Carrot",
                         "10",
                         "3",
                         "30"});
-            table22.AddRow(new string[] {
+            table28.AddRow(new string[] {
                         "Onion",
                         "5.5",
                         "10",
                         "55"});
-            table22.AddRow(new string[] {
+            table28.AddRow(new string[] {
                         "Cherry",
                         "10",
                         "0.5",
                         "5"});
-            table22.AddRow(new string[] {
+            table28.AddRow(new string[] {
                         "Lemon",
                         "100",
                         "0.2",
                         "20"});
 #line 15
  testRunner.And("The Db has receipt for \'Local\' shop on 1st of this month with the following items" +
-                    "", ((string)(null)), table22, "And ");
+                    "", ((string)(null)), table28, "And ");
 #line hidden
-            TechTalk.SpecFlow.Table table23 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table29 = new TechTalk.SpecFlow.Table(new string[] {
                         "Product Name",
                         "Price",
                         "Amount",
                         "Cost"});
-            table23.AddRow(new string[] {
+            table29.AddRow(new string[] {
                         "Carrot",
                         "5",
                         "3",
                         "15"});
-            table23.AddRow(new string[] {
+            table29.AddRow(new string[] {
                         "Onion",
                         "5",
                         "1",
                         "5"});
-            table23.AddRow(new string[] {
+            table29.AddRow(new string[] {
                         "Cherry",
                         "20",
                         "0.5",
                         "10"});
-            table23.AddRow(new string[] {
+            table29.AddRow(new string[] {
                         "Lemon",
                         "150",
                         "0.2",
                         "30"});
 #line 21
  testRunner.And("The Db has receipt for \'Gypper market\' shop on 1st of this month with the followi" +
-                    "ng items", ((string)(null)), table23, "And ");
+                    "ng items", ((string)(null)), table29, "And ");
 #line hidden
         }
         
@@ -203,17 +203,17 @@ this.FeatureBackground();
 #line 30
  testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-                TechTalk.SpecFlow.Table table24 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table30 = new TechTalk.SpecFlow.Table(new string[] {
                             "Kind name",
                             "Expenses"});
-                table24.AddRow(new string[] {
+                table30.AddRow(new string[] {
                             "Vegetables",
                             "105"});
-                table24.AddRow(new string[] {
+                table30.AddRow(new string[] {
                             "Fruit",
                             "65"});
 #line 31
- testRunner.And("The response should be Dictionary<string,decimal> with the following data", ((string)(null)), table24, "And ");
+ testRunner.And("The response should be Dictionary<string,decimal> with the following data", ((string)(null)), table30, "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -246,17 +246,17 @@ this.FeatureBackground();
 #line 38
  testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-                TechTalk.SpecFlow.Table table25 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table31 = new TechTalk.SpecFlow.Table(new string[] {
                             "Month",
                             "Expenses"});
-                table25.AddRow(new string[] {
+                table31.AddRow(new string[] {
                             "previous month number",
                             "24"});
-                table25.AddRow(new string[] {
+                table31.AddRow(new string[] {
                             "current month number",
                             "170"});
 #line 39
- testRunner.And("The response should be Dictionary<int,decimal> with the following data", ((string)(null)), table25, "And ");
+ testRunner.And("The response should be Dictionary<int,decimal> with the following data", ((string)(null)), table31, "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -289,17 +289,17 @@ this.FeatureBackground();
 #line 46
  testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-                TechTalk.SpecFlow.Table table26 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table32 = new TechTalk.SpecFlow.Table(new string[] {
                             "Shop",
                             "Expenses"});
-                table26.AddRow(new string[] {
+                table32.AddRow(new string[] {
                             "Local",
                             "110"});
-                table26.AddRow(new string[] {
+                table32.AddRow(new string[] {
                             "Gypper market",
                             "60"});
 #line 47
- testRunner.And("The response should be Dictionary<string,decimal> with the following data", ((string)(null)), table26, "And ");
+ testRunner.And("The response should be Dictionary<string,decimal> with the following data", ((string)(null)), table32, "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -326,29 +326,29 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-                TechTalk.SpecFlow.Table table27 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table33 = new TechTalk.SpecFlow.Table(new string[] {
                             "page",
                             "pageSize",
                             "orderBy"});
-                table27.AddRow(new string[] {
+                table33.AddRow(new string[] {
                             "1",
                             "10",
                             "percent"});
 #line 53
  testRunner.When("I make a GET request to \'api/statistic/product-cost-change\' with query parameters" +
-                        "", ((string)(null)), table27, "When ");
+                        "", ((string)(null)), table33, "When ");
 #line hidden
 #line 56
  testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-                TechTalk.SpecFlow.Table table28 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table34 = new TechTalk.SpecFlow.Table(new string[] {
                             "Product Name",
                             "Kind Name",
                             "Shop",
                             "PreviousCost",
                             "LastCost",
                             "ChangePercent"});
-                table28.AddRow(new string[] {
+                table34.AddRow(new string[] {
                             "Carrot",
                             "Vegetables",
                             "Local",
@@ -356,7 +356,7 @@ this.FeatureBackground();
                             "10",
                             "0.25"});
 #line 57
- testRunner.And("The response should be collection of ProductCostChange with the following data", ((string)(null)), table28, "And ");
+ testRunner.And("The response should be collection of ProductCostChange with the following data", ((string)(null)), table34, "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -383,29 +383,29 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-                TechTalk.SpecFlow.Table table29 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table35 = new TechTalk.SpecFlow.Table(new string[] {
                             "start",
                             "end"});
-                table29.AddRow(new string[] {
+                table35.AddRow(new string[] {
                             "{StartOfCurrentMonth}",
                             "{EndOfCurrentMonth}"});
 #line 62
- testRunner.When("I make a GET request to \'api/statistic/expenses-by-kinds\' with query parameters", ((string)(null)), table29, "When ");
+ testRunner.When("I make a GET request to \'api/statistic/expenses-by-kinds\' with query parameters", ((string)(null)), table35, "When ");
 #line hidden
 #line 65
  testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-                TechTalk.SpecFlow.Table table30 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table36 = new TechTalk.SpecFlow.Table(new string[] {
                             "Kind name",
                             "Expenses"});
-                table30.AddRow(new string[] {
+                table36.AddRow(new string[] {
                             "Vegetables",
                             "105"});
-                table30.AddRow(new string[] {
+                table36.AddRow(new string[] {
                             "Fruit",
                             "65"});
 #line 66
- testRunner.And("The response should be Dictionary<string,decimal> with the following data", ((string)(null)), table30, "And ");
+ testRunner.And("The response should be Dictionary<string,decimal> with the following data", ((string)(null)), table36, "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -432,32 +432,32 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-                TechTalk.SpecFlow.Table table31 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table37 = new TechTalk.SpecFlow.Table(new string[] {
                             "kind",
                             "start",
                             "end"});
-                table31.AddRow(new string[] {
+                table37.AddRow(new string[] {
                             "Fruit",
                             "{StartOfCurrentMonth}",
                             "{EndOfCurrentMonth}"});
 #line 72
  testRunner.When("I make a GET request to \'api/statistic/expenses-by-products\' with query parameter" +
-                        "s", ((string)(null)), table31, "When ");
+                        "s", ((string)(null)), table37, "When ");
 #line hidden
 #line 75
  testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-                TechTalk.SpecFlow.Table table32 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table38 = new TechTalk.SpecFlow.Table(new string[] {
                             "Product name",
                             "Expenses"});
-                table32.AddRow(new string[] {
+                table38.AddRow(new string[] {
                             "Cherry",
                             "15"});
-                table32.AddRow(new string[] {
+                table38.AddRow(new string[] {
                             "Lemon",
                             "50"});
 #line 76
- testRunner.And("The response should be Dictionary<string,decimal> with the following data", ((string)(null)), table32, "And ");
+ testRunner.And("The response should be Dictionary<string,decimal> with the following data", ((string)(null)), table38, "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -484,38 +484,38 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-                TechTalk.SpecFlow.Table table33 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table39 = new TechTalk.SpecFlow.Table(new string[] {
                             "productName",
                             "start",
                             "end"});
-                table33.AddRow(new string[] {
+                table39.AddRow(new string[] {
                             "Lemon",
                             "{StartOfCurrentMonth}",
                             "{EndOfCurrentMonth}"});
 #line 82
  testRunner.When("I make a GET request to \'api/statistic/product-expenses-details\' with query param" +
-                        "eters", ((string)(null)), table33, "When ");
+                        "eters", ((string)(null)), table39, "When ");
 #line hidden
 #line 85
  testRunner.Then("The response status should be success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-                TechTalk.SpecFlow.Table table34 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table40 = new TechTalk.SpecFlow.Table(new string[] {
                             "ShopName",
                             "SpentOn",
                             "Price",
                             "Amount"});
-                table34.AddRow(new string[] {
+                table40.AddRow(new string[] {
                             "Local",
                             "1st of this month",
                             "100",
                             "0.2"});
-                table34.AddRow(new string[] {
+                table40.AddRow(new string[] {
                             "Gypper market",
                             "1st of this month",
                             "150",
                             "0.2"});
 #line 86
- testRunner.And("The response should collection of ProductExpensesDetail with the following data", ((string)(null)), table34, "And ");
+ testRunner.And("The response should collection of ProductExpensesDetail with the following data", ((string)(null)), table40, "And ");
 #line hidden
             }
             this.ScenarioCleanup();

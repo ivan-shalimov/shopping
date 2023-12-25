@@ -129,11 +129,17 @@
   <data name="Amount is invalid." xml:space="preserve">
     <value>Невірна кількість</value>
   </data>
+  <data name="Amount is required." xml:space="preserve">
+    <value>Кількість обовязкова</value>
+  </data>
   <data name="Apply" xml:space="preserve">
     <value>Застосувати</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Відмінити</value>
+  </data>
+  <data name="CarCosts" xml:space="preserve">
+    <value>Авто витрати</value>
   </data>
   <data name="Change" xml:space="preserve">
     <value>Зміна</value>
@@ -159,11 +165,20 @@
   <data name="Date" xml:space="preserve">
     <value>Дата</value>
   </data>
+  <data name="Date is required" xml:space="preserve">
+    <value>Дата обовязкова</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Видалити</value>
   </data>
   <data name="Description" xml:space="preserve">
     <value>Опис</value>
+  </data>
+  <data name="Description is required." xml:space="preserve">
+    <value>Опис обовязковий</value>
+  </data>
+  <data name="Description_Car_Cost_Default" xml:space="preserve">
+    <value>Бенизин А95</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>Редагувати</value>
@@ -236,6 +251,9 @@
   </data>
   <data name="Price is invalid." xml:space="preserve">
     <value>Не вірна ціна</value>
+  </data>
+  <data name="Price is required." xml:space="preserve">
+    <value>Ціна обовязкова</value>
   </data>
   <data name="Product Kinds" xml:space="preserve">
     <value>Группи продуктів</value>

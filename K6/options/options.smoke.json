@@ -36,6 +36,13 @@
             "iterations": 4,
             "maxDuration": "180s",
             "exec": "receiptTests"
+        },
+        "carCostsTests": {
+            "executor": "shared-iterations",
+            "vus": 2,
+            "iterations": 4,
+            "maxDuration": "90s",
+            "exec": "carCostsTests"
         }
     },
     "userAgent": "MyK6UserAgentString/1.0"

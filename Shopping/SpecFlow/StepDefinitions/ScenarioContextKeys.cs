@@ -6,6 +6,8 @@
         public const string ResponseStatusCode = "ResponseStatusCode";
         public const string ResponseContent = "ResponseContent";
 
+        public const string Id = "Id";
+        public const string RandomId = "RandomId";
         public const string EmptyId = "EmptyId";
         public const string EmptyString = "EmptyString";
         public const string UtcNow = "UtcNow";

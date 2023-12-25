@@ -1,8 +1,8 @@
-﻿using FluentValidation;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Shopping.Services.Extensions;
 using Shopping.Services.Handlers;
+using Shopping.Services.Handlers.CarCosts;
 using Shopping.Services.Handlers.Prices;
 using Shopping.Services.Handlers.Statistic;
 using Shopping.Services.Validators;
@@ -45,6 +45,7 @@ namespace Shopping.Services
             services.RegisterScopedHandler<GetReceipts, ReceiptModel[], GetReceiptsHandler>();
 
             RegisterProductKindsServices(services);
+            RegisterCarCostsServices(services);
 
             services.RegisterScopedRequest<DeleteProduct>()
                 .WithValidation<DeleteProductValidator>()
@@ -97,6 +98,23 @@ namespace Shopping.Services
             services.RegisterScopedRequest<MergeProductKind>()
                 .WithValidation<MergeProductKindValidator>()
                 .ForHandler<MergeProductKindHandler>();
+        }
+
+        private static void RegisterCarCostsServices(IServiceCollection services)
+        {
+            services.RegisterScopedHandler<GetCarCosts, CarCostModel[], GetCarCostsHandler>();
+
+           services.RegisterScopedRequest<AddCarCost>()
+                 .WithValidation<AddCarCostValidator>()
+                 .ForHandler<AddCarCostHandler>();
+
+            services.RegisterScopedRequest<UpdateCarCost>()
+               .WithValidation<UpdateCarCostValidator>()
+               .ForHandler<UpdateCarCostHandler>();
+
+            services.RegisterScopedRequest<DeleteCarCost>()
+                .WithValidation<DeleteCarCostValidator>()
+                .ForHandler<DeleteCarCostHandler>();
         }
     }
 }
