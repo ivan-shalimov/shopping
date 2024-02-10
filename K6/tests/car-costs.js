@@ -8,7 +8,7 @@ const baseURL = 'http://shopping.api/api/car-costs';
 // delays to emulate user activity in seconds
 const typingDelay = 10;
 const simpleActionDelay = 5;
-const currentMonth = new Date(Date.now()).getMonth();
+const currentMonth = new Date(Date.now()).getMonth() + 1;
 
 export function setup() {
     // 2. setup code

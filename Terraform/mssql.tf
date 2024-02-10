@@ -28,7 +28,7 @@ resource "docker_container" "mssql" {
 
   ports {
     internal = 1433
-    external = 1433
+    external = 11433
   }
 
   networks_advanced {

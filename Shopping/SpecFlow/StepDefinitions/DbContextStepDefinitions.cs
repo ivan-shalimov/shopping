@@ -2,8 +2,10 @@ using Bogus;
 using Microsoft.EntityFrameworkCore;
 using Shopping.DataAccess;
 using Shopping.Models.Domain;
+using Shopping.Shared.Models.Results;
 using Shopping.SpecFlow.Contexts;
 using Shopping.SpecFlow.Extensions;
+using System.Collections.ObjectModel;
 using static Shopping.SpecFlow.StepDefinitions.ScenarioContextKeys;
 using Product = Shopping.Models.Domain.Product;
 
@@ -96,6 +98,39 @@ namespace Shopping.SpecFlow.StepDefinitions
 
             _context.SaveChanges();
         }
+
+
+        [Given(@"The DB has the price change projection with the following items")]
+        public void GivenTheDBHasThePriceChangeProjectionWithTheFollowingItems(Table table)
+        {
+            _context.RemoveRange(_context.PriceChangeProjections);
+            foreach (var row in table.Rows)
+            {
+                var previousCost = decimal.TryParse(row["PreviousCost"], out var previousCostValue) ? previousCostValue
+                    : throw new InvalidOperationException($"The PreviousCost {row["PreviousCost"]} is not valid");
+                var lastCost = decimal.TryParse(row["LastCost"], out var lastCostValue) ? lastCostValue
+                    : throw new InvalidOperationException($"The LastCost {row["LastCost"]} is not valid");
+                var changePercent = decimal.TryParse(row["ChangePercent"], out var changePercentValue) ? changePercentValue
+                    : throw new InvalidOperationException($"The ChangePercent {row["ChangePercent"]} is not valid");
+
+                var item = new PriceChangeProjection
+                {
+                    Id = Guid.NewGuid(),
+                    ProductName = row["Product Name"],
+                    ProductKindName = row["Kind Name"],
+                    Shop = row["Shop"],
+                    PreviousPrice = previousCost,
+                    LastPrice = lastCost,
+                    ChangePercent = changePercent,
+                    ChangedDate = DateTime.UtcNow,
+                };
+
+                _context.Add(item);
+            }
+
+            _context.SaveChanges();
+        }
+
 
         [Given(@"The DB has the product kind")]
         public void GivenTheDBHasAProductKind()

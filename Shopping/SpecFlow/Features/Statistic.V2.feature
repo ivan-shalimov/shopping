@@ -24,6 +24,9 @@ Background:
 	| Onion        | 5     | 1      | 5    |
 	| Cherry       | 20    | 0.5    | 10   |
 	| Lemon        | 150   | 0.2    | 30   |
+	And The DB has the price change projection with the following items
+	| Product Name | Kind Name  | Shop  | PreviousCost | LastCost | ChangePercent |
+	| Carrot       | Vegetables | Local | 8            | 10       | 0.25          |
 
 Scenario: Get expenses by kind for current month
 	When I make a GET request to 'api/statistic/expenses-by-kind/current/month'

@@ -4,7 +4,8 @@
   "description": "Tool to test shopping api with k6 and chai",
   "main": "index.js",
   "scripts": {
-    "smoke-test": "k6 run --config options/options.smoke.json index.js "
+    "smoke-test": "k6 run --config options/options.smoke.json index.js",
+    "load-test": "k6 run --config options/options.load.json index.js"
   },
   "author": "Ivan Shalimov",
   "license": "ISC"

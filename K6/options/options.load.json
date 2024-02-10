@@ -1,0 +1,73 @@
+{
+    "hosts": {
+        "shopping.api": "localhost:19092"
+    },
+    "thresholds": {
+        "http_req_failed": [
+            "rate<10"
+        ]
+    },
+    "noConnectionReuse": true,
+    "scenarios": {
+        "dashboardTests": {
+            "executor": "ramping-vus",
+            "startVUs": 0,
+            "stages":[
+                { "duration": "20s", "target": 10 },
+                { "duration": "1m", "target": 10 },
+                { "duration": "10s", "target": 0 }
+            ],
+            "gracefulRampDown":"30s",
+            "exec": "dashboardTests"
+        },
+        "productKindTests": {
+            "executor": "ramping-vus",
+            "startVUs": 0,
+            "stages":[
+                { "duration": "20s", "target": 10 },
+                { "duration": "5m", "target": 10 },
+                { "duration": "5m", "target": 20 },
+                { "duration": "10s", "target": 0 }
+            ],
+            "gracefulRampDown":"30s",
+            "exec": "productKindTests"
+        },
+        "productTests": {
+            "executor": "ramping-vus",
+            "startVUs": 0,
+            "stages":[
+                { "duration": "20s", "target": 10 },
+                { "duration": "5m", "target": 10 },
+                { "duration": "5m", "target": 20 },
+                { "duration": "10s", "target": 0 }
+            ],
+            "gracefulRampDown":"30s",
+            "exec": "productTests"
+        },
+        "receiptTests": {
+            "executor": "ramping-vus",
+            "startVUs": 0,
+            "stages":[
+                { "duration": "20s", "target": 10 },
+                { "duration": "5m", "target": 10 },
+                { "duration": "5m", "target": 20 },
+                { "duration": "10s", "target": 0 }
+            ],
+            "gracefulRampDown":"60s",
+            "exec": "receiptTests"
+        },
+        "carCostsTests": {
+            "executor": "ramping-vus",
+            "startVUs": 0,
+            "stages":[
+                { "duration": "20s", "target": 10 },
+                { "duration": "5m", "target": 10 },
+                { "duration": "5m", "target": 20 },
+                { "duration": "10s", "target": 0 }
+            ],
+            "gracefulRampDown":"30s",
+            "exec": "carCostsTests"
+        }
+    },
+    "userAgent": "MyK6UserAgentString/1.0"
+}

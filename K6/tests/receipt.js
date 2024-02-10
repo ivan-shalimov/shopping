@@ -11,7 +11,7 @@ const baseURL = 'http://shopping.api/api/receipts';
 const typingDelay = 10;
 const buttonClickDelay = 5;
 const executionIdentificator = (new Date(Date.now()).getHours() + 1) * 100 + new Date(Date.now()).getMinutes();
-const currentMonth = new Date(Date.now()).getMonth();
+const currentMonth = new Date(Date.now()).getMonth() + 1;
 
 export function setup() {
     // 2. setup code

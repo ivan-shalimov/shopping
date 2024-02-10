@@ -1,10 +1,13 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Shopping.Models.Requests;
+using Shopping.Services.Common;
 using Shopping.Services.Extensions;
 using Shopping.Services.Handlers;
 using Shopping.Services.Handlers.CarCosts;
 using Shopping.Services.Handlers.Prices;
 using Shopping.Services.Handlers.Statistic;
+using Shopping.Services.Interfaces;
 using Shopping.Services.Validators;
 using Shopping.Shared.Models.Common;
 using Shopping.Shared.Models.Results;
@@ -16,6 +19,11 @@ namespace Shopping.Services
 {
     public static class IServiceCollectionExtension
     {
+        public static void RegisterServices(this IServiceCollection services)
+        {
+            services.AddSingleton<IBackgroundTaskManager, BackgroundTaskManager>();
+        }
+
         public static void RegisterMediatR(this IServiceCollection services)
         {
             //services.AddTransient<ServiceFactory>(p => p.GetService);
@@ -77,6 +85,8 @@ namespace Shopping.Services
                 .ForHandler<UpdateReceiptItemHandler>();
 
             services.RegisterScopedHandler<DeleteReceiptItem, DeleteReceiptItemHandler>();
+
+            services.RegisterScopedHandler<UpdatePriceChangeProjection, Either<Fail, Success>, UpdatePriceChangeProjectionHandler>();
         }
 
         private static void RegisterProductKindsServices(IServiceCollection services)
@@ -104,9 +114,9 @@ namespace Shopping.Services
         {
             services.RegisterScopedHandler<GetCarCosts, CarCostModel[], GetCarCostsHandler>();
 
-           services.RegisterScopedRequest<AddCarCost>()
-                 .WithValidation<AddCarCostValidator>()
-                 .ForHandler<AddCarCostHandler>();
+            services.RegisterScopedRequest<AddCarCost>()
+                  .WithValidation<AddCarCostValidator>()
+                  .ForHandler<AddCarCostHandler>();
 
             services.RegisterScopedRequest<UpdateCarCost>()
                .WithValidation<UpdateCarCostValidator>()

@@ -14,11 +14,11 @@ builder.Host.UseSeriGraylog();
 
 var settings = builder.Configuration.Get<AppSettigns>();
 builder.Services.AddSingleton<AppSettigns>(settings);
-builder.Services.AddHostedService<EfEventsCollectorHostedService>();
 
 var connectionStr = builder.Configuration.GetConnectionString("Shopping");
 builder.Services.AddSqlServer<ShoppingDbContext>(connectionStr);
 
+builder.Services.RegisterServices();
 builder.Services.RegisterMediatR();
 builder.Services.RegisterMediatrServices();
 builder.Services.AddCors();
@@ -34,6 +34,9 @@ builder.Host.UseMetrics(options =>
         endpointsOptions.MetricsEndpointOutputFormatter = new MetricsPrometheusProtobufOutputFormatter();
     };
 });
+
+builder.Services.AddHostedService<EfEventsCollectorHostedService>();
+builder.Services.AddHostedService<BackgroundTaskProcessor>();
 
 var app = builder.Build();
 app.UseMetricsAllMiddleware();

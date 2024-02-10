@@ -1,6 +1,9 @@
 ﻿using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using Shopping.DataAccess;
 using Shopping.Models.Domain;
+using Shopping.Models.Requests;
+using Shopping.Services.Interfaces;
 using Shopping.Shared.Models.Common;
 using Shopping.Shared.Requests;
 
@@ -9,10 +12,12 @@ namespace Shopping.Services.Handlers
     public sealed class AddReceiptItemHandler : IRequestHandler<AddReceiptItem, Either<Fail, Success>>
     {
         private readonly ShoppingDbContext _context;
+        private readonly IBackgroundTaskManager _backgroundTaskManager;
 
-        public AddReceiptItemHandler(ShoppingDbContext context)
+        public AddReceiptItemHandler(ShoppingDbContext context, IBackgroundTaskManager backgroundTaskManager)
         {
             _context = context;
+            _backgroundTaskManager = backgroundTaskManager;
         }
 
         public async Task<Either<Fail, Success>> Handle(AddReceiptItem request, CancellationToken cancellationToken)
@@ -28,6 +33,12 @@ namespace Shopping.Services.Handlers
 
             await _context.ReceiptItems.AddAsync(item);
             await _context.SaveChangesAsync();
+
+            _backgroundTaskManager.AddTask(async (sp, cnt) =>
+            {
+                var mediatr = sp.GetService<IMediator>();
+                await mediatr.Send(new UpdatePriceChangeProjection { ProductId = request.ProductId, ReceiptId = request.ReceiptId }, cnt);
+            });
 
             return Success.Instance;
         }
