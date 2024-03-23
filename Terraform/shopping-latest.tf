@@ -21,7 +21,7 @@ resource "docker_container" "shopping_server" {
   ]
 
   ports {
-    internal = 80
+    internal = 8080
     external = 9092
   }
 

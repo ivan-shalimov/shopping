@@ -22,7 +22,7 @@ resource "docker_container" "shopping_server_alpha" {
   ]
 
   ports {
-    internal = 80
+    internal = 8080
     external = 19092
   }
 
