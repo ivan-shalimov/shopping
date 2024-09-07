@@ -52,7 +52,7 @@ namespace Shopping.Client.Pages
                 return;
             }
 
-            var request = new UpdateBillItemQuantity { Quantity = currentValue, };
+            var request = new UpdateBillItemQuantity { Quantity = quantity, };
             await HttpClient.PutAsJsonAsync($"/api/bills/{billItem.BillId}/items/{billItem.Id}/quantity", request);
             billItem.CurrentValue = currentValue;
 
