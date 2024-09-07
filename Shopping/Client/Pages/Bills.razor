@@ -1,0 +1,57 @@
+﻿@page "/bills"
+
+<div class="row">
+    @if (_pending)
+    {
+        <p>Loading ...</p>
+    }
+    else
+    {
+        <table class="table ">
+            <thead>
+                <tr>
+                    <th scope="col">@Localizer["Description"]</th>
+                    <th class="action-block-col" scope="col"><button class="btn btn-primary" type="button" @onclick="@(() => ShowInlineDialog())">@Localizer["CreateBill"]</button></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in _list)
+                {
+                    <tr>
+
+                        <td> <a class="link" role="button" href="bills/@item.Id">@item.Description</a></td>
+                        <td>
+                            <div class="action-block">
+                                <button class="btn btn-primary ms-2" type="button" @onclick="@(async () => await Delete(item))">@Localizer["Delete"]</button>
+                            </div>
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+
+@code {
+    int orderID = 10248;
+
+    async Task ShowInlineDialog()
+    {
+        var result = await DialogService.OpenAsync(@Localizer["NewBillData"], ds =>
+    @<RadzenStack Gap="1rem">
+
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.Start">
+            <RadzenText TextStyle="TextStyle.Overline" Style="width: 90px;" class=" rz-display-flex rz-mt-4 rz-mb-2">@Localizer["Year"]</RadzenText>
+            <RadzenNumeric ShowUpDown="false" TValue="int" @bind-Value=@_newBillYear InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "enter value" }})" />
+            <RadzenText TextStyle="TextStyle.Overline" Style="width: 60px;" class=" rz-display-flex rz-mt-4 rz-mb-2">@Localizer["Month"]</RadzenText>
+            <RadzenNumeric ShowUpDown="false" TValue="int" @bind-Value=@_newBillMonth InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "enter value" }})" />
+        </RadzenStack>
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+            <RadzenButton class="rz-ml-2" Text="@Localizer["CreateBill"]" Click="async () => await CreateBill(ds)" />
+            <RadzenButton Text="@Localizer["Cancel"]" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" />
+        </RadzenStack>
+    </RadzenStack>,new DialogOptions{ Width = "350px" });
+    }
+}

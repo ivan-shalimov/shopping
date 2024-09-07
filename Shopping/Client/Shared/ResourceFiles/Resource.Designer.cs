@@ -115,6 +115,15 @@ namespace Shopping.Client.Shared.ResourceFiles {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bill for {1} month of {0} year.
+        /// </summary>
+        public static string BillTitleFormat {
+            get {
+                return ResourceManager.GetString("BillTitleFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
@@ -138,6 +147,15 @@ namespace Shopping.Client.Shared.ResourceFiles {
         public static string Change {
             get {
                 return ResourceManager.GetString("Change", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Charge.
+        /// </summary>
+        public static string Charge {
+            get {
+                return ResourceManager.GetString("Charge", resourceCulture);
             }
         }
         
@@ -169,6 +187,15 @@ namespace Shopping.Client.Shared.ResourceFiles {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Bill.
+        /// </summary>
+        public static string CreateBill {
+            get {
+                return ResourceManager.GetString("CreateBill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current Month.
         /// </summary>
         public static string Current_Month {
@@ -183,6 +210,15 @@ namespace Shopping.Client.Shared.ResourceFiles {
         public static string Current_Year {
             get {
                 return ResourceManager.GetString("Current Year", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current Value.
+        /// </summary>
+        public static string CurrentValue {
+            get {
+                return ResourceManager.GetString("CurrentValue", resourceCulture);
             }
         }
         
@@ -268,6 +304,15 @@ namespace Shopping.Client.Shared.ResourceFiles {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error!.
+        /// </summary>
+        public static string ErrorTitle {
+            get {
+                return ResourceManager.GetString("ErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Expenses.
         /// </summary>
         public static string Expenses {
@@ -309,6 +354,24 @@ namespace Shopping.Client.Shared.ResourceFiles {
         public static string in_design {
             get {
                 return ResourceManager.GetString("in design", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current value can not be less than previous value.
+        /// </summary>
+        public static string IncorrectQuantity {
+            get {
+                return ResourceManager.GetString("IncorrectQuantity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Year can not be greater than current and less than 2020; month should be in range 1 - 12..
+        /// </summary>
+        public static string IncorrectYearOrMonth {
+            get {
+                return ResourceManager.GetString("IncorrectYearOrMonth", resourceCulture);
             }
         }
         
@@ -385,11 +448,29 @@ namespace Shopping.Client.Shared.ResourceFiles {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Month.
+        /// </summary>
+        public static string Month {
+            get {
+                return ResourceManager.GetString("Month", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New bill data.
+        /// </summary>
+        public static string NewBillData {
+            get {
+                return ResourceManager.GetString("NewBillData", resourceCulture);
             }
         }
         
@@ -448,6 +529,15 @@ namespace Shopping.Client.Shared.ResourceFiles {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Previous Value.
+        /// </summary>
+        public static string PreviousValue {
+            get {
+                return ResourceManager.GetString("PreviousValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Price.
         /// </summary>
         public static string Price {
@@ -502,6 +592,24 @@ namespace Shopping.Client.Shared.ResourceFiles {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Quantity.
+        /// </summary>
+        public static string Quantity {
+            get {
+                return ResourceManager.GetString("Quantity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rate.
+        /// </summary>
+        public static string Rate {
+            get {
+                return ResourceManager.GetString("Rate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Receipts.
         /// </summary>
         public static string Receipts {
@@ -516,6 +624,15 @@ namespace Shopping.Client.Shared.ResourceFiles {
         public static string Save {
             get {
                 return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saved successfully.
+        /// </summary>
+        public static string Saved_successfully {
+            get {
+                return ResourceManager.GetString("Saved successfully", resourceCulture);
             }
         }
         
@@ -633,6 +750,15 @@ namespace Shopping.Client.Shared.ResourceFiles {
         public static string Welcome_in {
             get {
                 return ResourceManager.GetString("Welcome in", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Year.
+        /// </summary>
+        public static string Year {
+            get {
+                return ResourceManager.GetString("Year", resourceCulture);
             }
         }
     }

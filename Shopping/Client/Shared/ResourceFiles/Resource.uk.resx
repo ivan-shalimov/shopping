@@ -309,4 +309,46 @@
   <data name="Welcome in" xml:space="preserve">
     <value>Вітаю</value>
   </data>
+  <data name="Saved successfully" xml:space="preserve">
+    <value>Збереженно</value>
+  </data>
+  <data name="PreviousValue" xml:space="preserve">
+    <value>Минуле значення</value>
+  </data>
+  <data name="CurrentValue" xml:space="preserve">
+    <value>Теперішнє значення</value>
+  </data>
+  <data name="Rate" xml:space="preserve">
+    <value>Тариф</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Різниця</value>
+  </data>
+  <data name="Charge" xml:space="preserve">
+    <value>До сплати</value>
+  </data>
+  <data name="CreateBill" xml:space="preserve">
+    <value>Створити запис</value>
+  </data>
+  <data name="NewBillData" xml:space="preserve">
+    <value>Сторити запис</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Рік</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Місяць</value>
+  </data>
+  <data name="ErrorTitle" xml:space="preserve">
+    <value>Помилка!</value>
+  </data>
+  <data name="IncorrectYearOrMonth" xml:space="preserve">
+    <value>Рік не повинен бути поточний або не менше 2020; місяць повинен бути у межах від 1 до 12</value>
+  </data>
+  <data name="BillTitleFormat" xml:space="preserve">
+    <value>Комунальні послуги за {1} місяць {0} року</value>
+  </data>
+  <data name="IncorrectQuantity" xml:space="preserve">
+    <value>Поточне значення не може бути менше за минуле.</value>
+  </data>
 </root>

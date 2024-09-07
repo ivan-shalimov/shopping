@@ -1,0 +1,51 @@
+﻿@page "/bills/{BillId}"
+
+<div class="row">
+    @if (_pending)
+    {
+        <p>Loading ...</p>
+    }
+    else
+    {
+        @foreach (var gr in _items)
+        {
+            <RadzenCard class="rz-my-12 rz-mx-auto rz-background-color-info-lighter" Style="max-width: 450px">
+                <RadzenText TextStyle="TextStyle.H6" class=""><strong>@gr.Key</strong></RadzenText>
+                @foreach (var item in gr.Value)
+                {
+                    <RadzenCard class="rz-mb-1">
+                        <RadzenRow RowGap="1">
+                            <RadzenColumn SizeSM="4">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-2">@Localizer["Description"]</RadzenText>
+                                <RadzenText TextStyle="TextStyle.Body1" class=""><b>@item.Description</b></RadzenText>
+                                @if (item.Quantifiable)
+                                {
+                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-2">@Localizer["PreviousValue"]</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1" class=""><b>@item.PreviousValue</b></RadzenText>
+                                }
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="4">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-2">@Localizer["Rate"]</RadzenText>
+                                <RadzenText TextStyle="TextStyle.Body1" class=""><b>@String.Format("{0:C5}", item?.Rate)</b></RadzenText>
+                                @if (item.Quantifiable)
+                                {
+                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">@Localizer["CurrentValue"]</RadzenText>
+                                    <RadzenNumeric ShowUpDown="false" TValue="int" Value=@item.CurrentValue Change=@(async args => await Update(item, args)) InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "enter value" }})" />
+                                }
+                            </RadzenColumn>
+                            <RadzenColumn SizeSM="3">
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-2">@Localizer["Charge"]</RadzenText>
+                                <RadzenText TextStyle="TextStyle.Body1" class=""><b>@String.Format("{0:C}", item?.Charge)</b></RadzenText>
+                                @if (item.Quantifiable)
+                                {
+                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-2">@Localizer["Quantity"]</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1" class=""><b>@item.Quantity</b></RadzenText>
+                                }
+                            </RadzenColumn>
+                        </RadzenRow>
+                    </RadzenCard>
+                }
+            </RadzenCard>
+        }
+    }
+</div>

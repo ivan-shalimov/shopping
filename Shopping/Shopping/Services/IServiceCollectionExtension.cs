@@ -9,9 +9,11 @@ using Shopping.Services.Handlers.Prices;
 using Shopping.Services.Handlers.Statistic;
 using Shopping.Services.Interfaces;
 using Shopping.Services.Validators;
+using Shopping.Services.Validators.Bills;
 using Shopping.Shared.Models.Common;
 using Shopping.Shared.Models.Results;
 using Shopping.Shared.Requests;
+using Shopping.Shared.Requests.Bills;
 using Shopping.Shared.Requests.Prices;
 using Shopping.Shared.Requests.Statistic;
 
@@ -26,7 +28,6 @@ namespace Shopping.Services
 
         public static void RegisterMediatR(this IServiceCollection services)
         {
-            //services.AddTransient<ServiceFactory>(p => p.GetService);
             services.AddTransient<IMediator, Mediator>();
         }
 
@@ -54,6 +55,7 @@ namespace Shopping.Services
 
             RegisterProductKindsServices(services);
             RegisterCarCostsServices(services);
+            RegisterBillsServices(services);
 
             services.RegisterScopedRequest<DeleteProduct>()
                 .WithValidation<DeleteProductValidator>()
@@ -125,6 +127,24 @@ namespace Shopping.Services
             services.RegisterScopedRequest<DeleteCarCost>()
                 .WithValidation<DeleteCarCostValidator>()
                 .ForHandler<DeleteCarCostHandler>();
+        }
+
+        private static void RegisterBillsServices(IServiceCollection services)
+        {
+            services.RegisterScopedHandler<GetBills, Either<Fail, BillModel[]>, GetBillsHandler>();
+            services.RegisterScopedHandler<GetBillItems, Either<Fail, BillItemModel[]>, GetBillItemsHandler>();
+
+            services.RegisterScopedRequest<CreateBill>()
+                  .WithValidation<CreateBillValidator>()
+                  .ForHandler<CreateBillHandler>();
+
+            services.RegisterScopedRequest<UpdateBillItemQuantity>()
+               .WithValidation<UpdateBillItemQuantityValidator>()
+               .ForHandler<UpdateBillItemQuantityHandler>();
+
+            services.RegisterScopedRequest<DeleteBill>()
+                .WithValidation<DeleteBillValidator>()
+                .ForHandler<DeleteBillHandler>();
         }
     }
 }

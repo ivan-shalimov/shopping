@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Radzen;
 using Shopping.Client;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -13,7 +12,7 @@ builder.Services.AddScoped(sp =>
     var api = configuration.GetValue<string>("Api");
     return new HttpClient { BaseAddress = new Uri(api) };
 });
-builder.Services.AddScoped<DialogService>();
+builder.Services.AddRadzenComponents();
 builder.Services.AddLocalization();
 
 await builder.Build().RunAsync();
