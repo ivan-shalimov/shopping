@@ -15,6 +15,7 @@ resource "docker_container" "mssql" {
   image = docker_image.mssql.image_id
   name  = "my-mssql"
   restart = "always"
+  network_mode = "bridge"
 
   depends_on = [ 
     docker_network.my-mssql-network

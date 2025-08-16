@@ -20,6 +20,7 @@ resource "docker_container" "mongo" {
   image   = docker_image.mongo.image_id
   name    = "my-mongo"
   restart = "always"
+  network_mode = "bridge"
 
   depends_on = [
     docker_network.my-graylog-network
@@ -51,6 +52,7 @@ resource "docker_container" "elasticsearch" {
   image   = docker_image.elasticsearch.image_id
   name    = "my-elasticsearch"
   restart = "always"
+  network_mode = "bridge"
 
   depends_on = [
     docker_network.my-graylog-network
@@ -92,6 +94,7 @@ resource "docker_container" "graylog" {
   image   = docker_image.graylog.image_id
   name    = "my-graylog"
   restart = "always"
+  network_mode = "bridge"
 
   depends_on = [
     docker_network.my-graylog-network,

@@ -16,6 +16,7 @@ resource "docker_container" "grafana" {
   image = docker_image.grafana.image_id
   name  = "my-grafana"
   restart = "always"
+  network_mode = "bridge"
 
   depends_on = [ 
     docker_network.my-metrics-network
@@ -50,6 +51,7 @@ resource "docker_container" "prometheus" {
   image = docker_image.prometheus.image_id
   name  = "my-prometheus"
   restart = "always"
+  network_mode = "bridge"
 
   depends_on = [ 
     docker_network.my-metrics-network
