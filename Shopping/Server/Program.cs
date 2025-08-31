@@ -7,13 +7,16 @@ using Shopping.Server.Extensions;
 using Shopping.Services;
 using Microsoft.AspNetCore.Mvc;
 using Shopping.Server.Services;
+using Serilog.Debugging;
+
+SelfLog.Enable(Console.Error);
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Host.UseSeriGraylog();
-
 var settings = builder.Configuration.Get<AppSettigns>();
 builder.Services.AddSingleton<AppSettigns>(settings);
+
+builder.Host.UseSeriLoki();
 
 var connectionStr = builder.Configuration.GetConnectionString("Shopping");
 builder.Services.AddSqlServer<ShoppingDbContext>(connectionStr);
@@ -38,6 +41,7 @@ builder.Host.UseMetrics(options =>
 builder.Services.AddHostedService<EfEventsCollectorHostedService>();
 builder.Services.AddHostedService<BackgroundTaskProcessor>();
 
+Console.WriteLine("[Starting service]: Build");
 var app = builder.Build();
 app.UseMetricsAllMiddleware();
 app.UseGlobalExceptionHandling();
@@ -46,6 +50,8 @@ app.UseRouting();
 app.UseCors(conf => conf.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.MapControllers();
+
+Console.WriteLine("[Starting service]: Run");
 app.Run();
 
 public partial class Program

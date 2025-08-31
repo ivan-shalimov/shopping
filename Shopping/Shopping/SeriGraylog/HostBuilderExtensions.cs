@@ -2,13 +2,13 @@
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
-using Serilog.Sinks.Graylog;
+using Serilog.Sinks.Grafana.Loki;
 
 namespace Shopping.SeriGraylog
 {
     public static class HostBuilderExtensions
     {
-        public static void UseSeriGraylog(this IHostBuilder hostBuilder)
+        public static void UseSeriLoki(this IHostBuilder hostBuilder)
         {
             hostBuilder.UseSerilog((hostContext, services, configuration) =>
             {
@@ -24,11 +24,7 @@ namespace Shopping.SeriGraylog
 
                 configuration.WriteTo.Console();
 
-                var graylogSinkOptions = loggerSection.GetSection(nameof(GraylogSinkOptions)).Get<GraylogSinkOptions>();
-                if (graylogSinkOptions != null)
-                {
-                    configuration.WriteTo.Graylog(graylogSinkOptions);
-                }
+                configuration.WriteTo.GrafanaLoki(uri: loggerSettings.LokiUri, tenant: "k3s");
 
                 configuration.Enrich.WithMachineName();
                 configuration.Enrich.WithEnvironmentName();
