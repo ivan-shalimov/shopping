@@ -1,5 +1,4 @@
-﻿using App.Metrics;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
 using Shopping.Metrics;
@@ -12,12 +11,10 @@ namespace Shopping.Services.Common
         where TRequest : IRequest<Either<Fail, TSuccessResponse>>
     {
         private readonly IValidator<TRequest> _validator;
-        private readonly IMetrics _metrics;
 
-        public MediatorPipelineBehavior([Optional] IValidator<TRequest> validator, IMetrics metrics)
+        public MediatorPipelineBehavior([Optional] IValidator<TRequest> validator)
         {
             _validator = validator;
-            _metrics = metrics;
         }
 
         public async Task<Either<Fail, TSuccessResponse>> Handle(TRequest request, RequestHandlerDelegate<Either<Fail, TSuccessResponse>> next, CancellationToken cancellationToken)
@@ -25,7 +22,7 @@ namespace Shopping.Services.Common
             if (_validator != null)
             {
                 ValidationResult validationResult;
-                using (_metrics.Measure.Timer.Time(ServiceMetrics.Handler, new MetricTags("Request", typeof(TRequest).Name)))
+                using (ShoppingTelemetry.StartValidator<TRequest>())
                 {
                     validationResult = await _validator.ValidateAsync(request, cancellationToken);
                 }
@@ -36,7 +33,7 @@ namespace Shopping.Services.Common
                 }
             }
 
-            using (_metrics.Measure.Timer.Time(ServiceMetrics.Handler, new MetricTags("Request", typeof(TRequest).Name)))
+            using (ShoppingTelemetry.StartHandler<TRequest>())
             {
                 return await next();
             }

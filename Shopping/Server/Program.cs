@@ -1,22 +1,11 @@
-using App.Metrics.AspNetCore;
-using App.Metrics.Formatters.Prometheus;
 using Shopping.DataAccess;
-using Shopping.SeriGraylog;
-using Shopping.Server;
 using Shopping.Server.Extensions;
-using Shopping.Services;
-using Microsoft.AspNetCore.Mvc;
 using Shopping.Server.Services;
-using Serilog.Debugging;
-
-SelfLog.Enable(Console.Error);
+using Shopping.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var settings = builder.Configuration.Get<AppSettigns>();
-builder.Services.AddSingleton<AppSettigns>(settings);
-
-builder.Host.UseSeriLoki();
+builder.AddOpenTelemetry(builder.Configuration["OtplCollectorEndpoint"]);
 
 var connectionStr = builder.Configuration.GetConnectionString("Shopping");
 builder.Services.AddSqlServer<ShoppingDbContext>(connectionStr);
@@ -26,24 +15,10 @@ builder.Services.RegisterMediatR();
 builder.Services.RegisterMediatrServices();
 builder.Services.AddCors();
 builder.Services.AddControllers();
-
-builder.Services.AddMvcCore().AddMetricsCore(); // this is required to measure per request
-builder.Host.UseMetrics(options =>
-{
-    options.EndpointOptions = endpointsOptions =>
-    {
-        endpointsOptions.EnvironmentInfoEndpointEnabled = false;
-        endpointsOptions.MetricsTextEndpointOutputFormatter = new MetricsPrometheusTextOutputFormatter();
-        endpointsOptions.MetricsEndpointOutputFormatter = new MetricsPrometheusProtobufOutputFormatter();
-    };
-});
-
-builder.Services.AddHostedService<EfEventsCollectorHostedService>();
 builder.Services.AddHostedService<BackgroundTaskProcessor>();
 
 Console.WriteLine("[Starting service]: Build");
 var app = builder.Build();
-app.UseMetricsAllMiddleware();
 app.UseGlobalExceptionHandling();
 
 app.UseRouting();

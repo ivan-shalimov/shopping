@@ -1,5 +1,4 @@
-﻿using App.Metrics;
-using Microsoft.AspNetCore.Mvc.Testing;
+﻿using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.EnvironmentVariables;
@@ -23,6 +22,7 @@ namespace Shopping.SpecFlow.Infrastructure
 
         public ShoppingWebApplicationFactory()
         {
+            Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "SpecFlow");
             _builder = new DbContextOptionsBuilder<ShoppingDbContext>();
             _builder.UseInMemoryDatabase(Global.DataBaseName);
         }
@@ -35,7 +35,6 @@ namespace Shopping.SpecFlow.Infrastructure
         {
             builder.ConfigureServices(serviceCollection => ReplaceContext(serviceCollection));
             builder.ConfigureAppConfiguration(configBuilder => ModifyAppSettigns(configBuilder));
-            builder.ConfigureServices(collection => collection.AddSingleton(NSubstitute.Substitute.For<IMetrics>()));
             return base.CreateHost(builder);
         }
 
@@ -60,10 +59,10 @@ namespace Shopping.SpecFlow.Infrastructure
 
         protected override void Dispose(bool disposing)
         {
-            base.Dispose(disposing);
             if (disposing && !_disposed)
             {
                 _disposed = true;
+                base.Dispose();
             }
         }
     }
