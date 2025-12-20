@@ -1,6 +1,7 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Shopping.Mediator;
 using Shopping.Server.Common;
+using Shopping.Shared.Models.Results;
 using Shopping.Shared.Requests.Bills;
 
 namespace Shopping.Server.Controllers
@@ -19,28 +20,28 @@ namespace Shopping.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetBills([FromQuery] GetBills request)
         {
-            var result = await _mediator.Send(request).ConfigureAwait(false);
+            var result = await _mediator.ExecuteAndReceive<GetBills, BillModel[]>(request).ConfigureAwait(false);
             return result.Reduce();
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateBill(CreateBill request)
         {
-            var result = await _mediator.Send(request).ConfigureAwait(false);
+            var result = await _mediator.Execute(request).ConfigureAwait(false);
             return result.Reduce();
         }
 
         [HttpDelete("{billId}")]
         public async Task<IActionResult> DeleteBill(Guid billId)
         {
-            var result = await _mediator.Send(new DeleteBill { Id = billId }).ConfigureAwait(false);
+            var result = await _mediator.Execute(new DeleteBill { Id = billId }).ConfigureAwait(false);
             return result.Reduce();
         }
 
         [HttpGet("{billId}/items")]
         public async Task<IActionResult> GetBillItems(Guid billId)
         {
-            var result = await _mediator.Send(new GetBillItems { BillId = billId }).ConfigureAwait(false);
+            var result = await _mediator.ExecuteAndReceive<GetBillItems, BillItemModel[]>(new GetBillItems { BillId = billId }).ConfigureAwait(false);
             return result.Reduce();
         }
 
@@ -49,7 +50,7 @@ namespace Shopping.Server.Controllers
         {
             request.Id = id;
             request.BillId = billId;
-            var result = await _mediator.Send(request);
+            var result = await _mediator.Execute(request);
             return result.Reduce();
         }
     }

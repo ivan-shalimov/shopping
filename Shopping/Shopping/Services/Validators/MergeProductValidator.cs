@@ -1,10 +1,11 @@
 ﻿using FluentValidation;
+using Shopping.Mediator;
 using Shopping.DataAccess;
 using Shopping.Shared.Requests;
 
 namespace Shopping.Services.Validators
 {
-    public sealed class MergeProductValidator : AbstractValidator<MergeProduct>
+    public sealed class MergeProductValidator : Validator<MergeProduct>
     {
         public MergeProductValidator(ShoppingDbContext context)
         {

@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿using Shopping.Mediator;
 using Shopping.DataAccess;
 using Shopping.Shared.Models.Common;
 using Shopping.Shared.Requests.Bills;

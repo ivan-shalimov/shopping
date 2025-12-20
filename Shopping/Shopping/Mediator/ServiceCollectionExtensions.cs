@@ -1,9 +1,7 @@
-﻿using MediatR;
-using Microsoft.Extensions.DependencyInjection;
-using Shopping.Services.Common;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Shopping.Shared.Models.Common;
 
-namespace Shopping.Services.Extensions
+namespace Shopping.Mediator
 {
     public static class ServiceCollectionExtensions
     {
@@ -23,8 +21,6 @@ namespace Shopping.Services.Extensions
            where TRequest : IRequest<TResult>
            where THandler : class, IRequestHandler<TRequest, TResult>
         {
-            services.AddScoped<IPipelineBehavior<TRequest, TResult>, SimpleMediatorPipelineBehavior<TRequest, TResult>>();
-
             services.AddScoped<IRequestHandler<TRequest, TResult>, THandler>();
         }
 
@@ -32,8 +28,6 @@ namespace Shopping.Services.Extensions
            where TRequest : IRequest<Success>
            where THandler : class, IRequestHandler<TRequest, Success>
         {
-            services.AddScoped<IPipelineBehavior<TRequest, Success>, SimpleMediatorPipelineBehavior<TRequest, Success>>();
-
             services.AddScoped<IRequestHandler<TRequest, Success>, THandler>();
         }
     }

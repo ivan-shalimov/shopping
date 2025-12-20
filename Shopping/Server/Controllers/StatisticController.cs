@@ -1,5 +1,5 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Shopping.Mediator;
 using Shopping.Shared.Models.Results;
 using Shopping.Shared.Requests.Statistic;
 
@@ -19,21 +19,21 @@ namespace Shopping.Server.Controllers
         [HttpGet("expenses-by-kinds")]
         public async Task<ActionResult<IDictionary<string, decimal>>> GetExpensesByKinds([FromQuery] DateTime start, [FromQuery] DateTime end)
         {
-            var result = await _mediator.Send(new GetExpensesByKind { Start = start, End = end });
+            var result = await _mediator.ExecuteAndReceiveWithoutValidation<GetExpensesByKind, IDictionary<string, decimal>>(new GetExpensesByKind { Start = start, End = end });
             return Ok(result);
         }
 
         [HttpGet("expenses-by-products")]
         public async Task<ActionResult<IDictionary<string, decimal>>> GetExpensesByProducts([FromQuery] string kind, [FromQuery] DateTime start, [FromQuery] DateTime end)
         {
-            var result = await _mediator.Send(new GetExpensesByProducts { Kind = kind, Start = start, End = end });
+            var result = await _mediator.ExecuteAndReceiveWithoutValidation<GetExpensesByProducts, IDictionary<string, decimal>>(new GetExpensesByProducts { Kind = kind, Start = start, End = end });
             return Ok(result);
         }
 
         [HttpGet("product-expenses-details")]
         public async Task<ActionResult<ProductExpensesDetail[]>> GetProductsExpensesDetails([FromQuery] string productName, [FromQuery] DateTime start, [FromQuery] DateTime end)
         {
-            var result = await _mediator.Send(new GetProductsExpensesDetails { ProductName = productName, Start = start, End = end });
+            var result = await _mediator.ExecuteAndReceiveWithoutValidation<GetProductsExpensesDetails, ProductExpensesDetail[]>(new GetProductsExpensesDetails { ProductName = productName, Start = start, End = end });
             return Ok(result);
         }
 
@@ -46,7 +46,7 @@ namespace Shopping.Server.Controllers
                 "current" => new DateTime(now.Year, now.Month, 1),
                 "previous" => new DateTime(now.Year, now.Month, 1).AddMonths(-1),
             };
-            var result = await _mediator.Send(new GetExpensesByKind { OnlyMain = true, Start = startOfMonth, End = startOfMonth.AddMonths(1).AddSeconds(-1) });
+            var result = await _mediator.ExecuteAndReceiveWithoutValidation<GetExpensesByKind, IDictionary<string, decimal>>(new GetExpensesByKind { OnlyMain = true, Start = startOfMonth, End = startOfMonth.AddMonths(1).AddSeconds(-1) });
             return Ok(result);
         }
 
@@ -59,7 +59,7 @@ namespace Shopping.Server.Controllers
                 "current" => new DateTime(now.Year, 1, 1),
                 "previous" => new DateTime(now.Year, 1, 1).AddYears(-1),
             };
-            var result = await _mediator.Send(new GetExpensesByMonth { StartOfYear = startOfYear });
+            var result = await _mediator.ExecuteAndReceiveWithoutValidation<GetExpensesByMonth, IDictionary<int, decimal>>(new GetExpensesByMonth { StartOfYear = startOfYear });
             return Ok(result);
         }
 
@@ -72,14 +72,14 @@ namespace Shopping.Server.Controllers
                 "current" => new DateTime(now.Year, now.Month, 1),
                 "previous" => new DateTime(now.Year, now.Month, 1).AddMonths(-1),
             };
-            var result = await _mediator.Send(new GetExpensesByShop { StartOfMonth = startOfMonth });
+            var result = await _mediator.ExecuteAndReceiveWithoutValidation<GetExpensesByShop, IDictionary<string, decimal>>(new GetExpensesByShop { StartOfMonth = startOfMonth });
             return Ok(result);
         }
 
         [HttpGet("product-cost-change")]
         public async Task<ActionResult<ProductCostChange[]>> GetProductCostChange([FromQuery] int page, [FromQuery] int pageSize)
         {
-            var result = await _mediator.Send(new GetProductCostChange { Page = page, PageSize = pageSize });
+            var result = await _mediator.ExecuteAndReceiveWithoutValidation<GetProductCostChange, ProductCostChange[]>(new GetProductCostChange { Page = page, PageSize = pageSize });
             return Ok(result);
         }
     }

@@ -1,6 +1,7 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Shopping.Mediator;
 using Shopping.Server.Common;
+using Shopping.Shared.Models.Common;
 using Shopping.Shared.Models.Results;
 using Shopping.Shared.Requests;
 
@@ -20,14 +21,14 @@ namespace Shopping.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<ProductModel[]>> GetProducts(Guid? productKindId, bool showHidden)
         {
-            var result = await _mediator.Send(new GetProducts { ProductKindId = productKindId, ShowHidden = showHidden });
+            var result = await _mediator.ExecuteAndReceiveWithoutValidation<GetProducts, ProductModel[]>(new GetProducts { ProductKindId = productKindId, ShowHidden = showHidden });
             return Ok(result);
         }
 
         [HttpPost]
         public async Task<IActionResult> AddProduct(AddProduct request)
         {
-            await _mediator.Send(request);
+            await _mediator.ExecuteAndReceiveWithoutValidation<AddProduct, Success>(request);
             return Ok();
         }
 
@@ -35,56 +36,56 @@ namespace Shopping.Server.Controllers
         public async Task<IActionResult> UpdateProduct(Guid id, UpdateProduct request)
         {
             request.Id = id;
-            await _mediator.Send(request);
+            await _mediator.ExecuteAndReceiveWithoutValidation<UpdateProduct, Success>(request);
             return Ok();
         }
 
         [HttpPut("{id}/hidden")]
         public async Task<IActionResult> MarkAsHidden(Guid id)
         {
-            await _mediator.Send(new ChangeProductVisibility { Id = id, Hidden = true });
+            await _mediator.Execute(new ChangeProductVisibility { Id = id, Hidden = true });
             return Ok();
         }
 
         [HttpPut("{id}/visible")]
         public async Task<IActionResult> MarkAsVisible(Guid id)
         {
-            await _mediator.Send(new ChangeProductVisibility { Id = id, Hidden = false });
+            await _mediator.Execute(new ChangeProductVisibility { Id = id, Hidden = false });
             return Ok();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(Guid id)
         {
-            var result = await _mediator.Send(new DeleteProduct { Id = id });
+            var result = await _mediator.Execute(new DeleteProduct { Id = id });
             return result.Reduce();
         }
 
         [HttpPost("merged")]
         public async Task<IActionResult> MergeProductKind(MergeProduct request)
         {
-            var result = await _mediator.Send(request);
+            var result = await _mediator.Execute(request);
             return result.Reduce();
         }
 
         [HttpGet("kinds")]
         public async Task<ActionResult<ProductKindModel[]>> GetProductKinds()
         {
-            var result = await _mediator.Send(new GetProductKinds());
+            var result = await _mediator.ExecuteAndReceiveWithoutValidation<GetProductKinds, ProductKindModel[]>(new GetProductKinds());
             return Ok(result);
         }
 
         [HttpPost("kinds")]
         public async Task<IActionResult> AddProductKind(AddProductKind request)
         {
-            var result = await _mediator.Send(request);
+            var result = await _mediator.Execute(request);
             return result.Reduce();
         }
 
         [HttpPost("kinds/merged")]
         public async Task<IActionResult> MergeProductKind(MergeProductKind request)
         {
-            var result = await _mediator.Send(request);
+            var result = await _mediator.Execute(request);
             return result.Reduce();
         }
 
@@ -92,14 +93,14 @@ namespace Shopping.Server.Controllers
         public async Task<IActionResult> UpdateProductKind(Guid id, UpdateProductKind request)
         {
             request.Id = id;
-            var result = await _mediator.Send(request);
+            var result = await _mediator.Execute(request);
             return result.Reduce();
         }
 
         [HttpDelete("kinds/{id}")]
         public async Task<IActionResult> DeleteProductKind(Guid id)
         {
-            var result = await _mediator.Send(new DeleteProductKind { Id = id });
+            var result = await _mediator.Execute(new DeleteProductKind { Id = id });
             return result.Reduce();
         }
     }

@@ -1,10 +1,11 @@
 ﻿using FluentValidation;
+using Shopping.Mediator;
 using Shopping.DataAccess;
 using Shopping.Shared.Requests;
 
 namespace Shopping.Services.Validators
 {
-    public sealed class UpdateCarCostValidator : AbstractValidator<UpdateCarCost>
+    public sealed class UpdateCarCostValidator : Validator<UpdateCarCost>
     {
         public UpdateCarCostValidator(ShoppingDbContext context)
         {

@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿using Shopping.Mediator;
 
 namespace Shopping.Shared.Requests.Statistic
 {

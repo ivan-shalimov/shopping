@@ -1,8 +1,7 @@
-﻿using MediatR;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Shopping.Mediator;
 using Shopping.Models.Requests;
 using Shopping.Services.Common;
-using Shopping.Services.Extensions;
 using Shopping.Services.Handlers;
 using Shopping.Services.Handlers.CarCosts;
 using Shopping.Services.Handlers.Prices;
@@ -28,7 +27,7 @@ namespace Shopping.Services
 
         public static void RegisterMediatR(this IServiceCollection services)
         {
-            services.AddTransient<IMediator, Mediator>();
+            services.AddMediator();
         }
 
         public static void RegisterMediatrServices(this IServiceCollection services)

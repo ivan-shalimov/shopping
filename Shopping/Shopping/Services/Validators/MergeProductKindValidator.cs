@@ -1,11 +1,12 @@
 ﻿using FluentValidation;
+using Shopping.Mediator;
 using Microsoft.EntityFrameworkCore;
 using Shopping.DataAccess;
 using Shopping.Shared.Requests;
 
 namespace Shopping.Services.Validators
 {
-    public sealed class MergeProductKindValidator : AbstractValidator<MergeProductKind>
+    public sealed class MergeProductKindValidator : Validator<MergeProductKind>
     {
         public MergeProductKindValidator(ShoppingDbContext context)
         {

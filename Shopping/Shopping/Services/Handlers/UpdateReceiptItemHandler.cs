@@ -1,8 +1,7 @@
-﻿using MediatR;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Shopping.DataAccess;
+using Shopping.Mediator;
 using Shopping.Models.Requests;
-using Shopping.Services.Common;
 using Shopping.Services.Interfaces;
 using Shopping.Shared.Models.Common;
 using Shopping.Shared.Requests;
@@ -33,7 +32,8 @@ namespace Shopping.Services.Handlers
             _backgroundTaskManager.AddTask(async (sp, cnt) =>
             {
                 var mediatr = sp.GetService<IMediator>();
-                await mediatr.Send(new UpdatePriceChangeProjection { ProductId = item.ProductId, ReceiptId = item.ReceiptId }, cnt);
+                var cmd = new UpdatePriceChangeProjection { ProductId = item.ProductId, ReceiptId = item.ReceiptId };
+                await mediatr.ExecuteAndReceiveWithoutValidation<UpdatePriceChangeProjection, Either<Fail, Success>>(cmd);
             });
 
             return Success.Instance;

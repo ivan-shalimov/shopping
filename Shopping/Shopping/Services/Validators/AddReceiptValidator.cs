@@ -1,9 +1,10 @@
 ﻿using FluentValidation;
+using Shopping.Mediator;
 using Shopping.Shared.Requests;
 
 namespace Shopping.Services.Validators
 {
-    public sealed class AddReceiptValidator : AbstractValidator<AddReceipt>
+    public sealed class AddReceiptValidator : Validator<AddReceipt>
     {
         public AddReceiptValidator()
         {

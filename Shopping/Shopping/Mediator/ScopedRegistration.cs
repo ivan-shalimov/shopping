@@ -1,9 +1,7 @@
-﻿using FluentValidation;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Shopping.Shared.Models.Common;
 
-namespace Shopping.Services.Common
+namespace Shopping.Mediator
 {
     public sealed class ScopedRegistration<TRequest, TSuccessResponse> : IRegisterHander<TRequest, TSuccessResponse>
         where TRequest : IRequest<Either<Fail, TSuccessResponse>>
@@ -13,13 +11,12 @@ namespace Shopping.Services.Common
         public ScopedRegistration(IServiceCollection services)
         {
             _services = services;
-            services.AddScoped<IPipelineBehavior<TRequest, Either<Fail, TSuccessResponse>>, MediatorPipelineBehavior<TRequest, TSuccessResponse>>();
         }
 
         public IRegisterHander<TRequest, TSuccessResponse> WithValidation<TValidator>()
-            where TValidator : class, IValidator<TRequest>
+            where TValidator : class, IRequestVaidator<TRequest>
         {
-            _services.AddScoped<IValidator<TRequest>, TValidator>();
+            _services.AddScoped<IRequestVaidator<TRequest>, TValidator>();
             return this;
         }
 

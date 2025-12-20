@@ -1,11 +1,12 @@
 ﻿using FluentValidation;
+using Shopping.Mediator;
 using Microsoft.EntityFrameworkCore;
 using Shopping.DataAccess;
 using Shopping.Shared.Requests;
 
 namespace Shopping.Services.Validators
 {
-    public sealed class DeleteProductValidator : AbstractValidator<DeleteProduct>
+    public sealed class DeleteProductValidator : Validator<DeleteProduct>
     {
         public DeleteProductValidator(ShoppingDbContext context)
         {

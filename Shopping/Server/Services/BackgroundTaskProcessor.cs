@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿using Shopping.Mediator;
 using Shopping.Services.Interfaces;
 
 namespace Shopping.Server.Services

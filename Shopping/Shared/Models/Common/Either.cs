@@ -1,6 +1,6 @@
 ﻿namespace Shopping.Shared.Models.Common
 {
-    public sealed class Either<L, R>
+    public class Either<L, R>
     {
         private readonly R Right;
         private readonly L Left;

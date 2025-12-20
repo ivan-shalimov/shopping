@@ -1,5 +1,5 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Shopping.Mediator;
 using Shopping.Shared.Models.Results;
 using Shopping.Shared.Requests;
 
@@ -17,9 +17,9 @@ namespace Shopping.Server.Controllers
         }
 
         [HttpGet("statistic")]
-        public async Task<ActionResult<PurchaseStatistic>> GetPurchaseStatistic([FromQuery]int month)
+        public async Task<ActionResult<PurchaseStatistic>> GetPurchaseStatistic([FromQuery] int month)
         {
-            var result = await _mediator.Send(new GetPurchaseStatistic { Month = month });
+            var result = await _mediator.ExecuteAndReceiveWithoutValidation<GetPurchaseStatistic, PurchaseStatistic>(new GetPurchaseStatistic { Month = month });
             return Ok(result);
         }
     }

@@ -55,7 +55,7 @@ export function setup() {
                 JSON.stringify(product),
                 { headers: { 'content-type': 'application/json' } }
             );
-            if (addProductKindresponse.status !== 200) {
+            if (addProductResponse.status !== 200) {
                 throw new Error(`Request to ${addProductResponse.request.url} failed with code ${addProductResponse.status} and message '${addProductResponse.error}'`);
             }
 

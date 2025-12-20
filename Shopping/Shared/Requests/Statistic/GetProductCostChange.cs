@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿using Shopping.Mediator;
 using Shopping.Shared.Models.Results;
 
 namespace Shopping.Shared.Requests.Statistic
