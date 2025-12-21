@@ -3,7 +3,6 @@ using Shopping.Shared.Models.Results;
 using Shopping.SpecFlow.Contexts;
 using Shopping.SpecFlow.Extensions;
 using System.Collections.ObjectModel;
-using TechTalk.SpecFlow.Assist;
 using static Shopping.SpecFlow.StepDefinitions.ScenarioContextKeys;
 
 namespace Shopping.SpecFlow.StepDefinitions

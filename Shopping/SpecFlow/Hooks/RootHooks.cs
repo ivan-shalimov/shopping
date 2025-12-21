@@ -1,4 +1,4 @@
-﻿using BoDi;
+﻿using Reqnroll.BoDi;
 using Shopping.SpecFlow.Infrastructure;
 using Shopping.SpecFlow.StepDefinitions;
 using Shopping.SpecFlow.ValueRetrievers;
@@ -13,8 +13,8 @@ namespace Shopping.SpecFlow.Hooks
         [BeforeTestRun]
         public static void BeforeTestRun()
         {
-            TechTalk.SpecFlow.Assist.Service.Instance.ValueRetrievers.Register(new DateTimeValueRetriever());
-            TechTalk.SpecFlow.Assist.Service.Instance.ValueRetrievers.Register(new MonthNumberValueRetriever());
+            Reqnroll.Assist.Service.Instance.ValueRetrievers.Register(new DateTimeValueRetriever());
+            Reqnroll.Assist.Service.Instance.ValueRetrievers.Register(new MonthNumberValueRetriever());
         }
 
         [AfterTestRun]
