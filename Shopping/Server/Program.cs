@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Shopping.DataAccess;
+using Shopping.Server.Endpoints;
 using Shopping.Server.Extensions;
 using Shopping.Server.Services;
 using Shopping.Services;
@@ -15,7 +16,6 @@ builder.Services.RegisterServices();
 builder.Services.RegisterMediatR();
 builder.Services.RegisterMediatrServices();
 builder.Services.AddCors();
-builder.Services.AddControllers();
 builder.Services.AddHostedService<BackgroundTaskProcessor>();
 
 Console.WriteLine("[Starting service]: Build");
@@ -34,11 +34,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseGlobalExceptionHandling();
 
-app.UseRouting();
 app.UseCors(conf => conf.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
-app.MapControllers();
-
+app.MapEndpoints();
 Console.WriteLine("[Starting service]: Run");
 app.Run();
 

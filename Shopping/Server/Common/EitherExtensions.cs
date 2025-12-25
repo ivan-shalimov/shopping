@@ -10,7 +10,7 @@ namespace Shopping.Server.Common
             return either.ReduceTo(r => r);
         }
 
-        public static IActionResult Reduce<T>(this Either<Fail, T> either)
+        public static IActionResult ReduceToAction<T>(this Either<Fail, T> either)
         {
             return either
                 .MapLeft<IActionResult>(f =>
@@ -26,6 +26,25 @@ namespace Shopping.Server.Common
                     }
                 })
                 .MapRight<IActionResult>(r => new OkObjectResult(r))
+                .Reduce();
+        }
+
+        public static IResult Reduce<T>(this Either<Fail, T> either)
+        {
+            return either
+                .MapLeft(f =>
+                {
+                    switch (f.FailType)
+                    {
+                        case FailType.Validation:
+                            return Results.BadRequest(f.ErrorMessages);
+
+                        case FailType.None:
+                        default:
+                            return Results.BadRequest("Something go wrong.");
+                    }
+                })
+                .MapRight(r => Results.Ok(r))
                 .Reduce();
         }
     }
