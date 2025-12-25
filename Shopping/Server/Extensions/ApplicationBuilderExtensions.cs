@@ -11,40 +11,43 @@ namespace Shopping.Server.Extensions
     {
         public static void UseGlobalExceptionHandling(this IApplicationBuilder app)
         {
-            app.UseExceptionHandler(new ExceptionHandlerOptions
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
             {
-                ExceptionHandler = async context =>
+                app.UseExceptionHandler(new ExceptionHandlerOptions
                 {
-                    var exceptionId = Guid.NewGuid();
-                    var logger = context.RequestServices.GetRequiredService<ILogger<IHttpConnectionFeature>>();
-                    var exceptionFeature = context.Features.Get<IExceptionHandlerFeature>();
-                    var connection = context.Features.Get<IHttpConnectionFeature>();
-
-                    var scope = new Dictionary<string, object>
+                    ExceptionHandler = async context =>
                     {
+                        var exceptionId = Guid.NewGuid();
+                        var logger = context.RequestServices.GetRequiredService<ILogger<IHttpConnectionFeature>>();
+                        var exceptionFeature = context.Features.Get<IExceptionHandlerFeature>();
+                        var connection = context.Features.Get<IHttpConnectionFeature>();
+
+                        var scope = new Dictionary<string, object>
+                        {
                         { "ExceptionId", exceptionId.ToString() },
-                    };
-                    using (logger.BeginScope(scope))
-                    {
-                        logger.LogError(exceptionFeature.Error, exceptionFeature.Error.Message);
-                    }
+                        };
+                        using (logger.BeginScope(scope))
+                        {
+                            logger.LogError(exceptionFeature.Error, exceptionFeature.Error.Message);
+                        }
 
-                    var routeData = context.GetRouteData() ?? new RouteData();
-                    var actionContext = new ActionContext(context, routeData, new ActionDescriptor());
-                    var result = new ObjectResult(new
-                    {
-                        Error = exceptionId,
-                        Message = "Error processing request. Server error.",
-                    })
-                    {
-                        StatusCode = (int)HttpStatusCode.InternalServerError,
-                    };
+                        var routeData = context.GetRouteData() ?? new RouteData();
+                        var actionContext = new ActionContext(context, routeData, new ActionDescriptor());
+                        var result = new ObjectResult(new
+                        {
+                            Error = exceptionId,
+                            Message = "Error processing request. Server error.",
+                        })
+                        {
+                            StatusCode = (int)HttpStatusCode.InternalServerError,
+                        };
 
-                    var executor = context.RequestServices.GetService<IActionResultExecutor<ObjectResult>>();
+                        var executor = context.RequestServices.GetService<IActionResultExecutor<ObjectResult>>();
 
-                    await executor.ExecuteAsync(actionContext, result).ConfigureAwait(false);
-                },
-            });
+                        await executor.ExecuteAsync(actionContext, result).ConfigureAwait(false);
+                    },
+                });
+            }
         }
     }
 }

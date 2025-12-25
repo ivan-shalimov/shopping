@@ -10,13 +10,14 @@ namespace Shopping.Server.Extensions
     {
         public static IHostApplicationBuilder AddOpenTelemetry(this IHostApplicationBuilder builder, string otplCollectorEndpoint)
         {
-            if (string.IsNullOrWhiteSpace(otplCollectorEndpoint))
+            var isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
+
+            if (string.IsNullOrWhiteSpace(otplCollectorEndpoint) && !isDevelopment)
             {
                 // if endpoint is not set, configuration can be done
                 return builder;
             }
 
-            var otplCollectorEndpointUri = new Uri(otplCollectorEndpoint);
             builder.Logging.AddOpenTelemetry(logging =>
             {
                 logging.SetResourceBuilder(
@@ -24,7 +25,15 @@ namespace Shopping.Server.Extensions
                                 .AddService(serviceName: "Shopping.Server"));
                 logging.IncludeFormattedMessage = true;
                 logging.IncludeScopes = true;
-                logging.AddOtlpExporter(opts => opts.Endpoint = otplCollectorEndpointUri);
+                if (isDevelopment)
+                {
+                    logging.AddConsoleExporter();
+                }
+                else
+                {
+                    var otplCollectorEndpointUri = new Uri(otplCollectorEndpoint);
+                    logging.AddOtlpExporter(opts => opts.Endpoint = otplCollectorEndpointUri);
+                }
             });
 
             builder.Services.AddOpenTelemetry()
@@ -36,8 +45,17 @@ namespace Shopping.Server.Extensions
                                 .AddService(serviceName: "Shopping.Server"))
                         .AddSource(ShoppingTelemetry.ActivitySource.Name)
                         .AddAspNetCoreInstrumentation()
-                        .AddHttpClientInstrumentation()
-                        .AddOtlpExporter(opts => opts.Endpoint = otplCollectorEndpointUri);
+                        .AddHttpClientInstrumentation();
+
+                    if (isDevelopment)
+                    {
+                        tracerProviderBuilder.AddConsoleExporter();
+                    }
+                    else
+                    {
+                        var otplCollectorEndpointUri = new Uri(otplCollectorEndpoint);
+                        tracerProviderBuilder.AddOtlpExporter(opts => opts.Endpoint = otplCollectorEndpointUri);
+                    }
                 })
                 .WithMetrics(metricsProviderBuilder =>
                 {
@@ -47,13 +65,21 @@ namespace Shopping.Server.Extensions
                                 .AddService(serviceName: "Shopping.Server"))
                          .AddAspNetCoreInstrumentation()
                          .AddRuntimeInstrumentation()
-                         .AddHttpClientInstrumentation()
-                        .AddOtlpExporter((opts, metricReaderOptions) =>
+                         .AddHttpClientInstrumentation();
+
+                    if (isDevelopment)
+                    {
+                        metricsProviderBuilder.AddPrometheusExporter();
+                    }
+                    else
+                    {
+                        metricsProviderBuilder.AddOtlpExporter((opts, metricReaderOptions) =>
                         {
+                            var otplCollectorEndpointUri = new Uri(otplCollectorEndpoint);
                             opts.Endpoint = otplCollectorEndpointUri;
                             metricReaderOptions.PeriodicExportingMetricReaderOptions.ExportIntervalMilliseconds = 15000;
-
                         });
+                    }
                 });
 
             return builder;

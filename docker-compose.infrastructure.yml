@@ -1,25 +1,22 @@
 version: '3.4'
-name: shopping-infrastructure
+name: develop-infrastructure
 networks:
-  shopping-network:
-    name: shopping-network
+  develop-network:
+    name: develop-network
 services:  
-  shopping-ms-sql:
+  ms-sql:
+    container_name: ms-sql
     image: "mcr.microsoft.com/mssql/server:2019-latest"
     environment:
-            SA_PASSWORD: T3rr$$b!e
+            SA_PASSWORD: Password1!
             ACCEPT_EULA: "Y"
     networks:
-      shopping-network:
-        aliases:
-          - shopping-ms-sql
+      - develop-network
     ports:
-      - "1434:1433"
+      - "1433:1433"
     volumes:
-      - shopping:/var/opt/mssql
-    labels:
-      NAME: "shopping-ms-sql"
+      - ms_sql_volume:/var/opt/mssql
     restart: always
 volumes:
-  shopping:
+  ms_sql_volume:
     external: true

@@ -1,40 +1,31 @@
 version: '3.4'
 
 networks:
-  shopping-network:
-    name: shopping-network
-    external: true
-  graylog-network:
-    name: graylog-network
+  develop-network:
     external: true
 services:
   shopping.server:
     environment:
-      - ASPNETCORE_ENVIRONMENT=${ENV}
-      - ConnectionStrings__Shopping=Server=shopping-ms-sql;Database=${DB};User=sa;Password=T3rr$$b!e;Connection Timeout=30;Encrypt=False;Max Pool Size=100;
-      - LoggerSettings__MinimumLevel=${LOGLEVEL}
-      - LoggerSettings__GraylogSinkOptions__HostnameOrAddress=${API_LOGGER}
-    image: ${DOCKER_REGISTRY-}shoppingserver
-    container_name: shoppingserver${HOST_SUFFIX}
-    hostname: shoppingserver${HOST_SUFFIX}
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__Shopping=Server=ms-sql;Database=sh-shopping-dev;User=sa;Password=Password1!;Connection Timeout=30;Encrypt=False;
+    image: shoppingserver
+    container_name: shoppingserver
+    hostname: shoppingserver
     build:
       context: .
       dockerfile: Shopping/Server/Dockerfile
     networks:
-      - shopping-network
-      - graylog-network
+      - develop-network
     ports:
-      - "${API_PORT}:80"
-    restart: ${RESTART}
+      - "19092:8080"
   shopping.client:
-    image: ${DOCKER_REGISTRY-}shoppingclient
+    image: shoppingclient
     hostname: shoppingclient
     build:
       context: .
       dockerfile: Shopping/Client/Dockerfile
     ports:
-      - "${PORTAL_PORT}:80"
+      - "19091:80"
     environment:
-      - ASPNETCORE_ENVIRONMENT=${ENV}
-      - API=${API_HOST}:${API_PORT}
-    restart: ${RESTART}
+      - ASPNETCORE_ENVIRONMENT=Development
+      - API=http://localhost:19092

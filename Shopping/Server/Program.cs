@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Shopping.DataAccess;
 using Shopping.Server.Extensions;
 using Shopping.Server.Services;
@@ -19,6 +20,18 @@ builder.Services.AddHostedService<BackgroundTaskProcessor>();
 
 Console.WriteLine("[Starting service]: Build");
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    Console.WriteLine("[Starting service]: Database Migrate Starting");
+    using var scope = app.Services.CreateScope();
+    var dbContext = scope.ServiceProvider.GetRequiredService<ShoppingDbContext>();
+    dbContext.Database.Migrate();
+    Console.WriteLine("[Starting service]: Database Migrate Finished");
+
+    app.UseOpenTelemetryPrometheusScrapingEndpoint();
+}
+
 app.UseGlobalExceptionHandling();
 
 app.UseRouting();
