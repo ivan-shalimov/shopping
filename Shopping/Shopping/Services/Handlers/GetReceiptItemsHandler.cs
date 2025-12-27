@@ -1,12 +1,13 @@
 ﻿using Shopping.Mediator;
 using Microsoft.EntityFrameworkCore;
 using Shopping.DataAccess;
+using Shopping.Shared.Models.Common;
 using Shopping.Shared.Models.Results;
 using Shopping.Shared.Requests;
 
 namespace Shopping.Services.Handlers
 {
-    public sealed class GetReceiptItemsHandler : IRequestHandler<GetReceiptItems, ReceiptItemModel[]>
+    public sealed class GetReceiptItemsHandler : IRequestHandler<GetReceiptItems, Either<Fail, ReceiptItemModel[]>>
     {
         private readonly ShoppingDbContext _context;
 
@@ -15,7 +16,7 @@ namespace Shopping.Services.Handlers
             _context = context;
         }
 
-        public async Task<ReceiptItemModel[]> Handle(GetReceiptItems request, CancellationToken cancellationToken)
+        public async Task<Either<Fail, ReceiptItemModel[]>> Handle(GetReceiptItems request, CancellationToken cancellationToken)
         {
             var date = DateTime.UtcNow;
             var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);

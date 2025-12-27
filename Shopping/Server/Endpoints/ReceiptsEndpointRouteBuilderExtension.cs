@@ -14,9 +14,9 @@ namespace Shopping.Server.Endpoints
             app.MapGet("api/receipts", async ([FromQuery] int month, [FromServices] IMediator mediator) =>
             {
                 var result = await mediator
-                .ExecuteAndReceiveWithoutValidation<GetReceipts, ReceiptModel[]>(new GetReceipts { Month = month })
+                .ExecuteAndReceive<GetReceipts, ReceiptModel[]>(new GetReceipts { Month = month })
                 .ConfigureAwait(false);
-                return Results.Ok(result);
+                return result.Reduce();
             });
 
             app.MapPost("api/receipts", async ([FromBody] AddReceipt request, [FromServices] IMediator mediator) =>
@@ -41,16 +41,16 @@ namespace Shopping.Server.Endpoints
             app.MapGet("api/receipts/{receiptId}/items", async (Guid receiptId, [FromServices] IMediator mediator) =>
             {
                 var result = await mediator
-                .ExecuteAndReceiveWithoutValidation<GetReceiptItems, ReceiptItemModel[]>(new GetReceiptItems { ReceiptId = receiptId })
+                .ExecuteAndReceive<GetReceiptItems, ReceiptItemModel[]>(new GetReceiptItems { ReceiptId = receiptId })
                 .ConfigureAwait(false);
-                return Results.Ok(result);
+                return result.Reduce();
             });
 
             app.MapPost("api/receipts/{receiptId}/items", async (Guid receiptId, [FromBody] AddReceiptItem request, [FromServices] IMediator mediator) =>
             {
                 request.ReceiptId = receiptId;
                 var result = await mediator.Execute(request).ConfigureAwait(false);
-                await mediator.ExecuteAndReceiveWithoutValidation<UpdateReceiptTotal, Success>(new UpdateReceiptTotal { Id = receiptId }).ConfigureAwait(false);
+                await mediator.ExecuteAndReceive<UpdateReceiptTotal, Success>(new UpdateReceiptTotal { Id = receiptId }).ConfigureAwait(false);
                 return result.Reduce();
             });
 
@@ -59,14 +59,14 @@ namespace Shopping.Server.Endpoints
                 request.Id = id;
                 request.ReceiptId = receiptId;
                 var result = await mediator.Execute(request).ConfigureAwait(false);
-                await mediator.ExecuteAndReceiveWithoutValidation<UpdateReceiptTotal, Success>(new UpdateReceiptTotal { Id = receiptId });
+                await mediator.ExecuteAndReceive<UpdateReceiptTotal, Success>(new UpdateReceiptTotal { Id = receiptId });
                 return result.Reduce();
             });
 
             app.MapDelete("api/receipts/{receiptId}/items/{id}", async (Guid receiptId, Guid id, [FromServices] IMediator mediator) =>
             {
-                await mediator.ExecuteAndReceiveWithoutValidation<DeleteReceiptItem, Success>(new DeleteReceiptItem { Id = id });
-                await mediator.ExecuteAndReceiveWithoutValidation<UpdateReceiptTotal, Success>(new UpdateReceiptTotal { Id = receiptId }).ConfigureAwait(false);
+                await mediator.ExecuteAndReceive<DeleteReceiptItem, Success>(new DeleteReceiptItem { Id = id });
+                await mediator.ExecuteAndReceive<UpdateReceiptTotal, Success>(new UpdateReceiptTotal { Id = receiptId }).ConfigureAwait(false);
                 return Results.Ok();
             });
         }

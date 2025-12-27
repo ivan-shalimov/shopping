@@ -1,10 +1,9 @@
 ﻿using FluentValidation;
-using Shopping.Mediator;
 using Shopping.Shared.Requests.Bills;
 
 namespace Shopping.Services.Validators
 {
-    public sealed class DeleteBillValidator : Validator<DeleteBill>
+    public sealed class DeleteBillValidator : AbstractValidator<DeleteBill>
     {
         public DeleteBillValidator()
         {

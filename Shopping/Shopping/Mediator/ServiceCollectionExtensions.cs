@@ -5,7 +5,12 @@ namespace Shopping.Mediator
 {
     public static class ServiceCollectionExtensions
     {
-        public static ScopedRegistration<TRequest, TSuccessResponse> RegisterScopedRequest<TRequest, TSuccessResponse>(this IServiceCollection services)
+        public static void AddMediator(this IServiceCollection services)
+        {
+            services.AddScoped<IMediator, Mediator>();
+        }
+
+        public static ScopedRegistration<TRequest, TSuccessResponse> RegisterScopedRequestWithResult<TRequest, TSuccessResponse>(this IServiceCollection services)
             where TRequest : IRequest<Either<Fail, TSuccessResponse>>
         {
             return new ScopedRegistration<TRequest, TSuccessResponse>(services);
@@ -15,20 +20,6 @@ namespace Shopping.Mediator
            where TRequest : IRequest<Either<Fail, Success>>
         {
             return new ScopedRegistration<TRequest, Success>(services);
-        }
-
-        public static void RegisterScopedHandler<TRequest, TResult, THandler>(this IServiceCollection services)
-           where TRequest : IRequest<TResult>
-           where THandler : class, IRequestHandler<TRequest, TResult>
-        {
-            services.AddScoped<IRequestHandler<TRequest, TResult>, THandler>();
-        }
-
-        public static void RegisterScopedHandler<TRequest, THandler>(this IServiceCollection services)
-           where TRequest : IRequest<Success>
-           where THandler : class, IRequestHandler<TRequest, Success>
-        {
-            services.AddScoped<IRequestHandler<TRequest, Success>, THandler>();
         }
     }
 }

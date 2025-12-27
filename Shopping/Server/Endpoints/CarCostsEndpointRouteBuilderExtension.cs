@@ -12,8 +12,8 @@ namespace Shopping.Server.Endpoints
         {
             app.MapGet("api/car-costs", async ([FromQuery] int month, [FromServices] IMediator mediator) =>
             {
-                var result = await mediator.ExecuteAndReceiveWithoutValidation<GetCarCosts, CarCostModel[]>(new GetCarCosts { Month = month }).ConfigureAwait(false);
-                return Results.Ok(result);
+                var result = await mediator.ExecuteAndReceive<GetCarCosts, CarCostModel[]>(new GetCarCosts { Month = month }).ConfigureAwait(false);
+                return result.Reduce();
             });
 
             app.MapPost("api/car-costs", async ([FromBody] AddCarCost request, [FromServices] IMediator mediator) =>

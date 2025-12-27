@@ -1,11 +1,12 @@
-﻿using Shopping.Mediator;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Shopping.DataAccess;
+using Shopping.Mediator;
+using Shopping.Shared.Models.Common;
 using Shopping.Shared.Requests.Prices;
 
 namespace Shopping.Services.Handlers.Prices
 {
-    public sealed class GetLastProductsPricesHandler : IRequestHandler<GetLastProductsPrices, IDictionary<Guid, decimal>>
+    public sealed class GetLastProductsPricesHandler : IRequestHandler<GetLastProductsPrices, Either<Fail, IDictionary<Guid, decimal>>>
     {
         private readonly ShoppingDbContext _context;
 
@@ -14,7 +15,7 @@ namespace Shopping.Services.Handlers.Prices
             _context = context;
         }
 
-        public async Task<IDictionary<Guid, decimal>> Handle(GetLastProductsPrices request, CancellationToken cancellationToken)
+        public async Task<Either<Fail, IDictionary<Guid, decimal>>> Handle(GetLastProductsPrices request, CancellationToken cancellationToken)
         {
             var shopName = (await _context.Receipts.FindAsync(new object[] { request.ReceiptId }, cancellationToken))
                 .Description.Trim();

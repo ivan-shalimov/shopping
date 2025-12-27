@@ -1,8 +1,9 @@
 ﻿using Shopping.Mediator;
+using Shopping.Shared.Models.Common;
 
 namespace Shopping.Shared.Requests.Statistic
 {
-    public sealed class GetExpensesByProducts : IRequest<IDictionary<string, decimal>>
+    public sealed class GetExpensesByProducts : IRequest<Either<Fail, IDictionary<string, decimal>>>
     {
         public string Kind { get; set; }
 

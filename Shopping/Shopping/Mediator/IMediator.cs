@@ -7,7 +7,5 @@ namespace Shopping.Mediator
         Task<Either<Fail, Success>> Execute<TRequest>(TRequest request) where TRequest: IRequest<Either<Fail, Success>>;
 
         Task<Either<Fail, TSuccessResult>> ExecuteAndReceive<TRequest, TSuccessResult>(TRequest request) where TRequest: IRequest<Either<Fail, TSuccessResult>>;
-
-        Task<TResult> ExecuteAndReceiveWithoutValidation<TRequest, TResult>(TRequest request) where TRequest : IRequest<TResult>;
     }
 }

@@ -1,12 +1,13 @@
 ﻿using Shopping.Mediator;
 using Microsoft.EntityFrameworkCore;
 using Shopping.DataAccess;
+using Shopping.Shared.Models.Common;
 using Shopping.Shared.Models.Results;
 using Shopping.Shared.Requests;
 
 namespace Shopping.Services.Handlers
 {
-    public sealed class GetPurchaseStatisticHandler : IRequestHandler<GetPurchaseStatistic, PurchaseStatistic>
+    public sealed class GetPurchaseStatisticHandler : IRequestHandler<GetPurchaseStatistic, Either<Fail, PurchaseStatistic>>
     {
         private readonly ShoppingDbContext _context;
 
@@ -15,7 +16,7 @@ namespace Shopping.Services.Handlers
             _context = context;
         }
 
-        public async Task<PurchaseStatistic> Handle(GetPurchaseStatistic request, CancellationToken cancellationToken)
+        public async Task<Either<Fail, PurchaseStatistic>> Handle(GetPurchaseStatistic request, CancellationToken cancellationToken)
         {
             var date = DateTime.UtcNow;
             var firstDayOfMonth = new DateTime(date.Year, request.Month, 1);

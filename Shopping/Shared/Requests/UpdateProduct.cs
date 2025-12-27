@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Shopping.Shared.Requests
 {
-    public sealed class UpdateProduct : IRequest<Success>
+    public sealed class UpdateProduct : IRequest<Either<Fail, Success>>
     {
 
         [JsonIgnore]

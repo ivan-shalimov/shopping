@@ -5,7 +5,7 @@ using Shopping.Shared.Requests;
 
 namespace Shopping.Services.Handlers
 {
-    public sealed class UpdateProductHandler : IRequestHandler<UpdateProduct,Success>
+    public sealed class UpdateProductHandler : IRequestHandler<UpdateProduct, Either<Fail, Success>>
     {
         private readonly ShoppingDbContext _context;
 
@@ -14,7 +14,7 @@ namespace Shopping.Services.Handlers
             _context = context;
         }
 
-        public async Task<Success> Handle(UpdateProduct request, CancellationToken cancellationToken)
+        public async Task<Either<Fail, Success>> Handle(UpdateProduct request, CancellationToken cancellationToken)
         {
             var item = await _context.Products.FindAsync(new object[] { request.Id }, cancellationToken).ConfigureAwait(false);
             if (item != null)

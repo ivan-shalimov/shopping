@@ -1,10 +1,9 @@
 ﻿using FluentValidation;
-using Shopping.Mediator;
 using Shopping.Shared.Requests;
 
 namespace Shopping.Services.Validators
 {
-    public sealed class AddCarCostValidator : Validator<AddCarCost>
+    public sealed class AddCarCostValidator : AbstractValidator<AddCarCost>
     {
         public AddCarCostValidator()
         {

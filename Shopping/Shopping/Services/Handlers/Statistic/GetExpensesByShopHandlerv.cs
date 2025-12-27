@@ -1,11 +1,12 @@
 ﻿using Shopping.Mediator;
 using Microsoft.EntityFrameworkCore;
 using Shopping.DataAccess;
+using Shopping.Shared.Models.Common;
 using Shopping.Shared.Requests.Statistic;
 
 namespace Shopping.Services.Handlers.Statistic
 {
-    public sealed class GetExpensesByShopHandler : IRequestHandler<GetExpensesByShop, IDictionary<string, decimal>>
+    public sealed class GetExpensesByShopHandler : IRequestHandler<GetExpensesByShop, Either<Fail, IDictionary<string, decimal>>>
     {
         private readonly ShoppingDbContext _context;
 
@@ -14,7 +15,7 @@ namespace Shopping.Services.Handlers.Statistic
             _context = context;
         }
 
-        public async Task<IDictionary<string, decimal>> Handle(GetExpensesByShop request, CancellationToken cancellationToken)
+        public async Task<Either<Fail, IDictionary<string, decimal>>> Handle(GetExpensesByShop request, CancellationToken cancellationToken)
         {
             var firstDayOfMonth = request.StartOfMonth;
             var lastDayOfMonth = request.StartOfMonth.AddMonths(1).AddSeconds(-1);

@@ -1,11 +1,12 @@
 ﻿using Shopping.Mediator;
 using Microsoft.EntityFrameworkCore;
 using Shopping.DataAccess;
+using Shopping.Shared.Models.Common;
 using Shopping.Shared.Requests.Statistic;
 
 namespace Shopping.Services.Handlers.Statistic
 {
-    public sealed class GetExpensesByKindHandler : IRequestHandler<GetExpensesByKind, IDictionary<string, decimal>>
+    public sealed class GetExpensesByKindHandler : IRequestHandler<GetExpensesByKind, Either<Fail, IDictionary<string, decimal>>>
     {
         private readonly ShoppingDbContext _context;
 
@@ -14,7 +15,7 @@ namespace Shopping.Services.Handlers.Statistic
             _context = context;
         }
 
-        public async Task<IDictionary<string, decimal>> Handle(GetExpensesByKind request, CancellationToken cancellationToken)
+        public async Task<Either<Fail, IDictionary<string, decimal>>> Handle(GetExpensesByKind request, CancellationToken cancellationToken)
         {
             var query = from receiptItem in _context.ReceiptItems
                         join receipt in _context.Receipts on receiptItem.ReceiptId equals receipt.Id
@@ -24,7 +25,9 @@ namespace Shopping.Services.Handlers.Statistic
                         select new { ProductKindName = productKind.Name, Price = receiptItem.Price, Amount = receiptItem.Amount };
 
             var data = await query.OrderBy(x=>x.ProductKindName).ToArrayAsync(cancellationToken).ConfigureAwait(false);
-            return data.GroupBy(d => d.ProductKindName).ToDictionary(x => x.Key, v => v.Sum(d => (d.Price * d.Amount)));
+            var dictionary = data.GroupBy(d => d.ProductKindName).ToDictionary(x => x.Key, v => v.Sum(d => (d.Price * d.Amount)));
+            
+            return dictionary;
         }
     }
 }

@@ -1,12 +1,13 @@
 ﻿using Shopping.Mediator;
 using Microsoft.EntityFrameworkCore;
 using Shopping.DataAccess;
+using Shopping.Shared.Models.Common;
 using Shopping.Shared.Models.Results;
 using Shopping.Shared.Requests.Statistic;
 
 namespace Shopping.Services.Handlers.Statistic
 {
-    public sealed class GetProductCostChangeHandler : IRequestHandler<GetProductCostChange, ProductCostChange[]>
+    public sealed class GetProductCostChangeHandler : IRequestHandler<GetProductCostChange, Either<Fail, ProductCostChange[]>>
     {
         private readonly ShoppingDbContext _context;
 
@@ -15,7 +16,7 @@ namespace Shopping.Services.Handlers.Statistic
             _context = context;
         }
 
-        public async Task<ProductCostChange[]> Handle(GetProductCostChange request, CancellationToken cancellationToken)
+        public async Task<Either<Fail, ProductCostChange[]>> Handle(GetProductCostChange request, CancellationToken cancellationToken)
         {
             var result = await _context.PriceChangeProjections
                 .OrderByDescending(pc => pc.ChangedDate)

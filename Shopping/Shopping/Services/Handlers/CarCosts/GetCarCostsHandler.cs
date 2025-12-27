@@ -1,12 +1,13 @@
 ﻿using Shopping.Mediator;
 using Microsoft.EntityFrameworkCore;
 using Shopping.DataAccess;
+using Shopping.Shared.Models.Common;
 using Shopping.Shared.Models.Results;
 using Shopping.Shared.Requests;
 
 namespace Shopping.Services.Handlers.CarCosts
 {
-    public sealed class GetCarCostsHandler : IRequestHandler<GetCarCosts, CarCostModel[]>
+    public sealed class GetCarCostsHandler : IRequestHandler<GetCarCosts, Either<Fail, CarCostModel[]>>
     {
         private readonly ShoppingDbContext _context;
 
@@ -15,7 +16,7 @@ namespace Shopping.Services.Handlers.CarCosts
             _context = context;
         }
 
-        public async Task<CarCostModel[]> Handle(GetCarCosts request, CancellationToken cancellationToken)
+        public async Task<Either<Fail, CarCostModel[]>> Handle(GetCarCosts request, CancellationToken cancellationToken)
         {
             var date = DateTime.UtcNow;
             var startOfMonth = new DateTime(date.Year, request.Month, 1, 0, 0, 0, DateTimeKind.Utc);

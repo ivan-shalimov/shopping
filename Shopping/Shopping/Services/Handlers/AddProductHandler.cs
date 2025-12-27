@@ -6,7 +6,7 @@ using Shopping.Shared.Requests;
 
 namespace Shopping.Services.Handlers
 {
-    public sealed class AddProductHandler : IRequestHandler<AddProduct,Success>
+    public sealed class AddProductHandler : IRequestHandler<AddProduct, Either<Fail, Success>>
     {
         private readonly ShoppingDbContext _context;
 
@@ -15,7 +15,7 @@ namespace Shopping.Services.Handlers
             _context = context;
         }
 
-        public async Task<Success> Handle(AddProduct request, CancellationToken cancellationToken)
+        public async Task<Either<Fail, Success>> Handle(AddProduct request, CancellationToken cancellationToken)
         {
             var item = new Product
             {

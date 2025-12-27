@@ -1,10 +1,9 @@
 ﻿using FluentValidation;
-using Shopping.Mediator;
 using Shopping.Shared.Requests.Bills;
 
 namespace Shopping.Services.Validators.Bills
 {
-    public sealed class CreateBillValidator : Validator<CreateBill>
+    public sealed class CreateBillValidator : AbstractValidator<CreateBill>
     {
         public CreateBillValidator()
         {

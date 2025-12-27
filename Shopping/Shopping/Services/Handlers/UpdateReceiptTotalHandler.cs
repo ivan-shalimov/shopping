@@ -6,7 +6,7 @@ using Shopping.Shared.Requests;
 
 namespace Shopping.Services.Handlers
 {
-    public sealed class UpdateReceiptTotalHandler : IRequestHandler<UpdateReceiptTotal,Success>
+    public sealed class UpdateReceiptTotalHandler : IRequestHandler<UpdateReceiptTotal, Either<Fail, Success>>
     {
         private readonly ShoppingDbContext _context;
 
@@ -15,7 +15,7 @@ namespace Shopping.Services.Handlers
             _context = context;
         }
 
-        public async Task<Success> Handle(UpdateReceiptTotal request, CancellationToken cancellationToken)
+        public async Task<Either<Fail, Success>> Handle(UpdateReceiptTotal request, CancellationToken cancellationToken)
         {
             var item = await _context.Receipts.FindAsync(new object[] { request.Id }, cancellationToken).ConfigureAwait(false);
             var total = await _context.ReceiptItems

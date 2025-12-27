@@ -1,12 +1,13 @@
 ﻿using Shopping.Mediator;
 using Microsoft.EntityFrameworkCore;
 using Shopping.DataAccess;
+using Shopping.Shared.Models.Common;
 using Shopping.Shared.Models.Results;
 using Shopping.Shared.Requests.Statistic;
 
 namespace Shopping.Services.Handlers.Statistic
 {
-    public sealed class GetProductsExpensesDetailsHandler : IRequestHandler<GetProductsExpensesDetails, ProductExpensesDetail[]>
+    public sealed class GetProductsExpensesDetailsHandler : IRequestHandler<GetProductsExpensesDetails, Either<Fail, ProductExpensesDetail[]>>
     {
         private readonly ShoppingDbContext _context;
 
@@ -15,7 +16,7 @@ namespace Shopping.Services.Handlers.Statistic
             _context = context;
         }
 
-        public async Task<ProductExpensesDetail[]> Handle(GetProductsExpensesDetails request, CancellationToken cancellationToken)
+        public async Task<Either<Fail, ProductExpensesDetail[]>> Handle(GetProductsExpensesDetails request, CancellationToken cancellationToken)
         {
             var query = from receiptItem in _context.ReceiptItems
                         join receipt in _context.Receipts on receiptItem.ReceiptId equals receipt.Id
@@ -30,8 +31,8 @@ namespace Shopping.Services.Handlers.Statistic
                             Amount = receiptItem.Amount
                         };
 
-            var data = await query.OrderBy(x => x.SpentOn).ToArrayAsync(cancellationToken).ConfigureAwait(false);
-            return data;
+            var details = await query.OrderBy(x => x.SpentOn).ToArrayAsync(cancellationToken).ConfigureAwait(false);
+            return details;
         }
     }
 }

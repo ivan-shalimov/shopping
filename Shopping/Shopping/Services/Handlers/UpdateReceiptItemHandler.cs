@@ -33,7 +33,7 @@ namespace Shopping.Services.Handlers
             {
                 var mediatr = sp.GetService<IMediator>();
                 var cmd = new UpdatePriceChangeProjection { ProductId = item.ProductId, ReceiptId = item.ReceiptId };
-                await mediatr.ExecuteAndReceiveWithoutValidation<UpdatePriceChangeProjection, Either<Fail, Success>>(cmd);
+                await mediatr.Execute(cmd);
             });
 
             return Success.Instance;

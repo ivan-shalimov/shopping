@@ -1,12 +1,13 @@
 ﻿using Shopping.Mediator;
 using Microsoft.EntityFrameworkCore;
 using Shopping.DataAccess;
+using Shopping.Shared.Models.Common;
 using Shopping.Shared.Models.Results;
 using Shopping.Shared.Requests;
 
 namespace Shopping.Services.Handlers
 {
-    public sealed class GetProductsHandler : IRequestHandler<GetProducts, ProductModel[]>
+    public sealed class GetProductsHandler : IRequestHandler<GetProducts, Either<Fail, ProductModel[]>>
     {
         private readonly ShoppingDbContext _context;
 
@@ -15,7 +16,7 @@ namespace Shopping.Services.Handlers
             _context = context;
         }
 
-        public async Task<ProductModel[]> Handle(GetProducts request, CancellationToken cancellationToken)
+        public async Task<Either<Fail, ProductModel[]>> Handle(GetProducts request, CancellationToken cancellationToken)
         {
             var query = from product in _context.Products
                         join productKind in _context.ProductKinds on product.ProductKindId equals productKind.Id

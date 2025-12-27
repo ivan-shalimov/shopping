@@ -1,11 +1,10 @@
 ﻿using FluentValidation;
-using Shopping.Mediator;
 using Shopping.DataAccess;
 using Shopping.Shared.Requests;
 
 namespace Shopping.Services.Validators
 {
-    public sealed class DeleteCarCostValidator : Validator<DeleteCarCost>
+    public sealed class DeleteCarCostValidator : AbstractValidator<DeleteCarCost>
     {
         public DeleteCarCostValidator(ShoppingDbContext context)
         {

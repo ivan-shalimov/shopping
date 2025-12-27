@@ -14,25 +14,25 @@ namespace Shopping.Server.Endpoints
             app.MapGet("api/products", async ([FromQuery] Guid? productKindId, [FromQuery] bool? showHidden, [FromServices] IMediator mediator) =>
             {
                 var result = await mediator
-                .ExecuteAndReceiveWithoutValidation<GetProducts, ProductModel[]>(new GetProducts { ProductKindId = productKindId, ShowHidden = showHidden ?? false })
+                .ExecuteAndReceive<GetProducts, ProductModel[]>(new GetProducts { ProductKindId = productKindId, ShowHidden = showHidden ?? false })
                 .ConfigureAwait(false);
-                return Results.Ok(result);
+                return result.Reduce();
             });
 
             app.MapPost("api/products", async ([FromBody] AddProduct request, [FromServices] IMediator mediator) =>
             {
                 var result = await mediator
-                .ExecuteAndReceiveWithoutValidation<AddProduct, Success>(request)
+                .ExecuteAndReceive<AddProduct, Success>(request)
                 .ConfigureAwait(false);
-                return Results.Ok(result);
+                return result.Reduce();
             });
 
             app.MapPut("api/products/{id}", async (Guid id, [FromBody] UpdateProduct request, [FromServices] IMediator mediator) =>
             {
                 request.Id = id;
-                var result = await mediator.ExecuteAndReceiveWithoutValidation<UpdateProduct, Success>(request)
+                var result = await mediator.ExecuteAndReceive<UpdateProduct, Success>(request)
                 .ConfigureAwait(false);
-                return Results.Ok(result);
+                return result.Reduce();
             });
 
             app.MapDelete("api/products/{id}", async (Guid id, [FromServices] IMediator mediator) =>
@@ -73,9 +73,9 @@ namespace Shopping.Server.Endpoints
             app.MapGet("api/products/kinds", async ([FromServices] IMediator mediator) =>
             {
                 var result = await mediator
-                .ExecuteAndReceiveWithoutValidation<GetProductKinds, ProductKindModel[]>(new GetProductKinds())
+                .ExecuteAndReceive<GetProductKinds, ProductKindModel[]>(new GetProductKinds())
                 .ConfigureAwait(false);
-                return Results.Ok(result);
+                return result.Reduce();
             });
 
             app.MapPost("api/products/kinds", async ([FromBody] AddProductKind request, [FromServices] IMediator mediator) =>

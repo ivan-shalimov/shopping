@@ -1,11 +1,12 @@
 ﻿using Shopping.Mediator;
 using Microsoft.EntityFrameworkCore;
 using Shopping.DataAccess;
+using Shopping.Shared.Models.Common;
 using Shopping.Shared.Requests.Statistic;
 
 namespace Shopping.Services.Handlers.Statistic
 {
-    public sealed class GetExpensesByMonthHandler : IRequestHandler<GetExpensesByMonth, IDictionary<int, decimal>>
+    public sealed class GetExpensesByMonthHandler : IRequestHandler<GetExpensesByMonth, Either<Fail, IDictionary<int, decimal>>>
     {
         private readonly ShoppingDbContext _context;
 
@@ -14,7 +15,7 @@ namespace Shopping.Services.Handlers.Statistic
             _context = context;
         }
 
-        public async Task<IDictionary<int, decimal>> Handle(GetExpensesByMonth request, CancellationToken cancellationToken)
+        public async Task<Either<Fail, IDictionary<int, decimal>>> Handle(GetExpensesByMonth request, CancellationToken cancellationToken)
         {
             var firstDayOfYear = request.StartOfYear;
             var lastDayOfYear = request.StartOfYear.AddYears(1).AddSeconds(-1);
@@ -25,7 +26,8 @@ namespace Shopping.Services.Handlers.Statistic
                         select new { Month = receipt.Date.Month, Price = receiptItem.Price, Amount = receiptItem.Amount };
 
             var data = await query.OrderBy(x => x.Month).ToArrayAsync(cancellationToken).ConfigureAwait(false);
-            return data.GroupBy(d => d.Month).ToDictionary(x => x.Key, v => v.Sum(d => (d.Price * d.Amount)));
+            var dictionary = data.GroupBy(d => d.Month).ToDictionary(x => x.Key, v => v.Sum(d => (d.Price * d.Amount)));
+            return dictionary;
         }
     }
 }

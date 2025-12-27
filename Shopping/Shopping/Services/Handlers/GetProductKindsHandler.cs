@@ -1,12 +1,13 @@
 ﻿using Shopping.Mediator;
 using Microsoft.EntityFrameworkCore;
 using Shopping.DataAccess;
+using Shopping.Shared.Models.Common;
 using Shopping.Shared.Models.Results;
 using Shopping.Shared.Requests;
 
 namespace Shopping.Services.Handlers
 {
-    public sealed class GetProductKindsHandler : IRequestHandler<GetProductKinds, ProductKindModel[]>
+    public sealed class GetProductKindsHandler : IRequestHandler<GetProductKinds, Either<Fail, ProductKindModel[]>>
     {
         private readonly ShoppingDbContext _context;
 
@@ -15,7 +16,7 @@ namespace Shopping.Services.Handlers
             _context = context;
         }
 
-        public async Task<ProductKindModel[]> Handle(GetProductKinds request, CancellationToken cancellationToken)
+        public async Task<Either<Fail, ProductKindModel[]>> Handle(GetProductKinds request, CancellationToken cancellationToken)
         {
             var productKinds = await _context.ProductKinds
                 .OrderBy(x => x.Name)

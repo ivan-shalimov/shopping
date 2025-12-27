@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using Shopping.Shared.Models.Common;
 
 namespace Shopping.Mediator
@@ -14,9 +15,9 @@ namespace Shopping.Mediator
         }
 
         public IRegisterHander<TRequest, TSuccessResponse> WithValidation<TValidator>()
-            where TValidator : class, IRequestVaidator<TRequest>
+            where TValidator : AbstractValidator<TRequest>
         {
-            _services.AddScoped<IRequestVaidator<TRequest>, TValidator>();
+            _services.AddScoped<AbstractValidator<TRequest>, TValidator>();
             return this;
         }
 

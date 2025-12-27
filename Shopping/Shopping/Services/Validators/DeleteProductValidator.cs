@@ -1,12 +1,11 @@
 ﻿using FluentValidation;
-using Shopping.Mediator;
 using Microsoft.EntityFrameworkCore;
 using Shopping.DataAccess;
 using Shopping.Shared.Requests;
 
 namespace Shopping.Services.Validators
 {
-    public sealed class DeleteProductValidator : Validator<DeleteProduct>
+    public sealed class DeleteProductValidator : AbstractValidator<DeleteProduct>
     {
         public DeleteProductValidator(ShoppingDbContext context)
         {
@@ -19,7 +18,7 @@ namespace Shopping.Services.Validators
                         ctx.AddFailure("Product is not found!");
                     }
 
-                    var used = await context.ReceiptItems.AnyAsync(r=>r.ProductId == productId, cnt);
+                    var used = await context.ReceiptItems.AnyAsync(r => r.ProductId == productId, cnt);
                     if (used)
                     {
                         ctx.AddFailure("Product is used!");

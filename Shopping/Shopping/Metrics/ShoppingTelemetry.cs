@@ -15,7 +15,7 @@ namespace Shopping.Metrics
 
         public static Activity StartValidator(string requestType)
         {
-            var activity = ActivitySource.StartActivity("handler");
+            var activity = ActivitySource.StartActivity("validator");
             activity?.SetTag(nameof(requestType), requestType);
             return activity;
         }

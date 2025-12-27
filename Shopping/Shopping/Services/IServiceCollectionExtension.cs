@@ -9,7 +9,6 @@ using Shopping.Services.Handlers.Statistic;
 using Shopping.Services.Interfaces;
 using Shopping.Services.Validators;
 using Shopping.Services.Validators.Bills;
-using Shopping.Shared.Models.Common;
 using Shopping.Shared.Models.Results;
 using Shopping.Shared.Requests;
 using Shopping.Shared.Requests.Bills;
@@ -32,29 +31,57 @@ namespace Shopping.Services
 
         public static void RegisterMediatrServices(this IServiceCollection services)
         {
-            services.RegisterScopedHandler<GetPurchaseStatistic, PurchaseStatistic, GetPurchaseStatisticHandler>();
+            services.RegisterScopedRequestWithResult<GetReceipts, ReceiptModel[]>()
+                .ForHandler<GetReceiptsHandler>();
 
-            services.RegisterScopedHandler<GetPurchaseStatistic, PurchaseStatistic, GetPurchaseStatisticHandler>();
+            services.RegisterScopedRequestWithResult<GetReceiptItems, ReceiptItemModel[]>()
+                .ForHandler<GetReceiptItemsHandler>();
 
-            services.RegisterScopedHandler<GetLastProductsPrices, IDictionary<Guid, decimal>, GetLastProductsPricesHandler>();
+            services.RegisterScopedRequestWithResult<GetPurchaseStatistic, PurchaseStatistic>()
+                .ForHandler<GetPurchaseStatisticHandler>();
 
-            services.RegisterScopedHandler<GetExpensesByKind, IDictionary<string, decimal>, GetExpensesByKindHandler>();
-            services.RegisterScopedHandler<GetExpensesByProducts, IDictionary<string, decimal>, GetExpensesByProductsHandler>();
-            services.RegisterScopedHandler<GetProductsExpensesDetails, ProductExpensesDetail[], GetProductsExpensesDetailsHandler>();
-            services.RegisterScopedHandler<GetExpensesByMonth, IDictionary<int, decimal>, GetExpensesByMonthHandler>();
-            services.RegisterScopedHandler<GetExpensesByShop, IDictionary<string, decimal>, GetExpensesByShopHandler>();
-            services.RegisterScopedHandler<GetProductCostChange, ProductCostChange[], GetProductCostChangeHandler>();
+            services.RegisterScopedRequestWithResult<GetProducts, ProductModel[]>()
+                .ForHandler<GetProductsHandler>();
 
-            services.RegisterScopedHandler<GetProducts, ProductModel[], GetProductsHandler>();
-            services.RegisterScopedHandler<AddProduct, AddProductHandler>();
-            services.RegisterScopedHandler<UpdateProduct, UpdateProductHandler>();
-            services.RegisterScopedHandler<ChangeProductVisibility, Either<Fail, Success>, ChangeProductVisibilityHandler>();
-            services.RegisterScopedHandler<DeleteProduct, Either<Fail, Success>, DeleteProductHandler>();
-            services.RegisterScopedHandler<GetReceipts, ReceiptModel[], GetReceiptsHandler>();
+            services.RegisterScopedRequestWithResult<GetProductKinds, ProductKindModel[]>()
+                .ForHandler<GetProductKindsHandler>();
+
+            services.RegisterScopedRequestWithResult<GetCarCosts, CarCostModel[]>()
+                .ForHandler<GetCarCostsHandler>();
+
+            services.RegisterScopedRequestWithResult<GetLastProductsPrices, IDictionary<Guid, decimal>>()
+                .ForHandler<GetLastProductsPricesHandler>();
+
+            services.RegisterScopedRequestWithResult<GetExpensesByKind, IDictionary<string, decimal>>()
+                .ForHandler<GetExpensesByKindHandler>();
+
+            services.RegisterScopedRequestWithResult<GetExpensesByProducts, IDictionary<string, decimal>>()
+                .ForHandler<GetExpensesByProductsHandler>();
+
+            services.RegisterScopedRequestWithResult<GetProductsExpensesDetails, ProductExpensesDetail[]>()
+                .ForHandler<GetProductsExpensesDetailsHandler>();
+
+            services.RegisterScopedRequestWithResult<GetExpensesByMonth, IDictionary<int, decimal>>()
+                .ForHandler<GetExpensesByMonthHandler>();
+
+            services.RegisterScopedRequestWithResult<GetExpensesByShop, IDictionary<string, decimal>>()
+                .ForHandler<GetExpensesByShopHandler>();
+
+            services.RegisterScopedRequestWithResult<GetProductCostChange, ProductCostChange[]>()
+                .ForHandler<GetProductCostChangeHandler>();
+
+            services.RegisterScopedRequest<AddProduct>()
+                .ForHandler<AddProductHandler>();
+
+            services.RegisterScopedRequest<UpdateProduct>()
+                .ForHandler<UpdateProductHandler>();
 
             RegisterProductKindsServices(services);
             RegisterCarCostsServices(services);
             RegisterBillsServices(services);
+
+            services.RegisterScopedRequest<ChangeProductVisibility>()
+                .ForHandler<ChangeProductVisibilityHandler>();
 
             services.RegisterScopedRequest<DeleteProduct>()
                 .WithValidation<DeleteProductValidator>()
@@ -72,10 +99,8 @@ namespace Shopping.Services
                 .WithValidation<UpdateReceiptValidator>()
                 .ForHandler<UpdateReceiptHandler>();
 
-            services.RegisterScopedHandler<UpdateReceiptTotal, UpdateReceiptTotalHandler>();
-
-            services.RegisterScopedHandler<GetReceiptItems, ReceiptItemModel[], GetReceiptItemsHandler>();
-            services.RegisterScopedHandler<AddReceiptItem, Either<Fail, Success>, AddReceiptItemHandler>();
+            services.RegisterScopedRequest<UpdateReceiptTotal>()
+                .ForHandler<UpdateReceiptTotalHandler>();
 
             services.RegisterScopedRequest<AddReceiptItem>()
                 .WithValidation<AddReceiptItemValidator>()
@@ -85,15 +110,15 @@ namespace Shopping.Services
                 .WithValidation<UpdateReceiptItemValidator>()
                 .ForHandler<UpdateReceiptItemHandler>();
 
-            services.RegisterScopedHandler<DeleteReceiptItem, DeleteReceiptItemHandler>();
+            services.RegisterScopedRequest<DeleteReceiptItem>()
+                .ForHandler<DeleteReceiptItemHandler>();
 
-            services.RegisterScopedHandler<UpdatePriceChangeProjection, Either<Fail, Success>, UpdatePriceChangeProjectionHandler>();
+            services.RegisterScopedRequest<UpdatePriceChangeProjection>()
+                .ForHandler<UpdatePriceChangeProjectionHandler>();
         }
 
         private static void RegisterProductKindsServices(IServiceCollection services)
         {
-            services.RegisterScopedHandler<GetProductKinds, ProductKindModel[], GetProductKindsHandler>();
-
             services.RegisterScopedRequest<AddProductKind>()
                 .WithValidation<AddProductKindValidator>()
                 .ForHandler<AddProductKindHandler>();
@@ -113,8 +138,6 @@ namespace Shopping.Services
 
         private static void RegisterCarCostsServices(IServiceCollection services)
         {
-            services.RegisterScopedHandler<GetCarCosts, CarCostModel[], GetCarCostsHandler>();
-
             services.RegisterScopedRequest<AddCarCost>()
                   .WithValidation<AddCarCostValidator>()
                   .ForHandler<AddCarCostHandler>();
@@ -130,8 +153,11 @@ namespace Shopping.Services
 
         private static void RegisterBillsServices(IServiceCollection services)
         {
-            services.RegisterScopedHandler<GetBills, Either<Fail, BillModel[]>, GetBillsHandler>();
-            services.RegisterScopedHandler<GetBillItems, Either<Fail, BillItemModel[]>, GetBillItemsHandler>();
+            services.RegisterScopedRequestWithResult<GetBills, BillModel[]>()
+                .ForHandler<GetBillsHandler>();
+
+            services.RegisterScopedRequestWithResult<GetBillItems, BillItemModel[]>()
+                .ForHandler<GetBillItemsHandler>();
 
             services.RegisterScopedRequest<CreateBill>()
                   .WithValidation<CreateBillValidator>()
