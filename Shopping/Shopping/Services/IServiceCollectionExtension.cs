@@ -21,7 +21,7 @@ namespace Shopping.Services
     {
         public static void RegisterServices(this IServiceCollection services)
         {
-            services.AddSingleton<IBackgroundTaskManager, BackgroundTaskManager>();
+            services.AddSingleton<IBackgroundRequestHandler, BackgroundRequestHandler>();
         }
 
         public static void RegisterMediatR(this IServiceCollection services)

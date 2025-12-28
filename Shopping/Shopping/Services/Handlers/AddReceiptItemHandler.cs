@@ -1,6 +1,5 @@
-﻿using Shopping.Mediator;
-using Microsoft.Extensions.DependencyInjection;
-using Shopping.DataAccess;
+﻿using Shopping.DataAccess;
+using Shopping.Mediator;
 using Shopping.Models.Domain;
 using Shopping.Models.Requests;
 using Shopping.Services.Interfaces;
@@ -12,12 +11,12 @@ namespace Shopping.Services.Handlers
     public sealed class AddReceiptItemHandler : IRequestHandler<AddReceiptItem, Either<Fail, Success>>
     {
         private readonly ShoppingDbContext _context;
-        private readonly IBackgroundTaskManager _backgroundTaskManager;
+        private readonly IBackgroundRequestHandler _backgroundRequestHandler;
 
-        public AddReceiptItemHandler(ShoppingDbContext context, IBackgroundTaskManager backgroundTaskManager)
+        public AddReceiptItemHandler(ShoppingDbContext context, IBackgroundRequestHandler backgroundRequestHandler)
         {
             _context = context;
-            _backgroundTaskManager = backgroundTaskManager;
+            _backgroundRequestHandler = backgroundRequestHandler;
         }
 
         public async Task<Either<Fail, Success>> Handle(AddReceiptItem request, CancellationToken cancellationToken)
@@ -34,12 +33,7 @@ namespace Shopping.Services.Handlers
             await _context.ReceiptItems.AddAsync(item);
             await _context.SaveChangesAsync();
 
-            _backgroundTaskManager.AddTask(async (sp, cnt) =>
-            {
-                var mediatr = sp.GetService<IMediator>();
-                var cmd = new UpdatePriceChangeProjection { ProductId = request.ProductId, ReceiptId = request.ReceiptId };
-                await mediatr.Execute(cmd);
-            });
+            _backgroundRequestHandler.ExecuteInBackground(new UpdatePriceChangeProjection { ProductId = request.ProductId, ReceiptId = request.ReceiptId });
 
             return Success.Instance;
         }

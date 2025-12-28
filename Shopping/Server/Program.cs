@@ -16,7 +16,7 @@ builder.Services.RegisterServices();
 builder.Services.RegisterMediatR();
 builder.Services.RegisterMediatrServices();
 builder.Services.AddCors();
-builder.Services.AddHostedService<BackgroundTaskProcessor>();
+builder.Services.AddHostedService<BackgroundRequestProcessor>();
 
 Console.WriteLine("[Starting service]: Build");
 var app = builder.Build();

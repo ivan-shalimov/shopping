@@ -3,23 +3,23 @@ using Shopping.Services.Interfaces;
 
 namespace Shopping.Server.Services
 {
-    public class BackgroundTaskProcessor : IHostedService, IDisposable
+    public class BackgroundRequestProcessor : IHostedService, IDisposable
     {
         private const int MaxParallelTask = 1;
         private IServiceProvider _serviceProvider;
         private bool disposedValue;
-        private readonly ILogger<BackgroundTaskProcessor> _logger;
-        private IBackgroundTaskManager _backgroundTaskManager;
+        private readonly ILogger<BackgroundRequestProcessor> _logger;
+        private IBackgroundRequestHandler _backgroundRequestHandler;
         private Task[] _parallelTasks;
         private CancellationTokenSource _stoppingCancellationTokenSource;
 
-        public BackgroundTaskProcessor(
-            IBackgroundTaskManager backgroundTaskManager,
+        public BackgroundRequestProcessor(
+            IBackgroundRequestHandler backgroundRequestHandler,
             IServiceProvider serviceProvider,
-            ILogger<BackgroundTaskProcessor> logger)
+            ILogger<BackgroundRequestProcessor> logger)
         {
             _logger = logger;
-            _backgroundTaskManager = backgroundTaskManager;
+            _backgroundRequestHandler = backgroundRequestHandler;
             _serviceProvider = serviceProvider;
         }
 
@@ -75,14 +75,14 @@ namespace Shopping.Server.Services
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                var taskProvider = await _backgroundTaskManager.GetNextTaskProvider();
+                var request = await _backgroundRequestHandler.GetNextRequest();
 
                 try
                 {
                     using (var scope = _serviceProvider.CreateScope())
                     {
-                        var mediatr = scope.ServiceProvider.GetService<IMediator>();
-                        await taskProvider(scope.ServiceProvider, cancellationToken).ConfigureAwait(false);
+                        var mediator = scope.ServiceProvider.GetService<IMediator>();
+                        await mediator.Execute(request).ConfigureAwait(false);
                     }
                 }
                 catch (OperationCanceledException) { } // Prevent throwing if the Delay is cancelled
