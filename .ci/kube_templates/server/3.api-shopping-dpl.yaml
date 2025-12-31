@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-shopping-dpl
+  namespace: $NAMESPACE
+spec:
+  selector:
+    matchLabels:
+      app: api-shopping
+  template:
+    metadata:
+      labels:
+        app: api-shopping
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+      - name: api-shopping
+        image: ghcr.io/ivan-shalimov/shopping.server:$COMMIT_SHA
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: api-shopping-cm
+              key: environment
+        - name: OtplCollectorEndpoint
+          valueFrom:
+            configMapKeyRef:
+              name: api-shopping-cm
+              key: otpl_collector_endpoint
+        - name: ConnectionStrings__Shopping
+          valueFrom:
+            secretKeyRef:
+              name: api-shopping-scrt
+              key: db-connection

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ui-shopping-dpl
+  namespace: $NAMESPACE
+spec:
+  selector:
+    matchLabels:
+      app: ui-shopping
+  template:
+    metadata:
+      labels:
+        app: ui-shopping
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+      - name: ui-shopping
+        image: ghcr.io/ivan-shalimov/shopping.client:${COMMIT_SHA}
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+        ports:
+        - containerPort: 80
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: ui-shopping-cm
+              key: environment
+        - name: API
+          valueFrom:
+            configMapKeyRef:
+              name: ui-shopping-cm
+              key: api

@@ -330,3 +330,4 @@ ASALocalRun/
 Terraform/.terraform
 Terraform/terraform.tfstate
 Terraform/terraform.tfstate.backup
+.secrets/*.open

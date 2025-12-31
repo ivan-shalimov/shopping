@@ -1,0 +1,65 @@
+[
+  {
+    "version" : 2
+  },
+  {
+    "action" : {
+      "script" : ".ci/build.api.sh",
+      "showOutput" : true,
+      "type" : "sh",
+      "waitForExit" : true
+    },
+    "name" : "Build API Image and Push to github",
+    "target" : "revision"
+  },
+  {
+    "action" : {
+      "script" : ".ci/deploy.server.sh",
+      "showOutput" : true,
+      "type" : "sh",
+      "waitForExit" : true
+    },
+    "name" : "Deploy API Image to Kubernetes",
+    "target" : "revision"
+  },
+  {
+    "action" : {
+      "script" : ".ci/build.client.sh",
+      "showOutput" : true,
+      "type" : "sh",
+      "waitForExit" : true
+    },
+    "name" : "Build Client Image and Push to github",
+    "target" : "revision"
+  },
+  {
+    "action" : {
+      "script" : ".ci/deploy.client.sh",
+      "showOutput" : true,
+      "type" : "sh",
+      "waitForExit" : true
+    },
+    "name" : "Deploy Client Image to Kubernetes",
+    "target" : "revision"
+  },
+  {
+    "action" : {
+      "script" : ".secrets/encrypt.sh",
+      "showOutput" : true,
+      "type" : "sh",
+      "waitForExit" : true
+    },
+    "name" : "Encrypt Secrets",
+    "target" : "revision"
+  },
+  {
+    "action" : {
+      "script" : ".secrets/decrypt.sh",
+      "showOutput" : true,
+      "type" : "sh",
+      "waitForExit" : true
+    },
+    "name" : "Decrypt Secrets",
+    "target" : "revision"
+  }
+]

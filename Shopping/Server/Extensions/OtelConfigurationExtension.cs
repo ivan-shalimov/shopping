@@ -15,8 +15,11 @@ namespace Shopping.Server.Extensions
             if (string.IsNullOrWhiteSpace(otplCollectorEndpoint) && !isDevelopment)
             {
                 // if endpoint is not set, configuration can be done
+                Console.WriteLine($"[Starting service]: OTPL configuration skipped otplCollectorEndpointIsEmpty:{string.IsNullOrWhiteSpace(otplCollectorEndpoint)}, isDevelopment:{isDevelopment}");
                 return builder;
             }
+
+            Console.WriteLine($"[Starting service]: OtplCollectorEndpoint {otplCollectorEndpoint}");
 
             builder.Logging.AddOpenTelemetry(logging =>
             {
