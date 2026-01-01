@@ -15,14 +15,6 @@ namespace Shopping.Client.Pages
         [Inject]
         protected IStringLocalizer<Resource> Localizer { get; set; }
 
-        [Parameter]
-        [SupplyParameterFromQuery]
-        public int? page { get; set; }
-
-        [Parameter]
-        [SupplyParameterFromQuery]
-        public int? pageSize { get; set; }
-
         private bool _pending = true;
         private BillModel[] _list = Array.Empty<BillModel>();
 
@@ -38,7 +30,7 @@ namespace Shopping.Client.Pages
         private async Task Reload()
         {
             _pending = true;
-            _list = await HttpClient.GetFromJsonAsync<BillModel[]>($"/api/bills?page={page ?? 1}&pageSize={pageSize ?? 15}");
+            _list = await HttpClient.GetFromJsonAsync<BillModel[]>($"/api/bills");
             _pending = false;
         }
 

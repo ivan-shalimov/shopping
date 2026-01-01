@@ -18,8 +18,7 @@ namespace Shopping.Services.Handlers
 
         public async Task<Either<Fail, ReceiptModel[]>> Handle(GetReceipts request, CancellationToken cancellationToken)
         {
-            var date = DateTime.UtcNow;
-            var firstDayOfMonth = new DateTime(date.Year, request.Month, 1);
+            var firstDayOfMonth = new DateTime(request.Year, request.Month, 1);
             var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddMinutes(-1);
 
             var query = from receipt in _context.Receipts

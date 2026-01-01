@@ -1,6 +1,6 @@
-﻿using Shopping.Mediator;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Shopping.DataAccess;
+using Shopping.Mediator;
 using Shopping.Shared.Models.Common;
 using Shopping.Shared.Models.Results;
 using Shopping.Shared.Requests.Bills;
@@ -20,12 +20,11 @@ namespace Shopping.Services.Handlers.CarCosts
         {
             var result = await _context.Bills
                 .OrderByDescending(e => e.CreatedOn)
-                .Skip((request.Page - 1) * request.PageSize)
-                .Take(request.PageSize)
                 .Select(e => new BillModel
                 {
                     Id = e.Id,
                     Description = e.Description,
+                    TotalInt = e.Total,
                 })
                 .ToArrayAsync(cancellationToken);
 

@@ -11,10 +11,10 @@ namespace Shopping.Server.Endpoints
     {
         public static void MapReceiptsEndpoints(this IEndpointRouteBuilder app)
         {
-            app.MapGet("api/receipts", async ([FromQuery] int month, [FromServices] IMediator mediator) =>
+            app.MapGet("api/receipts", async ([FromQuery] int? year, [FromQuery] int month, [FromServices] IMediator mediator) =>
             {
                 var result = await mediator
-                .ExecuteAndReceive<GetReceipts, ReceiptModel[]>(new GetReceipts { Month = month })
+                .ExecuteAndReceive<GetReceipts, ReceiptModel[]>(new GetReceipts { Year = year ?? DateTime.UtcNow.Year, Month = month })
                 .ConfigureAwait(false);
                 return result.Reduce();
             });

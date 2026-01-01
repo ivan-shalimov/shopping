@@ -4,6 +4,7 @@ using Shopping.Models.Requests;
 using Shopping.Services.Common;
 using Shopping.Services.Handlers;
 using Shopping.Services.Handlers.CarCosts;
+using Shopping.Services.Handlers.Maintenance;
 using Shopping.Services.Handlers.Prices;
 using Shopping.Services.Handlers.Statistic;
 using Shopping.Services.Interfaces;
@@ -21,7 +22,7 @@ namespace Shopping.Services
     {
         public static void RegisterServices(this IServiceCollection services)
         {
-            services.AddSingleton<IBackgroundRequestHandler, BackgroundRequestHandler>();
+            services.AddSingleton<IBackgroundMediatorRequestHandler, BackgroundMediatorRequestHandler>();
         }
 
         public static void RegisterMediatR(this IServiceCollection services)
@@ -31,6 +32,9 @@ namespace Shopping.Services
 
         public static void RegisterMediatrServices(this IServiceCollection services)
         {
+            services.RegisterScopedRequest<RecalculateTotal>()
+                .ForHandler<RecalculateTotalHandler>();
+
             services.RegisterScopedRequestWithResult<GetReceipts, ReceiptModel[]>()
                 .ForHandler<GetReceiptsHandler>();
 
@@ -170,6 +174,9 @@ namespace Shopping.Services
             services.RegisterScopedRequest<DeleteBill>()
                 .WithValidation<DeleteBillValidator>()
                 .ForHandler<DeleteBillHandler>();
+
+            services.RegisterScopedRequest<UpdateBillTotal>()
+                .ForHandler<UpdateBillTotalHandler>();
         }
     }
 }

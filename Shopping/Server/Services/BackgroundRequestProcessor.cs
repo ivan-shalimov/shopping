@@ -9,12 +9,12 @@ namespace Shopping.Server.Services
         private IServiceProvider _serviceProvider;
         private bool disposedValue;
         private readonly ILogger<BackgroundRequestProcessor> _logger;
-        private IBackgroundRequestHandler _backgroundRequestHandler;
+        private IBackgroundMediatorRequestHandler _backgroundRequestHandler;
         private Task[] _parallelTasks;
         private CancellationTokenSource _stoppingCancellationTokenSource;
 
         public BackgroundRequestProcessor(
-            IBackgroundRequestHandler backgroundRequestHandler,
+            IBackgroundMediatorRequestHandler backgroundRequestHandler,
             IServiceProvider serviceProvider,
             ILogger<BackgroundRequestProcessor> logger)
         {
@@ -75,14 +75,13 @@ namespace Shopping.Server.Services
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                var request = await _backgroundRequestHandler.GetNextRequest();
+                var taskProvider = await _backgroundRequestHandler.GetNextTaskProvider();
 
                 try
                 {
                     using (var scope = _serviceProvider.CreateScope())
                     {
-                        var mediator = scope.ServiceProvider.GetService<IMediator>();
-                        await mediator.Execute(request).ConfigureAwait(false);
+                        await taskProvider(scope.ServiceProvider);
                     }
                 }
                 catch (OperationCanceledException) { } // Prevent throwing if the Delay is cancelled

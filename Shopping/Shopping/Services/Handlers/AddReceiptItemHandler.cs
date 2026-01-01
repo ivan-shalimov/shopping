@@ -11,9 +11,9 @@ namespace Shopping.Services.Handlers
     public sealed class AddReceiptItemHandler : IRequestHandler<AddReceiptItem, Either<Fail, Success>>
     {
         private readonly ShoppingDbContext _context;
-        private readonly IBackgroundRequestHandler _backgroundRequestHandler;
+        private readonly IBackgroundMediatorRequestHandler _backgroundRequestHandler;
 
-        public AddReceiptItemHandler(ShoppingDbContext context, IBackgroundRequestHandler backgroundRequestHandler)
+        public AddReceiptItemHandler(ShoppingDbContext context, IBackgroundMediatorRequestHandler backgroundRequestHandler)
         {
             _context = context;
             _backgroundRequestHandler = backgroundRequestHandler;

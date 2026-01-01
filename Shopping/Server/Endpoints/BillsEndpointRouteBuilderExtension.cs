@@ -10,9 +10,9 @@ namespace Shopping.Server.Endpoints
     {
         public static void MapBillsEndpoints(this IEndpointRouteBuilder app)
         {
-            app.MapGet("api/bills", async ([FromQuery] int page, [FromQuery] int pageSize, [FromServices] IMediator mediator) =>
+            app.MapGet("api/bills", async ([FromServices] IMediator mediator) =>
             {
-                var result = await mediator.ExecuteAndReceive<GetBills, BillModel[]>(new GetBills { Page = page, PageSize = pageSize }).ConfigureAwait(false);
+                var result = await mediator.ExecuteAndReceive<GetBills, BillModel[]>(new GetBills {}).ConfigureAwait(false);
                 return result.Reduce();
             });
 

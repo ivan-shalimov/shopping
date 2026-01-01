@@ -45,6 +45,9 @@
                         </RadzenRow>
                     </RadzenCard>
                 }
+                <RadzenText TextStyle="TextStyle.Body1" TextAlign="TextAlign.Right">
+                    <strong>Total: @gr.Value.Sum(item => item.Quantifiable ? item.Quantity * item.Rate : item.Rate).ToString("F2")</strong>
+                </RadzenText>
             </RadzenCard>
         }
     }

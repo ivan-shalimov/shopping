@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Shopping.Mediator;
+using Shopping.Models.Requests;
 using Shopping.Server.Common;
 using Shopping.Shared.Models.Results;
 using Shopping.Shared.Requests;
@@ -20,6 +21,7 @@ namespace Shopping.Server.Endpoints
             app.MapReceiptsEndpoints();
             app.MapReceiptItemssEndpoints();
             app.MapstatisticEndpoints();
+            app.MapMaintenanceEndpoints();
         }
 
         private static void MapPurchasesEndpoints(this IEndpointRouteBuilder app)
@@ -41,6 +43,17 @@ namespace Shopping.Server.Endpoints
                 var result = await mediator
                 .ExecuteAndReceive<GetLastProductsPrices, IDictionary<Guid, decimal>>(
                     new GetLastProductsPrices { ReceiptId = receiptId, ProductIds = productIds })
+                .ConfigureAwait(false);
+                return result.Reduce();
+            });
+        }
+
+        private static void MapMaintenanceEndpoints(this IEndpointRouteBuilder app)
+        {
+            app.MapGet("/api/maintenance/recalculate-total", async ([FromQuery] string type, [FromQuery] int? year, [FromServices] IMediator mediator) =>
+            {
+                var result = await mediator
+                .Execute(new RecalculateTotal { Type = type, Year = year ?? DateTime.UtcNow.Year })
                 .ConfigureAwait(false);
                 return result.Reduce();
             });

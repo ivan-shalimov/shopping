@@ -11,6 +11,7 @@
             <thead>
                 <tr>
                     <th scope="col">@Localizer["Description"]</th>
+                    <th scope="col">@Localizer["Total"]</th>
                     <th class="action-block-col" scope="col"><button class="btn btn-primary" type="button" @onclick="@(() => ShowInlineDialog())">@Localizer["CreateBill"]</button></th>
                 </tr>
             </thead>
@@ -20,6 +21,7 @@
                     <tr>
 
                         <td> <a class="link" role="button" href="bills/@item.Id">@item.Description</a></td>
+                        <td> @item.Total</td>
                         <td>
                             <div class="action-block">
                                 <button class="btn btn-primary ms-2" type="button" @onclick="@(async () => await Delete(item))">@Localizer["Delete"]</button>
