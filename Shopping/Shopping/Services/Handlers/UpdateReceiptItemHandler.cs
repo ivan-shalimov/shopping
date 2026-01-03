@@ -28,7 +28,9 @@ namespace Shopping.Services.Handlers
                 await _context.SaveChangesAsync();
             }
 
-            _backgroundRequestHandler.ExecuteInBackground(new UpdatePriceChangeProjection { ProductId = item.ProductId, ReceiptId = item.ReceiptId });
+            await _backgroundRequestHandler
+                .ExecuteInBackground(new UpdatePriceChangeProjection { ProductId = item.ProductId, ReceiptId = item.ReceiptId })
+                .ConfigureAwait(false);
 
             return Success.Instance;
         }

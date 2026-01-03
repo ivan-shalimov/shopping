@@ -33,7 +33,9 @@ namespace Shopping.Services.Handlers
             await _context.ReceiptItems.AddAsync(item);
             await _context.SaveChangesAsync();
 
-            _backgroundRequestHandler.ExecuteInBackground(new UpdatePriceChangeProjection { ProductId = request.ProductId, ReceiptId = request.ReceiptId });
+            await _backgroundRequestHandler
+                .ExecuteInBackground(new UpdatePriceChangeProjection { ProductId = request.ProductId, ReceiptId = request.ReceiptId })
+                .ConfigureAwait(false);
 
             return Success.Instance;
         }

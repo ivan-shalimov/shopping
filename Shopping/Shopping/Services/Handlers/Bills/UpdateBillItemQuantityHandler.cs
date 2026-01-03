@@ -29,7 +29,9 @@ namespace Shopping.Services.Handlers.CarCosts
             billItem.Quantity = request.Quantity;
             await _context.SaveChangesAsync();
 
-            _backgroundRequestHandler.ExecuteInBackground(new UpdateBillTotal { Id = billItem.BillId });
+            await _backgroundRequestHandler
+                .ExecuteInBackground(new UpdateBillTotal { Id = billItem.BillId })
+                .ConfigureAwait(false);
 
             return Success.Instance;
         }

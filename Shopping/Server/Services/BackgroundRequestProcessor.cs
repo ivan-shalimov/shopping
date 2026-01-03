@@ -1,5 +1,5 @@
-﻿using Shopping.Mediator;
-using Shopping.Services.Interfaces;
+﻿using Shopping.Services.Interfaces;
+using Shopping.Telemetry;
 
 namespace Shopping.Server.Services
 {
@@ -25,6 +25,8 @@ namespace Shopping.Server.Services
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
+            ShoppingTelemetry.RegisterBackgroundQueueMonitoring(() => _backgroundRequestHandler.QueueLength);
+
             _stoppingCancellationTokenSource = new CancellationTokenSource();
             _parallelTasks = Enumerable.Range(0, MaxParallelTask)
                .Select(i => Handle(_stoppingCancellationTokenSource.Token))
@@ -88,6 +90,7 @@ namespace Shopping.Server.Services
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "Background task was not handled successful.");
+                    ShoppingTelemetry.TrackException(ex.GetType().FullName);
                 }
             }
         }

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using Shopping.Metrics;
+using Shopping.Telemetry;
 using Shopping.Shared.Models.Common;
 
 namespace Shopping.Mediator
@@ -24,7 +24,7 @@ namespace Shopping.Mediator
             var validator = _serviceProvider.GetService<AbstractValidator<TRequest>>();
             if (validator != null)
             {
-                using (ShoppingTelemetry.StartValidator(requestType))
+                using (ShoppingTelemetry.StartValidation(requestType))
                 {
                     // todo fix cancellation
                     var validationResult = await validator.ValidateAsync(request, CancellationToken.None);
@@ -37,7 +37,7 @@ namespace Shopping.Mediator
             }
 
             var handler = _serviceProvider.GetRequiredService<IRequestHandler<TRequest, Either<Fail, TSuccessResult>>>();
-            using (ShoppingTelemetry.StartHandler(requestType))
+            using (ShoppingTelemetry.StartHandling(requestType))
             {
                 // todo fix cancellation
                 return await handler.Handle(request, CancellationToken.None);

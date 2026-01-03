@@ -8,6 +8,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__Shopping=Server=ms-sql;Database=sh-shopping-dev;User=sa;Password=Password1!;Connection Timeout=30;Encrypt=False;
+      - OtplCollectorEndpoint=http://192.168.0.100:4317
     image: shoppingserver
     container_name: shoppingserver
     hostname: shoppingserver

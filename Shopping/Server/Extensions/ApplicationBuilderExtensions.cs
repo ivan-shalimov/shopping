@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Shopping.Telemetry;
 using System.Net;
 
 namespace Shopping.Server.Extensions
@@ -44,6 +45,7 @@ namespace Shopping.Server.Extensions
 
                         var executor = context.RequestServices.GetService<IActionResultExecutor<ObjectResult>>();
 
+                        ShoppingTelemetry.TrackException(exceptionFeature.Error.GetType().FullName, exceptionId);
                         await executor.ExecuteAsync(actionContext, result).ConfigureAwait(false);
                     },
                 });

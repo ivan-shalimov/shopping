@@ -10,14 +10,16 @@ namespace Shopping.Services.Common
     {
         private readonly Channel<Func<IServiceProvider, Task>> _channel = Channel.CreateUnbounded<Func<IServiceProvider, Task>>();
 
-        public void ExecuteInBackground<TRequest>(TRequest request) where TRequest : IRequest<Either<Fail, Success>>
+        public int QueueLength => _channel.Reader.Count;
+
+        public ValueTask ExecuteInBackground<TRequest>(TRequest request) where TRequest : IRequest<Either<Fail, Success>>
         {
             // it requires to capture the request type here because using only interface will cause issues with DI resolution
-            _channel.Writer.WriteAsync(async sp =>
-            {
-                var mediator = sp.GetRequiredService<IMediator>();
-                await mediator.Execute(request);
-            });
+            return _channel.Writer.WriteAsync(async sp =>
+             {
+                 var mediator = sp.GetRequiredService<IMediator>();
+                 await mediator.Execute(request);
+             });
         }
 
         public ValueTask<Func<IServiceProvider, Task>> GetNextTaskProvider()

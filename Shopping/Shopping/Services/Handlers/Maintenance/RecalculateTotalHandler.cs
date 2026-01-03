@@ -49,7 +49,9 @@ namespace Shopping.Services.Handlers.Maintenance
                 .ConfigureAwait(false);
             foreach (var billId in billIds)
             {
-                _backgroundRequestHandler.ExecuteInBackground(new UpdateBillTotal { Id = billId });
+                await _backgroundRequestHandler
+                    .ExecuteInBackground(new UpdateBillTotal { Id = billId })
+                    .ConfigureAwait(false);
             }
         }
 
@@ -64,7 +66,9 @@ namespace Shopping.Services.Handlers.Maintenance
                 .ConfigureAwait(false);
             foreach (var receiptId in receiptIds)
             {
-                _backgroundRequestHandler.ExecuteInBackground(new UpdateReceiptTotal { Id = receiptId });
+                await _backgroundRequestHandler
+                    .ExecuteInBackground(new UpdateReceiptTotal { Id = receiptId })
+                    .ConfigureAwait(false);
             }
         }
     }
