@@ -351,4 +351,7 @@
   <data name="IncorrectQuantity" xml:space="preserve">
     <value>Current value can not be less than previous value</value>
   </data>
+  <data name="IncorrectRate" xml:space="preserve">
+    <value>Rate value can not be less than zero</value>
+  </data>
 </root>

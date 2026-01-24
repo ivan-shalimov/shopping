@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.32112.339
+# Visual Studio Version 18
+VisualStudioVersion = 18.2.11408.102 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shopping.Server", "Shopping\Server\Shopping.Server.csproj", "{0A8D3FDF-EAB1-46FC-917D-A9389A4A40F3}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shopping", "Shopping\Shopping\Shopping.csproj", "{ECDE5CB0-10AA-400F-AA26-6440AF5A31C2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shopping.SpecFlow", "Shopping\SpecFlow\Shopping.SpecFlow.csproj", "{017C9B69-7DD4-4627-BCEF-79C1F4BA3E15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopping.Tests", "Shopping\Shopping.Tests\Shopping.Tests.csproj", "{E5510566-170F-4474-9FEB-3D5259D25B58}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{017C9B69-7DD4-4627-BCEF-79C1F4BA3E15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{017C9B69-7DD4-4627-BCEF-79C1F4BA3E15}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{017C9B69-7DD4-4627-BCEF-79C1F4BA3E15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5510566-170F-4474-9FEB-3D5259D25B58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5510566-170F-4474-9FEB-3D5259D25B58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5510566-170F-4474-9FEB-3D5259D25B58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5510566-170F-4474-9FEB-3D5259D25B58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

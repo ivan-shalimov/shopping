@@ -29,5 +29,7 @@ namespace Shopping.Shared.Models.Results
 
         [JsonIgnore]
         public decimal Charge => Quantifiable ? Rate * Quantity : Rate;
+
+        public bool IsReadonlyRate { get; set; }
     }
 }

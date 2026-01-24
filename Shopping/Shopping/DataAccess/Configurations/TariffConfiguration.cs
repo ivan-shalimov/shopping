@@ -12,9 +12,13 @@ namespace Shopping.DataAccess.Configurations
             builder.HasKey(e => e.Id);
             builder.Property(c => c.Id).ValueGeneratedOnAdd();
 
-            builder.Property(c => c.Rate).IsRequired().HasPrecision(18, 5);
             builder.Property(c => c.Description).IsRequired();
             builder.Property(c => c.GroupName).IsRequired();
+            builder.Property(c => c.RateType).IsRequired();
+            builder.HasMany(e=>e.TariffPeriods)
+                .WithOne()
+                .HasForeignKey(tp=>tp.TariffId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

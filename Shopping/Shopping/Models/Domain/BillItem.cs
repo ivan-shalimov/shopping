@@ -8,6 +8,8 @@
 
         public Guid TariffId { get; set; }
 
+        public decimal Rate { get; set; }
+
         public int PreviousValue { get; set; }
 
         public int Quantity { get; set; }

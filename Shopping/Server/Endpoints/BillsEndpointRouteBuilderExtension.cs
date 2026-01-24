@@ -48,6 +48,15 @@ namespace Shopping.Server.Endpoints
                 .ConfigureAwait(false);
                 return result.Reduce();
             });
+
+            app.MapPut("api/bills/{billId}/items/{id}/rate", async (Guid billId, Guid id, [FromBody] UpdateBillItemRate request, [FromServices] IMediator mediator) =>
+            {
+                request.Id = id;
+                request.BillId = billId;
+                var result = await mediator.Execute(request)
+                .ConfigureAwait(false);
+                return result.Reduce();
+            });
         }
     }
 }

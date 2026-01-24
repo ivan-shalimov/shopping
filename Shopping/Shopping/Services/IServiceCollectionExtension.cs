@@ -3,6 +3,7 @@ using Shopping.Mediator;
 using Shopping.Models.Requests;
 using Shopping.Services.Common;
 using Shopping.Services.Handlers;
+using Shopping.Services.Handlers.Bills;
 using Shopping.Services.Handlers.CarCosts;
 using Shopping.Services.Handlers.Maintenance;
 using Shopping.Services.Handlers.Prices;
@@ -170,6 +171,10 @@ namespace Shopping.Services
             services.RegisterScopedRequest<UpdateBillItemQuantity>()
                .WithValidation<UpdateBillItemQuantityValidator>()
                .ForHandler<UpdateBillItemQuantityHandler>();
+
+            services.RegisterScopedRequest<UpdateBillItemRate>()
+               .WithValidation<UpdateBillItemRateValidator>()
+               .ForHandler<UpdateBillItemRateHandler>();
 
             services.RegisterScopedRequest<DeleteBill>()
                 .WithValidation<DeleteBillValidator>()

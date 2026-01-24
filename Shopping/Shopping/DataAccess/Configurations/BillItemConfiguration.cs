@@ -14,6 +14,8 @@ namespace Shopping.DataAccess.Configurations
 
             builder.HasIndex(e => e.TariffId);
             builder.HasIndex(e => e.BillId);
+
+            builder.Property(c => c.Rate).IsRequired().HasPrecision(18, 5);
         }
     }
 }

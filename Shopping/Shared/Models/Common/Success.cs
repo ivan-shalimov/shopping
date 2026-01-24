@@ -1,6 +1,6 @@
 ﻿namespace Shopping.Shared.Models.Common
 {
-    public sealed class Success
+    public sealed record Success
     {
         public static readonly Success Instance = new Success();
 

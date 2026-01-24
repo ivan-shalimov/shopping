@@ -19,7 +19,7 @@ namespace Shopping.Client.Shared.ResourceFiles {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resource {
@@ -363,6 +363,15 @@ namespace Shopping.Client.Shared.ResourceFiles {
         public static string IncorrectQuantity {
             get {
                 return ResourceManager.GetString("IncorrectQuantity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rate value can not be less than zero.
+        /// </summary>
+        public static string IncorrectRate {
+            get {
+                return ResourceManager.GetString("IncorrectRate", resourceCulture);
             }
         }
         

@@ -22,6 +22,8 @@ namespace Shopping.DataAccess
 
         public DbSet<Tariff> Tariffs { get; set; }
 
+        public DbSet<TariffPeriod> TariffPeriods { get; set; }
+
         public DbSet<Bill> Bills { get; set; }
 
         public DbSet<BillItem> BillItems { get; set; }
@@ -44,6 +46,7 @@ namespace Shopping.DataAccess
             modelBuilder.ApplyConfiguration(new PriceChangeProjectionConfiguration());
 
             modelBuilder.ApplyConfiguration(new TariffConfiguration());
+            modelBuilder.ApplyConfiguration(new TariffPeriodConfiguration());
             modelBuilder.ApplyConfiguration(new BillConfiguration());
             modelBuilder.ApplyConfiguration(new BillItemConfiguration());
         }

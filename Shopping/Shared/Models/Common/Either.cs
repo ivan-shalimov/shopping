@@ -24,6 +24,16 @@
             return new Either<L, R>(default, value, true);
         }
 
+        public static explicit operator R?(Either<L, R> either)
+        {
+            return either.IsRight ? either.Right : default;
+        }
+
+        public static explicit operator L?(Either<L, R> either)
+        {
+            return either.IsRight ? default : either.Left;
+        }
+
         public Either<TNewLeft, R> MapLeft<TNewLeft>(Func<L, TNewLeft> mapping) => new Either<TNewLeft, R>(IsRight ? default : mapping(Left), Right, IsRight);
 
         public Either<L, TNewRight> MapRight<TNewRight>(Func<R, TNewRight> mapping) => new Either<L, TNewRight>(Left, IsRight ? mapping(Right) : default, IsRight);

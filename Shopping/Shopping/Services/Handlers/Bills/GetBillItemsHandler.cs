@@ -5,7 +5,7 @@ using Shopping.Shared.Models.Common;
 using Shopping.Shared.Models.Results;
 using Shopping.Shared.Requests.Bills;
 
-namespace Shopping.Services.Handlers.CarCosts
+namespace Shopping.Services.Handlers.Bills
 {
     public sealed class GetBillItemsHandler : IRequestHandler<GetBillItems, Either<Fail, BillItemModel[]>>
     {
@@ -27,11 +27,12 @@ namespace Shopping.Services.Handlers.CarCosts
                             BillId = billItem.BillId,
                             PreviousValue = billItem.PreviousValue,
                             Quantity = billItem.Quantity,
+                            Rate = billItem.Rate,
 
                             Group = tariff.GroupName,
                             Description = tariff.Description,
                             Quantifiable = tariff.Quantifiable,
-                            Rate = tariff.Rate,
+                            IsReadonlyRate = tariff.RateType == Models.Domain.RateType.Constant,
                         };
             var result = await query.ToArrayAsync();
             return result;

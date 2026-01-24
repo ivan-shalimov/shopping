@@ -43,7 +43,7 @@ namespace Shopping.Client.Pages
             _pending = false;
         }
 
-        public async Task Update(BillItemModel billItem, int currentValue)
+        public async Task UpdateQuantity(BillItemModel billItem, int currentValue)
         {
             var quantity = currentValue - billItem.PreviousValue;
             if (quantity < 0)
@@ -55,6 +55,21 @@ namespace Shopping.Client.Pages
             var request = new UpdateBillItemQuantity { Quantity = quantity, };
             await HttpClient.PutAsJsonAsync($"/api/bills/{billItem.BillId}/items/{billItem.Id}/quantity", request);
             billItem.CurrentValue = currentValue;
+
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = Localizer["Saved successfully"], Detail = $"{billItem.Group}: {billItem.Description}", Duration = 4000 });
+        }
+
+        public async Task UpdateRate(BillItemModel billItem, decimal value)
+        {
+            if (value < 0)
+            {
+                await DialogService.Alert(Localizer["IncorrectRate"], Localizer["ErrorTitle"], new AlertOptions() { OkButtonText = "Yes" });
+                return;
+            }
+
+            var request = new UpdateBillItemRate { Rate = value, };
+            await HttpClient.PutAsJsonAsync($"/api/bills/{billItem.BillId}/items/{billItem.Id}/rate", request);
+            billItem.Rate = value;
 
             NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = Localizer["Saved successfully"], Detail = $"{billItem.Group}: {billItem.Description}", Duration = 4000 });
         }

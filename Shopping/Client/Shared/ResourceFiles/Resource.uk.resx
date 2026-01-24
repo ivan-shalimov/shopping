@@ -351,4 +351,7 @@
   <data name="IncorrectQuantity" xml:space="preserve">
     <value>Поточне значення не може бути менше за минуле.</value>
   </data>
+  <data name="IncorrectRate" xml:space="preserve">
+    <value>Значення тарифу не може бути менше нуля</value>
+  </data>
 </root>

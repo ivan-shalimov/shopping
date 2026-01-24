@@ -26,11 +26,20 @@
                             </RadzenColumn>
                             <RadzenColumn SizeSM="4">
                                 <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-2">@Localizer["Rate"]</RadzenText>
-                                <RadzenText TextStyle="TextStyle.Body1" class=""><b>@String.Format("{0:C5}", item?.Rate)</b></RadzenText>
+                                @if (item.IsReadonlyRate)
+                                {
+                                    <RadzenText TextStyle="TextStyle.Body1" class=""><b>@String.Format("{0:C5}", item?.Rate)</b></RadzenText>
+                                }
+                                else
+                                {
+                                    <RadzenNumeric ShowUpDown="false" TValue="decimal" Value=@item.Rate Change=@(async args => await UpdateRate(item, args)) InputAttributes="@(new Dictionary<string, object>() { { "aria-label", "enter value" } })" />
+                                }
+
                                 @if (item.Quantifiable)
                                 {
                                     <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0">@Localizer["CurrentValue"]</RadzenText>
-                                    <RadzenNumeric ShowUpDown="false" TValue="int" Value=@item.CurrentValue Change=@(async args => await Update(item, args)) InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "enter value" }})" />
+                                    <RadzenNumeric ShowUpDown="false" TValue="int" Value=@item.CurrentValue Change=@(async args => await UpdateQuantity(item, args)) InputAttributes="@(new Dictionary<string, object>() { { "aria-label", "enter value" } })" />
+
                                 }
                             </RadzenColumn>
                             <RadzenColumn SizeSM="3">

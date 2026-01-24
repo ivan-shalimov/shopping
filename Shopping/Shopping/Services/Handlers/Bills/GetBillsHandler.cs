@@ -5,7 +5,7 @@ using Shopping.Shared.Models.Common;
 using Shopping.Shared.Models.Results;
 using Shopping.Shared.Requests.Bills;
 
-namespace Shopping.Services.Handlers.CarCosts
+namespace Shopping.Services.Handlers.Bills
 {
     public sealed class GetBillsHandler : IRequestHandler<GetBills, Either<Fail, BillModel[]>>
     {

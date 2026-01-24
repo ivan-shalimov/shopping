@@ -5,7 +5,7 @@ using Shopping.Models.Requests;
 using Shopping.Shared.Models.Common;
 using Shopping.Shared.Models.Results;
 
-namespace Shopping.Services.Handlers.CarCosts
+namespace Shopping.Services.Handlers.Bills
 {
     public sealed class UpdateBillTotalHandler : IRequestHandler<UpdateBillTotal, Either<Fail, Success>>
     {
@@ -33,7 +33,7 @@ namespace Shopping.Services.Handlers.CarCosts
                             BillId = billItem.BillId,
                             Quantity = billItem.Quantity,
                             Quantifiable = tariff.Quantifiable,
-                            Rate = tariff.Rate,
+                            Rate = billItem.Rate,
                         };
             var billItems = await query.ToArrayAsync(cancellationToken);
 

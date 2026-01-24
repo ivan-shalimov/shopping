@@ -21,6 +21,7 @@ namespace Shopping.DataAccess.Configurations
 
             builder.Property(c => c.PreviousPrice).IsRequired().HasPrecision(18, 2);
             builder.Property(c => c.LastPrice).IsRequired().HasPrecision(18, 2);
+            builder.Property(c => c.ChangePercent).IsRequired().HasPrecision(18, 2);
         }
     }
 }
